@@ -9,10 +9,9 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Share Tech Mono', 'Courier New', monospace;
+            font-family: 'Courier New', 'Share Tech Mono', monospace;
         }
 
-        /* Cyberpunk 2077 Background */
         body {
             min-height: 100vh;
             background: radial-gradient(circle at 20% 30%, #0a0f1f, #010101);
@@ -24,7 +23,7 @@
             overflow-x: hidden;
         }
 
-        /* Hiệu ứng grid cyberpunk */
+        /* Grid Cyberpunk */
         body::before {
             content: "";
             position: fixed;
@@ -33,14 +32,14 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(255, 215, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.08) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Hiệu ứng glitch động */
+        /* Scanline Animation */
         body::after {
             content: "";
             position: fixed;
@@ -48,32 +47,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 255, 255, 0.03) 0px,
-                rgba(0, 255, 255, 0.03) 2px,
-                transparent 2px,
-                transparent 6px
-            );
+            background: repeating-linear-gradient(0deg, 
+                rgba(0, 255, 255, 0.05) 0px, 
+                rgba(0, 255, 255, 0.05) 2px, 
+                transparent 2px, 
+                transparent 8px);
             pointer-events: none;
-            animation: scan 8s linear infinite;
+            animation: scanMove 6s linear infinite;
             z-index: 0;
         }
 
-        @keyframes scan {
+        @keyframes scanMove {
             0% { transform: translateY(0); }
             100% { transform: translateY(100%); }
         }
 
-        /* Container chính - Cyberpunk Card */
+        /* Main Card */
         .vip-card {
             max-width: 600px;
             width: 100%;
-            background: rgba(8, 12, 30, 0.75);
+            background: rgba(8, 12, 30, 0.8);
             backdrop-filter: blur(16px);
             border-radius: 48px;
-            border: 1px solid rgba(255, 215, 0, 0.6);
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.25), 0 0 0 2px rgba(0, 255, 255, 0.1) inset;
+            border: 1.5px solid #ffd700;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
             overflow: hidden;
             transition: all 0.3s ease;
             position: relative;
@@ -81,28 +78,17 @@
         }
 
         .vip-card:hover {
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
-            border-color: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+            border-color: #00ffff;
         }
 
-        /* Header Cyberpunk */
+        /* Header */
         .head-vip {
             background: #010314e6;
             padding: 24px 18px;
             text-align: center;
             border-bottom: 2px solid #ffd700;
             position: relative;
-            overflow: hidden;
-        }
-
-        .head-vip::before {
-            content: "▰▰▰▰▰";
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            font-size: 10px;
-            color: rgba(255, 215, 0, 0.3);
-            letter-spacing: 2px;
         }
 
         .head-vip h1 {
@@ -112,16 +98,15 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            animation: glitch 3s infinite;
+            animation: glitchText 3s infinite;
         }
 
-        @keyframes glitch {
+        @keyframes glitchText {
             0%, 100% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
             95% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
-            96% { text-shadow: -2px 0 red, 2px 0 blue; }
-            97% { text-shadow: 2px 0 red, -2px 0 blue; }
+            96% { text-shadow: -2px 0 #ff0055, 2px 0 #00ffff; }
+            97% { text-shadow: 2px 0 #ff0055, -2px 0 #00ffff; }
             98% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
         }
 
@@ -133,7 +118,7 @@
             text-shadow: 0 0 5px cyan;
         }
 
-        /* Tabs Cyberpunk */
+        /* Tabs */
         .tabs-fit {
             display: flex;
             background: #020617cc;
@@ -161,15 +146,14 @@
             background: #ffd700;
             color: #010101;
             box-shadow: 0 0 20px #ffd700;
-            text-shadow: none;
         }
 
+        /* Panels */
         .panel {
             display: none;
             padding: 22px 18px;
             animation: fadeIn 0.3s ease;
         }
-
         .panel.active { display: block; }
 
         @keyframes fadeIn {
@@ -177,9 +161,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Glass Card Cyberpunk */
+        /* Cards */
         .glass-card {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             border-radius: 36px;
             padding: 18px 20px;
             margin-bottom: 22px;
@@ -203,7 +187,7 @@
             text-shadow: 0 0 5px #ffd700;
         }
 
-        /* Key Group */
+        /* Input Groups */
         .key-group {
             display: flex;
             gap: 12px;
@@ -228,6 +212,7 @@
             box-shadow: 0 0 10px cyan;
         }
 
+        /* Buttons */
         .btn-sm {
             background: #1a1a2e;
             border: 1px solid #ffd700;
@@ -264,7 +249,7 @@
             box-shadow: 0 0 20px #ffd700;
         }
 
-        /* Slider Cyberpunk */
+        /* Sliders */
         .row-control {
             display: flex;
             justify-content: space-between;
@@ -311,7 +296,7 @@
             border: 1px solid #ffd700;
         }
 
-        /* Toggle Cyberpunk */
+        /* Toggle */
         .toggle-fit {
             position: relative;
             display: inline-block;
@@ -346,7 +331,7 @@
         input:checked + .slider-fit { background-color: #00ffff; border-color: #00ffff; }
         input:checked + .slider-fit:before { transform: translateX(24px); background-color: #000; }
 
-        /* Key List Cyberpunk */
+        /* Key List */
         .key-list-scroll {
             max-height: 260px;
             overflow-y: auto;
@@ -364,7 +349,6 @@
             flex-wrap: wrap;
             gap: 8px;
             border-left: 3px solid #ffd700;
-            border-right: 1px solid #ffd70033;
         }
 
         .key-code {
@@ -402,7 +386,7 @@
             border: 1px solid #ffd700;
         }
 
-        /* Hiệu ứng flash */
+        /* Effects */
         .flash-effect {
             position: fixed;
             inset: 0;
@@ -432,8 +416,6 @@
             font-weight: 700;
             z-index: 1000;
             white-space: nowrap;
-            font-family: monospace;
-            letter-spacing: 1px;
         }
 
         .note-tiny {
@@ -443,12 +425,7 @@
             margin-top: 16px;
         }
 
-        hr {
-            border-color: #ffd70033;
-            margin: 14px 0;
-        }
-
-        /* Lock Overlay Cyberpunk */
+        /* Lock Overlay */
         .lock-overlay {
             position: fixed;
             top: 0;
@@ -584,7 +561,7 @@
 </div>
 
 <script>
-    // ========== HỆ THỐNG KEY ==========
+    // ========== HỆ THỐNG KEY (ĐÃ FIX HOÀN TOÀN) ==========
     const MASTER_ADMIN = "nhoang123";
     let keysStorage = {};
     let deviceId = localStorage.getItem("device_vip");
@@ -608,22 +585,30 @@
     }
     
     function loadKeyDB(){
-        let raw = localStorage.getItem("vip_keys_db_v3");
+        let raw = localStorage.getItem("vip_keys_db_final");
         if(raw){
-            keysStorage = JSON.parse(raw);
+            try {
+                keysStorage = JSON.parse(raw);
+            } catch(e) {
+                keysStorage = {};
+            }
         } else {
             keysStorage = {};
         }
+        console.log("Loaded keys:", Object.keys(keysStorage));
     }
     
     function saveKeys(){
-        localStorage.setItem("vip_keys_db_v3", JSON.stringify(keysStorage));
+        localStorage.setItem("vip_keys_db_final", JSON.stringify(keysStorage));
+        console.log("Saved keys:", Object.keys(keysStorage));
     }
     
+    // Hàm kích hoạt key (FIX LỖI CHÍNH)
     function activateLicense(rawKey){
         let key = rawKey.trim();
         if(!key) return false;
         
+        // Key Admin
         if(key === MASTER_ADMIN){
             currentSession = { key: key, isAdmin: true };
             isAdminMode = true;
@@ -631,11 +616,20 @@
         }
         
         let keyData = keysStorage[key];
-        if(!keyData) return false;
+        if(!keyData){
+            console.log("Key not found:", key);
+            return false;
+        }
         
-        if(keyData.expiryTimestamp && isKeyExpired(keyData.expiryTimestamp)) return false;
+        if(keyData.expiryTimestamp && isKeyExpired(keyData.expiryTimestamp)){
+            console.log("Key expired:", key);
+            return false;
+        }
         
-        if(keyData.deviceId && keyData.deviceId !== deviceId) return false;
+        if(keyData.deviceId && keyData.deviceId !== deviceId){
+            console.log("Key used on another device:", key);
+            return false;
+        }
         
         if(keyData.deviceId === null){
             keyData.deviceId = deviceId;
@@ -647,6 +641,7 @@
         return true;
     }
     
+    // ========== RENDER GIAO DIỆN ==========
     function renderFeaturePanel(){
         let panel = document.getElementById("featurePanel");
         if(!currentSession){
@@ -664,4 +659,5 @@
         panel.innerHTML = `
             <div class="glass-card">
                 <div class="card-title">🎯 AIM LOCK</div>
-                <div class="row-control"><label>🔒 Độ bám</label><input type="range" id="aimPower" min="0" max="100" value="94"><span id="aimShow" class="valu
+                <div class="row-control"><label>🔒 Độ bám</label><input type="range" id="aimPower" min="0" max="100" value="94"><span id="aimShow" class="value-badge">94%</span></div>
+                <div class="row-control"><label>⚡ Tốc độ khóa</label><input type="range" id
