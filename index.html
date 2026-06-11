@@ -21,7 +21,6 @@
             padding: 16px;
         }
 
-        /* container chính - cân đối */
         .vip-card {
             max-width: 600px;
             width: 100%;
@@ -34,7 +33,6 @@
             transition: all 0.2s;
         }
 
-        /* header */
         .head-vip {
             background: #010314b3;
             padding: 20px 18px;
@@ -56,7 +54,6 @@
             margin-top: 5px;
         }
 
-        /* tabs */
         .tabs-fit {
             display: flex;
             background: #020617b3;
@@ -89,7 +86,6 @@
         .panel.active { display: block; }
         @keyframes fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
 
-        /* card */
         .glass-card {
             background: rgba(8, 12, 30, 0.65);
             border-radius: 36px;
@@ -106,7 +102,6 @@
             margin-bottom: 18px;
         }
 
-        /* form key */
         .key-group {
             display: flex;
             gap: 12px;
@@ -150,7 +145,6 @@
         }
         .btn-full:hover { background: #2dd4bf; color: #010101; box-shadow: 0 0 10px cyan; }
 
-        /* control row (slider) */
         .row-control {
             display: flex;
             justify-content: space-between;
@@ -190,7 +184,6 @@
             text-align: center;
         }
 
-        /* toggle nhỏ gọn */
         .toggle-fit {
             position: relative;
             display: inline-block;
@@ -220,7 +213,6 @@
         input:checked + .slider-fit { background-color: #2dd4bf; }
         input:checked + .slider-fit:before { transform: translateX(24px); }
 
-        /* key list */
         .key-list-scroll {
             max-height: 260px;
             overflow-y: auto;
@@ -296,11 +288,72 @@
             margin-top: 16px;
         }
         hr { border-color: #2a345c; margin: 14px 0; }
+        
+        .lock-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .lock-card {
+            background: linear-gradient(145deg, #0f132e, #070b1a);
+            border-radius: 48px;
+            padding: 32px 24px;
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #2dd4bf;
+            box-shadow: 0 0 40px rgba(0, 255, 200, 0.2);
+        }
+        .lock-card h2 {
+            color: #2dd4bf;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .lock-card input {
+            width: 100%;
+            background: #0b1024;
+            border: 1px solid #2f4570;
+            padding: 14px 18px;
+            border-radius: 60px;
+            color: #d6f0ff;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lock-card button {
+            background: linear-gradient(95deg, #101b36, #010314);
+            border: 1px solid #2dd4bf;
+            color: #eaffff;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .lock-card button:hover {
+            background: #2dd4bf;
+            color: #010101;
+        }
+        .lock-error {
+            color: #ff6688;
+            font-size: 12px;
+            margin-top: 12px;
+        }
     </style>
 </head>
 <body>
 
-<div class="vip-card">
+<div class="vip-card" id="mainContent" style="opacity:0; pointer-events:none; transition:0.3s;">
     <div class="head-vip">
         <h1>✦ NHOANG | VIP ✦</h1>
         <p>AIM LOCK • NO RECOIL • LAG FIX • KEY TIME</p>
@@ -312,16 +365,14 @@
         <button class="tab-fit" data-tab="adminzone" style="display:none;">👑 ADMIN</button>
     </div>
 
-    <!-- FEATURE PANEL -->
     <div id="featurePanel" class="panel active"></div>
 
-    <!-- KEY MANAGER (luôn có ô nhập) -->
     <div id="keymanagerPanel" class="panel">
         <div class="glass-card">
             <div class="card-title">🔐 KÍCH HOẠT KEY</div>
             <div class="key-group">
-                <input type="text" id="vipKeyInput" placeholder="Nhập key bản quyền (VD: nhoang123)" autocomplete="off">
-                <button class="btn-sm" id="activateVipBtn">KÍCH HOẠT</button>
+                <input type="text" id="vipKeyInput" placeholder="Nhập key bản quyền" autocomplete="off">
+                <button class="btn-sm" id="activateVipBtn">KÍCH HOẤT</button>
             </div>
             <div id="keyFeedback" style="color:#ffdb8e; font-size:12px; margin-top:6px;"></div>
         </div>
@@ -332,7 +383,6 @@
         <div class="note-tiny">🔒 Key có thời hạn (ngày). Admin key "nhoang123" toàn quyền tạo key.</div>
     </div>
 
-    <!-- ADMIN ZONE -->
     <div id="adminzonePanel" class="panel">
         <div class="glass-card">
             <div class="card-title">✨ TẠO KEY (THỜI HẠN)</div>
@@ -352,8 +402,17 @@
     </div>
 </div>
 
+<div id="lockOverlay" class="lock-overlay">
+    <div class="lock-card">
+        <h2>🔐 NHẬP KEY</h2>
+        <input type="text" id="lockKeyInput" placeholder="Nhập key kích hoạt" autocomplete="off">
+        <button id="unlockBtn">KÍCH HOẠT</button>
+        <div id="lockError" class="lock-error"></div>
+    </div>
+</div>
+
 <script>
-    // ---------- HỆ THỐNG KEY + EXPIRY ----------
+    // ========== HỆ THỐNG KEY ==========
     const MASTER_ADMIN = "nhoang123";
     let keysStorage = {};
     let deviceId = localStorage.getItem("device_vip");
@@ -361,74 +420,83 @@
         deviceId = "VIP_" + Date.now() + "_" + Math.random().toString(36).substr(2,10);
         localStorage.setItem("device_vip", deviceId);
     }
-    let activeKey = localStorage.getItem("active_vip_key");
-    let session = null;
-    let isAdmin = false;
-
+    
+    // Session tạm thời - mất khi F5
+    let currentSession = null;
+    let isAdminMode = false;
+    
     function getExpiryFromDays(days){
         let d = new Date();
         d.setDate(d.getDate() + days);
         return d.getTime();
     }
+    
     function isKeyExpired(expiryTs){
         if(!expiryTs) return false;
         return Date.now() > expiryTs;
     }
-
+    
     function loadKeyDB(){
-        let raw = localStorage.getItem("vip_keys_db");
-        if(raw) keysStorage = JSON.parse(raw);
-        else keysStorage = {};
-        saveKeys();
+        let raw = localStorage.getItem("vip_keys_db_v3");
+        if(raw){
+            keysStorage = JSON.parse(raw);
+        } else {
+            keysStorage = {};
+        }
+        console.log("Loaded keys:", Object.keys(keysStorage));
     }
-    function saveKeys(){ localStorage.setItem("vip_keys_db", JSON.stringify(keysStorage)); }
-
-    function validateSession(){
-        if(!activeKey) return null;
-        if(activeKey === MASTER_ADMIN) return { key: activeKey, isAdmin: true };
-        let data = keysStorage[activeKey];
-        if(!data) return null;
-        if(data.expiryTimestamp && isKeyExpired(data.expiryTimestamp)){
-            localStorage.removeItem("active_vip_key");
-            activeKey = null;
-            return null;
+    
+    function saveKeys(){
+        localStorage.setItem("vip_keys_db_v3", JSON.stringify(keysStorage));
+        console.log("Saved keys:", Object.keys(keysStorage));
+    }
+    
+    // Hàm kích hoạt key (trả về true/false)
+    function activateLicense(rawKey){
+        let key = rawKey.trim();
+        if(!key) return false;
+        
+        // Key Admin
+        if(key === MASTER_ADMIN){
+            currentSession = { key: key, isAdmin: true };
+            isAdminMode = true;
+            return true;
         }
-        if(data.deviceId && data.deviceId !== deviceId){
-            localStorage.removeItem("active_vip_key");
-            activeKey = null;
-            return null;
+        
+        let keyData = keysStorage[key];
+        if(!keyData){
+            console.log("Key not found:", key);
+            return false;
         }
-        if(data.deviceId === null){
-            data.deviceId = deviceId;
+        
+        if(keyData.expiryTimestamp && isKeyExpired(keyData.expiryTimestamp)){
+            console.log("Key expired:", key);
+            return false;
+        }
+        
+        if(keyData.deviceId && keyData.deviceId !== deviceId){
+            console.log("Key used on another device:", key);
+            return false;
+        }
+        
+        if(keyData.deviceId === null){
+            keyData.deviceId = deviceId;
             saveKeys();
         }
-        return { key: activeKey, isAdmin: false, data: data };
+        
+        currentSession = { key: key, isAdmin: false, data: keyData };
+        isAdminMode = false;
+        return true;
     }
-
-    session = validateSession();
-    isAdmin = (session && session.key === MASTER_ADMIN);
-
-    // hiệu ứng
-    function toastMessage(msg, isSuccess=true){
-        let flash = document.createElement("div");
-        flash.className = "flash-effect";
-        document.body.appendChild(flash);
-        setTimeout(()=>flash.remove(),350);
-        let toast = document.createElement("div");
-        toast.className = "toast-fit";
-        toast.innerText = isSuccess ? `✓ ${msg}` : `⚠️ ${msg}`;
-        document.body.appendChild(toast);
-        setTimeout(()=>toast.remove(),1800);
-    }
-
-    // render feature nhỏ gọn
+    
+    // ========== RENDER GIAO DIỆN ==========
     function renderFeaturePanel(){
         let panel = document.getElementById("featurePanel");
-        if(!session){
+        if(!currentSession){
             panel.innerHTML = `
                 <div class="glass-card" style="text-align:center">
                     <div class="card-title">🔒 KHÓA TÍNH NĂNG</div>
-                    <p style="margin:12px 0 18px; font-size:13px;">Nhập key tại tab [KEY] để kích hoạt hack</p>
+                    <p style="margin:12px 0 18px; font-size:13px;">Vui lòng nhập key để kích hoạt hack</p>
                     <button class="btn-full" id="gotoKeyBtn">🔑 MỞ KEY</button>
                 </div>
             `;
@@ -456,7 +524,7 @@
                 <div class="row-control"><label>🧹 Xóa cache</label><div class="toggle-fit"><input type="checkbox" id="cacheClear"><span class="slider-fit"></span></div></div>
                 <button class="btn-full" id="boostBtn">⚡ TỐI ƯU</button>
             </div>
-            <div class="note-tiny">✅ ACTIVE: <strong style="color:#2dd4bf;">${session.key === MASTER_ADMIN ? "ADMIN" : session.key.substring(0,14)}</strong> | HẠN: ${session.data?.expiryTimestamp ? new Date(session.data.expiryTimestamp).toLocaleDateString() : "Vĩnh viễn"}</div>
+            <div class="note-tiny">✅ ACTIVE: <strong style="color:#2dd4bf;">${currentSession.key === MASTER_ADMIN ? "ADMIN" : currentSession.key.substring(0,14)}</strong> | HẠN: ${currentSession.data?.expiryTimestamp ? new Date(currentSession.data.expiryTimestamp).toLocaleDateString() : "Vĩnh viễn"}</div>
         `;
         const bind = (id,display,suf="")=>{
             let s = document.getElementById(id);
@@ -469,198 +537,25 @@
         bind("verticalFix","vertShow","%");
         bind("horizonFix","horShow","");
         bind("lagKiller","lagShow","%");
-        document.getElementById("activeAimBtn").onclick = ()=> toastMessage(`AIM LOCK ACTIVE: ${document.getElementById("aimPower").value}%`, true);
-        document.getElementById("activeRecoilBtn").onclick = ()=> toastMessage("🌀 NO RECOIL + FIX RUNG", true);
-        document.getElementById("boostBtn").onclick = ()=> toastMessage("🚀 BOOST FPS & GIẢM LAG", true);
+        
+        if(document.getElementById("activeAimBtn")){
+            document.getElementById("activeAimBtn").onclick = ()=> toastMessage(`AIM LOCK ACTIVE: ${document.getElementById("aimPower").value}%`, true);
+            document.getElementById("activeRecoilBtn").onclick = ()=> toastMessage("🌀 NO RECOIL + FIX RUNG", true);
+            document.getElementById("boostBtn").onclick = ()=> toastMessage("🚀 BOOST FPS & GIẢM LAG", true);
+        }
     }
-
+    
     function updateKeyUI(){
         let infoDiv = document.getElementById("activeVipInfo");
-        if(session){
-            let role = isAdmin ? "🔥 ADMIN" : "💎 HACKER";
-            let keyDisp = session.key === MASTER_ADMIN ? "ADMIN_MASTER" : session.key.substring(0,16);
+        if(currentSession){
+            let role = isAdminMode ? "🔥 ADMIN" : "💎 HACKER";
+            let keyDisp = currentSession.key === MASTER_ADMIN ? "ADMIN_MASTER" : currentSession.key.substring(0,16);
             let expiryHtml = "";
-            if(session.data?.expiryTimestamp){
-                expiryHtml = `<span class="expiry-tag">📅 Hạn: ${new Date(session.data.expiryTimestamp).toLocaleDateString()}</span>`;
-            } else if(session.key !== MASTER_ADMIN) expiryHtml = `<span class="expiry-tag">∞ Vĩnh viễn</span>`;
+            if(currentSession.data?.expiryTimestamp){
+                expiryHtml = `<span class="expiry-tag">📅 Hạn: ${new Date(currentSession.data.expiryTimestamp).toLocaleDateString()}</span>`;
+            } else if(currentSession.key !== MASTER_ADMIN) expiryHtml = `<span class="expiry-tag">∞ Vĩnh viễn</span>`;
             infoDiv.innerHTML = `<span>🔑 ${keyDisp}</span><span>${role}</span>${expiryHtml ? `<span>${expiryHtml}</span>` : ""}`;
         } else {
             infoDiv.innerHTML = `<span>⚠️ CHƯA KÍCH HOẠT</span>`;
         }
-        let adminTab = document.querySelector("[data-tab='adminzone']");
-        if(isAdmin && session){
-            adminTab.style.display = "flex";
-            renderAdminKeyList();
-        } else {
-            adminTab.style.display = "none";
-            if(document.querySelector(".tab-fit.active")?.getAttribute("data-tab") === "adminzone"){
-                document.querySelector("[data-tab='feature']").click();
-            }
-        }
-    }
-
-    function renderAdminKeyList(){
-        if(!isAdmin) return;
-        let container = document.getElementById("adminKeyListVip");
-        let entries = Object.entries(keysStorage);
-        if(entries.length===0){
-            container.innerHTML = "<div style='color:#7a8bb5;text-align:center'>⚡ Chưa tạo key nào</div>";
-            return;
-        }
-        let html = "";
-        for(let [k, v] of entries){
-            let usedText = (v.deviceId && v.deviceId !== null) ? `📱 Used` : "🟢 Mới";
-            let expiryInfo = "";
-            if(v.expiryTimestamp){
-                if(Date.now() > v.expiryTimestamp) expiryInfo = `<span class="expiry-tag" style="background:#531e33;">HẾT HẠN</span>`;
-                else expiryInfo = `<span class="expiry-tag">📅 ${new Date(v.expiryTimestamp).toLocaleDateString()}</span>`;
-            } else {
-                expiryInfo = `<span class="expiry-tag">∞ vĩnh viễn</span>`;
-            }
-            html += `
-                <div class="key-row-mini">
-                    <div><span class="key-code">${k}</span><br><span style="font-size:9px;">${v.name || "key"}</span></div>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        ${expiryInfo}<span style="font-size:10px;">${usedText}</span>
-                        <button class="copy-mini" data-copy-key="${k}">📋 COPY</button>
-                        <button class="copy-mini" data-del-key="${k}" style="background:#301c28;">🗑️</button>
-                    </div>
-                </div>
-            `;
-        }
-        container.innerHTML = html;
-        document.querySelectorAll("[data-copy-key]").forEach(btn=>{
-            btn.onclick = (e)=>{
-                let keyVal = btn.getAttribute("data-copy-key");
-                navigator.clipboard.writeText(keyVal);
-                toastMessage(`Đã copy key: ${keyVal}`, true);
-            };
-        });
-        document.querySelectorAll("[data-del-key]").forEach(btn=>{
-            btn.onclick = (e)=>{
-                let delK = btn.getAttribute("data-del-key");
-                if(confirm(`Xóa key ${delK} vĩnh viễn?`)){
-                    delete keysStorage[delK];
-                    saveKeys();
-                    if(activeKey === delK){
-                        localStorage.removeItem("active_vip_key");
-                        activeKey = null;
-                        session = null;
-                        isAdmin = false;
-                        renderFeaturePanel();
-                        updateKeyUI();
-                        toastMessage("Key vừa dùng đã bị xóa", false);
-                    }
-                    renderAdminKeyList();
-                }
-            };
-        });
-    }
-
-    function createKeyWithExpiry(name, days){
-        if(!isAdmin){ toastMessage("Chỉ admin tạo key", false); return null; }
-        let daysNum = parseInt(days);
-        if(isNaN(daysNum) || daysNum <= 0) daysNum = 30;
-        let base = name.trim().toUpperCase() || "VIPHACK";
-        let newKey = base + "_" + Math.random().toString(36).substr(2,8).toUpperCase();
-        if(keysStorage[newKey]) return createKeyWithExpiry(name + Math.floor(Math.random()*10), days);
-        let expiryTs = getExpiryFromDays(daysNum);
-        keysStorage[newKey] = {
-            deviceId: null,
-            createdBy: "admin",
-            name: name || "VIP Key",
-            expiryTimestamp: expiryTs
-        };
-        saveKeys();
-        renderAdminKeyList();
-        return newKey;
-    }
-
-    function activateLicense(rawKey){
-        let key = rawKey.trim();
-        if(!key) return false;
-        if(key === MASTER_ADMIN){
-            localStorage.setItem("active_vip_key", key);
-            activeKey = key;
-            session = { key: key, isAdmin: true };
-            isAdmin = true;
-            document.getElementById("keyFeedback").innerHTML = "✅ ADMIN LOGIN THÀNH CÔNG!";
-            renderFeaturePanel();
-            updateKeyUI();
-            document.querySelector("[data-tab='feature']").click();
-            toastMessage("ADMIN MODE ENABLED", true);
-            return true;
-        }
-        let keyData = keysStorage[key];
-        if(!keyData){
-            document.getElementById("keyFeedback").innerHTML = "❌ Key không tồn tại!";
-            return false;
-        }
-        if(keyData.expiryTimestamp && isKeyExpired(keyData.expiryTimestamp)){
-            document.getElementById("keyFeedback").innerHTML = "❌ Key đã hết hạn!";
-            toastMessage("Key hết hạn", false);
-            return false;
-        }
-        if(keyData.deviceId && keyData.deviceId !== deviceId){
-            document.getElementById("keyFeedback").innerHTML = "❌ Key đã dùng trên thiết bị khác!";
-            return false;
-        }
-        if(keyData.deviceId === null){
-            keyData.deviceId = deviceId;
-            saveKeys();
-        }
-        localStorage.setItem("active_vip_key", key);
-        activeKey = key;
-        session = { key: key, isAdmin: false, data: keyData };
-        isAdmin = false;
-        document.getElementById("keyFeedback").innerHTML = "✅ KÍCH HOẠT THÀNH CÔNG!";
-        renderFeaturePanel();
-        updateKeyUI();
-        document.querySelector("[data-tab='feature']").click();
-        toastMessage("Key hợp lệ", true);
-        return true;
-    }
-
-    window.onload = ()=>{
-        loadKeyDB();
-        session = validateSession();
-        isAdmin = (session && session.key === MASTER_ADMIN);
-        renderFeaturePanel();
-        updateKeyUI();
-        if(isAdmin) renderAdminKeyList();
-
-        document.querySelectorAll(".tab-fit").forEach(btn=>{
-            btn.addEventListener("click",()=>{
-                let tab = btn.getAttribute("data-tab");
-                document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-                document.getElementById(tab+"Panel").classList.add("active");
-                document.querySelectorAll(".tab-fit").forEach(b=>b.classList.remove("active"));
-                btn.classList.add("active");
-                if(tab === "adminzone" && isAdmin) renderAdminKeyList();
-            });
-        });
-        document.getElementById("activateVipBtn").onclick = ()=>{
-            let val = document.getElementById("vipKeyInput").value;
-            activateLicense(val);
-        };
-        document.getElementById("genSupremeKey").onclick = ()=>{
-            if(!isAdmin){ toastMessage("Chỉ admin tạo key", false); return; }
-            let name = document.getElementById("newKeyNameAdmin").value;
-            let days = document.getElementById("keyExpiryDays").value;
-            let newK = createKeyWithExpiry(name, days);
-            if(newK){
-                document.getElementById("genKeyResult").innerHTML = `✨ Key mới: <strong style="color:#c3ffdf;">${newK}</strong> (hạn ${days} ngày) <button class="copy-mini" id="inlineCopyNewGen">📋 COPY</button>`;
-                let copyInline = document.getElementById("inlineCopyNewGen");
-                if(copyInline) copyInline.onclick = ()=>{
-                    navigator.clipboard.writeText(newK);
-                    toastMessage(`Đã copy key: ${newK}`, true);
-                };
-            } else {
-                document.getElementById("genKeyResult").innerHTML = "❌ Lỗi tạo key";
-            }
-        };
-        document.getElementById("refreshAdminVipBtn").onclick = ()=>{ if(isAdmin) renderAdminKeyList(); };
-    };
-</script>
-</body>
-</html>
+        let admi
