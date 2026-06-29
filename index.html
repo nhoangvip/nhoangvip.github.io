@@ -2,662 +2,1091 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NHOANG | CYBERPUNK 2077</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCHIHA PANEL - OPTIMIZER</title>
     <style>
+        /* === CSS TOÀN BỘ GIAO DIỆN === */
+        
+        /* Font chính - phong cách Uchiha mạnh mẽ */
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', 'Share Tech Mono', monospace;
         }
-
+        
         body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
             min-height: 100vh;
-            background: radial-gradient(circle at 20% 30%, #0a0f1f, #010101);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
-
-        /* Grid Cyberpunk */
+        
+        /* Hiệu ứng nền lửa và sharingan */
         body::before {
-            content: "";
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 215, 0, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 215, 0, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 70%),
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
+            animation: fireFlicker 3s ease-in-out infinite;
         }
-
-        /* Scanline Animation */
-        body::after {
-            content: "";
+        
+        @keyframes fireFlicker {
+            0%, 100% { opacity: 0.8; }
+            25% { opacity: 1; }
+            50% { opacity: 0.6; }
+            75% { opacity: 0.9; }
+        }
+        
+        /* Hiệu ứng Sharingan nền */
+        .sharingan-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg, 
-                rgba(0, 255, 255, 0.05) 0px, 
-                rgba(0, 255, 255, 0.05) 2px, 
-                transparent 2px, 
-                transparent 8px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(255, 0, 0, 0.03) 45deg,
+                transparent 90deg,
+                rgba(255, 0, 0, 0.03) 135deg,
+                transparent 180deg,
+                rgba(255, 0, 0, 0.03) 225deg,
+                transparent 270deg,
+                rgba(255, 0, 0, 0.03) 315deg,
+                transparent 360deg
+            );
+            border-radius: 50%;
             pointer-events: none;
-            animation: scanMove 6s linear infinite;
             z-index: 0;
+            animation: rotateSharingan 20s linear infinite;
         }
-
-        @keyframes scanMove {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100%); }
+        
+        @keyframes rotateSharingan {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
-        /* Main Card */
-        .vip-card {
-            max-width: 600px;
+        
+        /* Container chính */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+        }
+        
+        /* Style cho trang đăng nhập Key */
+        .login-container {
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.9), rgba(40, 0, 0, 0.8));
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 0, 0.3),
+                0 0 60px rgba(255, 0, 0, 0.1),
+                inset 0 0 30px rgba(255, 0, 0, 0.1);
+            max-width: 500px;
             width: 100%;
-            background: rgba(8, 12, 30, 0.8);
-            backdrop-filter: blur(16px);
-            border-radius: 48px;
-            border: 1.5px solid #ffd700;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+            position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(255, 0, 0, 0.1),
+                transparent 30%,
+                rgba(255, 0, 0, 0.1),
+                transparent 50%,
+                rgba(255, 0, 0, 0.1),
+                transparent 70%,
+                rgba(255, 0, 0, 0.1),
+                transparent
+            );
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .login-container * {
             position: relative;
             z-index: 2;
         }
-
-        .vip-card:hover {
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
-            border-color: #00ffff;
+        
+        /* Logo Uchiha */
+        .uchiha-logo {
+            font-size: 50px;
+            color: #ff0000;
+            text-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.8),
+                0 0 40px rgba(255, 0, 0, 0.4);
+            margin-bottom: 20px;
+            animation: glowPulse 2s ease-in-out infinite;
         }
-
-        /* Header */
-        .head-vip {
-            background: #010314e6;
-            padding: 24px 18px;
-            text-align: center;
-            border-bottom: 2px solid #ffd700;
-            position: relative;
+        
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
+            50% { text-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 60px rgba(255, 0, 0, 0.6); }
         }
-
-        .head-vip h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffd700, #00ffff, #ff0055);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            animation: glitchText 3s infinite;
-        }
-
-        @keyframes glitchText {
-            0%, 100% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
-            95% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
-            96% { text-shadow: -2px 0 #ff0055, 2px 0 #00ffff; }
-            97% { text-shadow: 2px 0 #ff0055, -2px 0 #00ffff; }
-            98% { text-shadow: 0 0 5px #ffd700, 0 0 10px #00ffff; }
-        }
-
-        .head-vip p {
-            color: #00ffff;
-            font-size: 11px;
-            margin-top: 8px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px cyan;
-        }
-
-        /* Tabs */
-        .tabs-fit {
-            display: flex;
-            background: #020617cc;
-            padding: 12px 14px 0 14px;
-            gap: 10px;
-            border-bottom: 1px solid #ffd70033;
-        }
-
-        .tab-fit {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 0;
+        
+        .title {
+            font-size: 36px;
             font-weight: 700;
-            font-size: 14px;
-            color: #ffd700;
-            border-radius: 100px;
-            cursor: pointer;
-            transition: 0.2s;
+            color: #ff0000;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .tab-fit.active {
-            background: #ffd700;
-            color: #010101;
-            box-shadow: 0 0 20px #ffd700;
-        }
-
-        /* Panels */
-        .panel {
-            display: none;
-            padding: 22px 18px;
-            animation: fadeIn 0.3s ease;
-        }
-        .panel.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Cards */
-        .glass-card {
-            background: rgba(0, 0, 0, 0.65);
-            border-radius: 36px;
-            padding: 18px 20px;
-            margin-bottom: 22px;
-            border: 1px solid #ffd700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-            transition: 0.2s;
-        }
-
-        .glass-card:hover {
-            border-color: #00ffff;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffd700;
-            border-left: 4px solid #00ffff;
-            padding-left: 14px;
-            margin-bottom: 18px;
-            text-shadow: 0 0 5px #ffd700;
-        }
-
-        /* Input Groups */
-        .key-group {
-            display: flex;
-            gap: 12px;
-            margin: 12px 0 8px;
-            flex-wrap: wrap;
-        }
-
-        .key-group input {
-            flex: 2;
-            background: #000000cc;
-            border: 1px solid #ffd700;
-            padding: 12px 16px;
-            border-radius: 50px;
-            color: #00ffff;
-            font-size: 14px;
-            font-family: monospace;
-        }
-
-        .key-group input:focus {
-            outline: none;
-            border-color: #00ffff;
-            box-shadow: 0 0 10px cyan;
-        }
-
-        /* Buttons */
-        .btn-sm {
-            background: #1a1a2e;
-            border: 1px solid #ffd700;
-            padding: 0 24px;
-            border-radius: 50px;
-            color: #ffd700;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        .btn-sm:active { transform: scale(0.97); background: #ffd700; color: #000; }
-
-        .btn-full {
-            background: linear-gradient(95deg, #0a0a1a, #000000);
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 10px 0;
-            width: 100%;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-full:hover {
-            background: #ffd700;
-            color: #010101;
-            box-shadow: 0 0 20px #ffd700;
-        }
-
-        /* Sliders */
-        .row-control {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .row-control label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #00ffff;
-            min-width: 110px;
-            text-shadow: 0 0 3px cyan;
-        }
-
-        input[type="range"] {
-            flex: 2;
-            height: 5px;
-            border-radius: 8px;
-            background: #1f284c;
-            -webkit-appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            width: 18px;
-            height: 18px;
-            background: #ffd700;
-            border-radius: 50%;
-            box-shadow: 0 0 12px #ffd700;
-            cursor: pointer;
-        }
-
-        .value-badge {
-            background: #000000cc;
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #00ffff;
-            min-width: 60px;
-            text-align: center;
-            border: 1px solid #ffd700;
-        }
-
-        /* Toggle */
-        .toggle-fit {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 24px;
-        }
-
-        .toggle-fit input { opacity: 0; width: 0; height: 0; }
-
-        .slider-fit {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background: #1a1a2e;
-            transition: 0.2s;
-            border-radius: 30px;
-            border: 1px solid #ffd700;
-        }
-
-        .slider-fit:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 2px;
-            background-color: #ffd700;
-            transition: 0.2s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider-fit { background-color: #00ffff; border-color: #00ffff; }
-        input:checked + .slider-fit:before { transform: translateX(24px); background-color: #000; }
-
-        /* Key List */
-        .key-list-scroll {
-            max-height: 260px;
-            overflow-y: auto;
-            margin-top: 12px;
-        }
-
-        .key-row-mini {
-            background: #000000aa;
-            border-radius: 28px;
-            padding: 12px 16px;
+            letter-spacing: 3px;
             margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            border-left: 3px solid #ffd700;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
-
-        .key-code {
-            font-family: monospace;
-            font-weight: 700;
-            background: #000000aa;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 12px;
-            color: #00ffff;
+        
+        .subtitle {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
         }
-
-        .copy-mini {
-            background: #1a1a2e;
-            border: 1px solid #ffd700;
-            padding: 6px 16px;
-            border-radius: 30px;
-            color: #ffd700;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .copy-mini:active {
-            background: #ffd700;
-            color: #000;
-        }
-
-        .expiry-tag {
-            font-size: 10px;
-            background: #ffd70022;
-            padding: 3px 10px;
-            border-radius: 40px;
-            color: #ffd700;
-            border: 1px solid #ffd700;
-        }
-
-        /* Effects */
-        .flash-effect {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle, #ffd700, #ff0055);
-            pointer-events: none;
-            z-index: 999;
-            animation: cyberFlash 0.35s forwards;
-        }
-
-        @keyframes cyberFlash {
-            0% { opacity: 0.9; }
-            100% { opacity: 0; visibility: hidden; }
-        }
-
-        .toast-fit {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #000000cc;
-            backdrop-filter: blur(16px);
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-size: 13px;
-            font-weight: 700;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-
-        .note-tiny {
-            font-size: 10px;
-            color: #00ffffaa;
+        
+        /* Input Key */
+        .key-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
             text-align: center;
-            margin-top: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
         }
-
-        /* Lock Overlay */
-        .lock-overlay {
-            position: fixed;
+        
+        .key-input:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            background: rgba(20, 0, 0, 0.8);
+        }
+        
+        .key-input::placeholder {
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        /* Nút bấm */
+        .btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #cc0000, #660000);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: #000000ee;
-            backdrop-filter: blur(20px);
-            z-index: 2000;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+                .btn:hover {
+            background: linear-gradient(135deg, #ff0000, #990000);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+        
+        /* Panel chính */
+        .panel-container {
+            display: none;
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.95), rgba(40, 0, 0, 0.9));
+            border: 2px solid #ff0000;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 0, 0.3),
+                0 0 60px rgba(255, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .panel-header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            transition: 0.3s;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 15px;
         }
-
-        .lock-card {
-            background: #0a0a1a;
-            border-radius: 48px;
-            padding: 32px 24px;
-            max-width: 350px;
-            width: 90%;
-            text-align: center;
-            border: 2px solid #ffd700;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
-        }
-
-        .lock-card h2 {
-            color: #ffd700;
-            margin-bottom: 20px;
-            font-size: 24px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px #ffd700;
-        }
-
-        .lock-card input {
-            width: 100%;
-            background: #000000cc;
-            border: 1px solid #ffd700;
-            padding: 14px 18px;
-            border-radius: 60px;
-            color: #00ffff;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-family: monospace;
-        }
-
-        .lock-card button {
-            background: linear-gradient(95deg, #0a0a1a, #000);
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 12px 0;
-            width: 100%;
-            border-radius: 60px;
+        
+        .panel-title {
+            font-size: 28px;
             font-weight: 700;
-            font-size: 16px;
+            color: #ff0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .status-badge {
+            padding: 8px 20px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 20px;
+            color: #00ff00;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .version-info {
+            font-size: 14px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+        
+        /* Danh sách chức năng */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .feature-item {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
             cursor: pointer;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .feature-item:hover {
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .feature-info {
+            flex: 1;
+        }
+        
+        .feature-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ff4444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #aaa;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #333;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+        
+        .toggle-switch.active {
+            background: #ff0000;
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+        
+        .toggle-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-switch.active .toggle-knob {
+            left: 32px;
+        }
+        
+        /* Slider */
+        .slider-container {
+            width: 150px;
+        }
+        
+        .slider-input {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            outline: none;
+            border-radius: 3px;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .slider-value {
+            text-align: center;
+            color: #ff0000;
+            font-weight: 600;
+            margin-top: 5px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        /* Nút Admin */
+        .admin-btn {
+            padding: 8px 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #ff0000;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
-
-        .lock-card button:hover {
-            background: #ffd700;
-            color: #000;
-            box-shadow: 0 0 20px #ffd700;
+         .admin-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
         }
-
-        .lock-error {
-            color: #ff3366;
+        
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+        }
+        
+        .admin-title {
+            font-size: 20px;
+            color: #ff0000;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .admin-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+            outline: none;
+        }
+        
+        .key-list {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .key-item {
+            padding: 8px 12px;
+            background: rgba(255, 0, 0, 0.1);
+            margin-bottom: 5px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .delete-key-btn {
+            background: none;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            padding: 2px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
             font-size: 12px;
-            margin-top: 12px;
-            text-shadow: 0 0 5px #ff3366;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-key-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+        }
+        
+        /* Logout button */
+        .logout-btn {
+            padding: 8px 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            color: #ff0000;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .panel-container,
+            .login-container {
+                padding: 20px;
+            }
+            
+            .panel-title {
+                font-size: 24px;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .slider-container {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="vip-card" id="mainContent" style="opacity:0; pointer-events:none; transition:0.3s;">
-    <div class="head-vip">
-        <h1>✦ NHOANG | CYBERPUNK ✦</h1>
-        <p>AIM LOCK • NO RECOIL • LAG FIX • KEY TIME</p>
-    </div>
-
-    <div class="tabs-fit">
-        <button class="tab-fit active" data-tab="feature">🎮 ENGINE</button>
-        <button class="tab-fit" data-tab="keymanager">🔑 KEY</button>
-        <button class="tab-fit" data-tab="adminzone" style="display:none;">👑 ADMIN</button>
-    </div>
-
-    <div id="featurePanel" class="panel active"></div>
-
-    <div id="keymanagerPanel" class="panel">
-        <div class="glass-card">
-            <div class="card-title">🔐 KÍCH HOẠT KEY</div>
-            <div class="key-group">
-                <input type="text" id="vipKeyInput" placeholder="Nhập key bản quyền" autocomplete="off">
-                <button class="btn-sm" id="activateVipBtn">KÍCH HOẠT</button>
+    <div class="sharingan-bg"></div>
+    
+    <div class="container">
+        <!-- Trang đăng nhập Key -->
+        <div class="login-container" id="loginPage">
+            <div class="uchiha-logo">⚡</div>
+            <div class="title">UCHIHA PANEL</div>
+            <div class="subtitle">OPTIMIZER - V1.0</div>
+            <input 
+                type="password" 
+                class="key-input" 
+                id="keyInput" 
+                placeholder="NHẬP KEY ĐỂ TRUY CẬP"
+                maxlength="20"
+            >
+            <button class="btn" id="loginBtn">
+                <span>TRUY CẬP</span>
+            </button>
+            <div style="margin-top: 15px; color: #ff0000; font-size: 14px; display: none;" id="errorMsg">
+                KEY KHÔNG HỢP LỆ! VUI LÒNG THỬ LẠI.
             </div>
-            <div id="keyFeedback" style="color:#ffd700; font-size:12px; margin-top:6px;"></div>
         </div>
-        <div class="glass-card">
-            <div class="card-title">📟 THÔNG TIN KEY</div>
-            <div id="activeVipInfo" class="key-row-mini" style="justify-content:space-between;">⚡ Chưa kích hoạt</div>
-        </div>
-        <div class="note-tiny">🔒 Key có thời hạn (ngày). Admin key "nhoang123" toàn quyền tạo key.</div>
-    </div>
-
-    <div id="adminzonePanel" class="panel">
-        <div class="glass-card">
-            <div class="card-title">✨ TẠO KEY (THỜI HẠN)</div>
-            <div class="key-group">
-                <input type="text" id="newKeyNameAdmin" placeholder="Tên key (VD: DRAGON)">
-                <input type="number" id="keyExpiryDays" placeholder="Số ngày" value="30" style="width:90px; text-align:center;">
-                <button class="btn-sm" id="genSupremeKey">⚡ SINH</button>
-            </div>
-            <div id="genKeyResult" style="color:#ffd700; font-size:12px; margin-top:6px;"></div>
-        </div>
-        <div class="glass-card">
-            <div class="card-title">🗝️ KHO KEY (ADMIN)</div>
-            <div id="adminKeyListVip" class="key-list-scroll">-- chưa có key --</div>
-            <button class="btn-full" id="refreshAdminVipBtn" style="margin-top:14px;">⟳ LÀM MỚI</button>
-        </div>
-        <div class="note-tiny">⚠️ Admin tạo key với số ngày hạn dùng. Key hết hạn không thể kích hoạt.</div>
-    </div>
-</div>
-
-<div id="lockOverlay" class="lock-overlay">
-    <div class="lock-card">
-        <h2>🔐 NHẬP KEY</h2>
-        <input type="text" id="lockKeyInput" placeholder="Nhập key kích hoạt" autocomplete="off">
-        <button id="unlockBtn">KÍCH HOẠT</button>
-        <div id="lockError" class="lock-error"></div>
-    </div>
-</div>
-
-<script>
-    // ========== HỆ THỐNG KEY (ĐÃ FIX HOÀN TOÀN) ==========
-    const MASTER_ADMIN = "nhoang123";
-    let keysStorage = {};
-    let deviceId = localStorage.getItem("device_vip");
-    if(!deviceId){
-        deviceId = "VIP_" + Date.now() + "_" + Math.random().toString(36).substr(2,10);
-        localStorage.setItem("device_vip", deviceId);
-    }
-    
-    let currentSession = null;
-    let isAdminMode = false;
-    
-    function getExpiryFromDays(days){
-        let d = new Date();
-        d.setDate(d.getDate() + days);
-        return d.getTime();
-    }
-    
-    function isKeyExpired(expiryTs){
-        if(!expiryTs) return false;
-        return Date.now() > expiryTs;
-    }
-    
-    function loadKeyDB(){
-        let raw = localStorage.getItem("vip_keys_db_final");
-        if(raw){
-            try {
-                keysStorage = JSON.parse(raw);
-            } catch(e) {
-                keysStorage = {};
-            }
-        } else {
-            keysStorage = {};
-        }
-        console.log("Loaded keys:", Object.keys(keysStorage));
-    }
-    
-    function saveKeys(){
-        localStorage.setItem("vip_keys_db_final", JSON.stringify(keysStorage));
-        console.log("Saved keys:", Object.keys(keysStorage));
-    }
-    
-    // Hàm kích hoạt key (FIX LỖI CHÍNH)
-    function activateLicense(rawKey){
-        let key = rawKey.trim();
-        if(!key) return false;
-        
-        // Key Admin
-        if(key === MASTER_ADMIN){
-            currentSession = { key: key, isAdmin: true };
-            isAdminMode = true;
-            return true;
-        }
-        
-        let keyData = keysStorage[key];
-        if(!keyData){
-            console.log("Key not found:", key);
-            return false;
-        }
-        
-        if(keyData.expiryTimestamp && isKeyExpired(keyData.expiryTimestamp)){
-            console.log("Key expired:", key);
-            return false;
-        }
-        
-        if(keyData.deviceId && keyData.deviceId !== deviceId){
-            console.log("Key used on another device:", key);
-            return false;
-        }
-        
-        if(keyData.deviceId === null){
-            keyData.deviceId = deviceId;
-            saveKeys();
-        }
-        
-        currentSession = { key: key, isAdmin: false, data: keyData };
-        isAdminMode = false;
-        return true;
-    }
-    
-    // ========== RENDER GIAO DIỆN ==========
-    function renderFeaturePanel(){
-        let panel = document.getElementById("featurePanel");
-        if(!currentSession){
-            panel.innerHTML = `
-                <div class="glass-card" style="text-align:center">
-                    <div class="card-title">🔒 KHÓA TÍNH NĂNG</div>
-                    <p style="margin:12px 0 18px; font-size:13px;">Vui lòng nhập key để kích hoạt hack</p>
-                    <button class="btn-full" id="gotoKeyBtn">🔑 MỞ KEY</button>
+                <!-- Panel chính -->
+        <div class="panel-container" id="panelPage" style="display: none;">
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">⚡ UCHIHA OPTIMIZER</div>
+                    <div class="version-info">Version 1.0 | Status: <span style="color: #00ff00;">Active</span></div>
                 </div>
-            `;
-            let go = document.getElementById("gotoKeyBtn");
-            if(go) go.onclick = () => document.querySelector("[data-tab='keymanager']").click();
-            return;
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span class="status-badge">KEY VALID</span>
+                    <button class="logout-btn" id="logoutBtn">LOGOUT</button>
+                </div>
+            </div>
+            
+            <!-- Danh sách tính năng -->
+            <div class="feature-list">
+                <!-- Fix Lag / Tối ưu FPS -->
+                <div class="feature-item" data-feature="fixLag">
+                    <div class="feature-info">
+                        <div class="feature-name">Fix Lag / Tối ưu FPS</div>
+                        <div class="feature-desc">Giảm độ trễ, tối ưu khung hình</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle_fixLag">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <!-- Tăng Point Speed -->
+                <div class="feature-item" data-feature="pointSpeed">
+                    <div class="feature-info">
+                        <div class="feature-name">Tăng Point Speed</div>
+                        <div class="feature-desc">Tăng tốc độ di chuyển chuột</div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" class="slider-input" id="slider_pointSpeed" min="1" max="100" value="50">
+                        <div class="slider-value" id="value_pointSpeed">50%</div>
+                    </div>
+                </div>
+                
+                <!-- Tăng Sensitivity -->
+                <div class="feature-item" data-feature="sensitivity">
+                    <div class="feature-info">
+                        <div class="feature-name">Tăng Sensitivity</div>
+                        <div class="feature-desc">Điều chỉnh độ nhạy chuột</div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" class="slider-input" id="slider_sensitivity" min="1" max="100" value="50">
+                        <div class="slider-value" id="value_sensitivity">50%</div>
+                    </div>
+                </div>
+                
+                <!-- Giảm Input Lag -->
+                <div class="feature-item" data-feature="inputLag">
+                    <div class="feature-info">
+                        <div class="feature-name">Giảm Input Lag</div>
+                        <div class="feature-desc">Giảm độ trễ đầu vào</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle_inputLag">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <!-- Tối ưu RAM & CPU -->
+                <div class="feature-item" data-feature="ramCpu">
+                    <div class="feature-info">
+                        <div class="feature-name">Tối ưu RAM & CPU</div>
+                        <div class="feature-desc">Giải phóng bộ nhớ, tối ưu CPU</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle_ramCpu">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <!-- Clear Cache -->
+                <div class="feature-item" data-feature="clearCache">
+                    <div class="feature-info">
+                        <div class="feature-name">Clear Cache</div>
+                        <div class="feature-desc">Xóa bộ nhớ đệm hệ thống</div>
+                    </div>
+                    <button class="admin-btn" id="btn_clearCache">EXECUTE</button>
+                </div>
+                
+                <!-- Boost Game Performance -->
+                <div class="feature-item" data-feature="boostGame">
+                    <div class="feature-info">
+                        <div class="feature-name">Boost Game Performance</div>
+                        <div class="feature-desc">Tăng hiệu suất game tối đa</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle_boostGame">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+                
+                <!-- Auto Optimize -->
+                <div class="feature-item" data-feature="autoOptimize">
+                    <div class="feature-info">
+                        <div class="feature-name">Auto Optimize</div>
+                        <div class="feature-desc">Tự động tối ưu khi khởi động</div>
+                    </div>
+                    <div class="toggle-switch" id="toggle_autoOptimize">
+                        <div class="toggle-knob"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Panel -->
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="admin-btn" id="adminToggleBtn">ADMIN PANEL</button>
+            </div>
+            
+            <div class="admin-panel" id="adminPanel">
+                <div class="admin-title">🔑 Key Management</div>
+                <input 
+                    type="text" 
+                    class="admin-input" 
+                    id="newKeyInput" 
+                    placeholder="Nhập key mới..."
+                >
+                <button class="btn" id="addKeyBtn" style="width: auto; padding: 10px 30px; font-size: 16px;">
+                    THÊM KEY
+                </button>
+                <div class="key-list" id="keyList">
+                    <!-- Danh sách key sẽ hiển thị ở đây -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // UCHIHA PANEL - OPTIMIZER JAVASCRIPT
+        // ============================================
+        
+        // --- Cấu hình ---
+        const ADMIN_KEY = 'nhoang123'; // Key admin mặc định
+        
+        // --- Khởi tạo LocalStorage ---
+        function initializeStorage() {
+            // Tạo danh sách key mặc định nếu chưa có
+            if (!localStorage.getItem('uchiha_keys')) {
+                const defaultKeys = ['nhoang123', 'uchiha2024', 'sharingan1'];
+                localStorage.setItem('uchiha_keys', JSON.stringify(defaultKeys));
+            }
+            
+            // Tạo trạng thái các tính năng nếu chưa có
+            if (!localStorage.getItem('uchiha_features')) {
+                const defaultFeatures = {
+                    fixLag: false,
+                    pointSpeed: 50,
+                    sensitivity: 50,
+                    inputLag: false,
+                    ramCpu: false,
+                    boostGame: false,
+                    autoOptimize: false
+                };
+                localStorage.setItem('uchiha_features', JSON.stringify(defaultFeatures));
+            }
+            
+            // Trạng thái đăng nhập
+            if (!localStorage.getItem('uchiha_logged_in')) {
+                localStorage.setItem('uchiha_logged_in', 'false');
+            }
         }
-        panel.innerHTML = `
-            <div class="glass-card">
-                <div class="card-title">🎯 AIM LOCK</div>
-                <div class="row-control"><label>🔒 Độ bám</label><input type="range" id="aimPower" min="0" max="100" value="94"><span id="aimShow" class="value-badge">94%</span></div>
-                <div class="row-control"><label>⚡ Tốc độ khóa</label><input type="range" id
+        
+        // --- Lấy danh sách key ---
+        function getKeys() {
+            return JSON.parse(localStorage.getItem('uchiha_keys') || '[]');
+        }
+        
+        // --- Lưu danh sách key ---
+        function saveKeys(keys) {
+            localStorage.setItem('uchiha_keys', JSON.stringify(keys));
+        }
+        
+        // --- Lấy trạng thái tính năng ---
+        function getFeatures() {
+            return JSON.parse(localStorage.getItem('uchiha_features') || '{}');
+        }
+        
+        // --- Lưu trạng thái tính năng ---
+        function saveFeatures(features) {
+            localStorage.setItem('uchiha_features', JSON.stringify(features));
+        }
+        
+        // --- Kiểm tra key hợp lệ ---
+        function isValidKey(key) {
+            const keys = getKeys();
+            return keys.includes(key);
+        }
+        
+        // --- Kiểm tra có phải admin key không ---
+        function isAdminKey(key) {
+            return key === ADMIN_KEY;
+        }
+        
+        // --- Hiển thị trang đăng nhập ---
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('panelPage').style.display = 'none';
+            localStorage.setItem('uchiha_logged_in', 'false');
+        }
+        
+        // --- Hiển thị panel chính ---
+        function showPanelPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('panelPage').style.display = 'block';
+            localStorage.setItem('uchiha_logged_in', 'true');
+            loadFeatureStates();
+            updateKeyList();
+        }
+        
+        // --- Đăng xuất ---
+        function logout() {
+            showLoginPage();
+            document.getElementById('keyInput').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+        
+        // --- Load trạng thái các tính năng ---
+        function loadFeatureStates() {
+            const features = getFeatures();
+            
+            // Load toggle switches
+            ['fixLag', 'inputLag', 'ramCpu', 'boostGame', 'autoOptimize'].forEach(feature => {
+                const toggle = document.getElementById(`toggle_${feature}`);
+                if (toggle) {
+                    if (features[feature]) {
+                        toggle.classList.add('active');
+                    } else {
+                        toggle.classList.remove('active');
+                    }
+                }
+            });
+            
+            // Load sliders
+            ['pointSpeed', 'sensitivity'].forEach(feature => {
+                const slider = document.getElementById(`slider_${feature}`);
+                const value = document.getElementById(`value_${feature}`);
+                if (slider && value) {
+                    slider.value = features[feature] || 50;
+                    value.textContent = slider.value + '%';
+                }
+            });
+        }
+        
+        // --- Cập nhật trạng thái toggle ---
+        function toggleFeature(featureName) {
+            const features = getFeatures();
+            features[featureName] = !features[featureName];
+            saveFeatures(features);
+            
+            // Cập nhật UI
+            const toggle = document.getElementById(`toggle_${featureName}`);
+            if (toggle) {
+                if (features[featureName]) {
+                    toggle.classList.add('active');
+                } else {
+                    toggle.classList.remove('active');
+                }
+            }
+            
+            // Hiệu ứng thông báo
+            showNotification(`${featureName.toUpperCase()}: ${features[featureName] ? 'ON' : 'OFF'}`);
+        }
+        
+        // --- Cập nhật slider ---
+        function updateSlider(featureName, value) {
+            const features = getFeatures();
+            features[featureName] = parseInt(value);
+            saveFeatures(features);
+            
+            // Cập nhật UI
+            const valueDisplay = document.getElementById(`value_${featureName}`);
+            if (valueDisplay) {
+                valueDisplay.textContent = value + '%';
+            }
+        }
+        
+        // --- Thực hiện clear cache ---
+        function executeClearCache() {
+            // Mô phỏng clear cache (trong thực tế sẽ gọi API hoặc thực hiện hành động khác)
+            showNotification('ĐANG XÓA CACHE...');
+            
+            setTimeout(() => {
+                showNotification('CACHE ĐÃ ĐƯỢC XÓA THÀNH CÔNG!');
+            }, 1500);
+        }
+        
+        // --- Hiển thị thông báo ---
+        function showNotification(message) {
+            // Tạo element thông báo
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 0, 0, 0.9);
+                color: #fff;
+                padding: 15px 25px;
+                border-radius: 5px;
+                font-family: 'Rajdhani', sans-serif;
+                font-weight: 600;
+                letter-spacing: 1px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s forwards;
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            `;
+            
+            // Thêm animation keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Xóa thông báo sau 3 giây
+            setTimeout(() => {
+                document.body.removeChild(notification);
+                document.head.removeChild(style);
+            }, 3000);
+        }
+                // --- Thêm key mới ---
+        function addNewKey(newKey) {
+            if (!newKey || newKey.trim() === '') {
+                showNotification('VUI LÒNG NHẬP KEY!');
+                return;
+            }
+            
+            const keys = getKeys();
+            if (keys.includes(newKey)) {
+                showNotification('KEY ĐÃ TỒN TẠI!');
+                return;
+            }
+            
+            keys.push(newKey);
+            saveKeys(keys);
+            updateKeyList();
+            document.getElementById('newKeyInput').value = '';
+            showNotification('ĐÃ THÊM KEY MỚI: ' + newKey);
+        }
+        
+        // --- Xóa key ---
+        function deleteKey(keyToDelete) {
+            // Không cho phép xóa key admin
+            if (keyToDelete === ADMIN_KEY) {
+                showNotification('KHÔNG THỂ XÓA KEY ADMIN!');
+                return;
+            }
+            
+            const keys = getKeys();
+            const filteredKeys = keys.filter(key => key !== keyToDelete);
+            saveKeys(filteredKeys);
+            updateKeyList();
+            showNotification('ĐÃ XÓA KEY: ' + keyToDelete);
+        }
+        
+        // --- Cập nhật danh sách key trong admin panel ---
+        function updateKeyList() {
+            const keyList = document.getElementById('keyList');
+            if (!keyList) return;
+            
+            const keys = getKeys();
+            keyList.innerHTML = keys.map(key => `
+                <div class="key-item">
+                    <span>${key} ${key === ADMIN_KEY ? '(ADMIN)' : ''}</span>
+                    ${key !== ADMIN_KEY ? `<button class="delete-key-btn" onclick="deleteKey('${key}')">XÓA</button>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // --- Khởi tạo sự kiện ---
+        function initializeEvents() {
+            // Sự kiện đăng nhập
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                const key = document.getElementById('keyInput').value.trim();
+                const errorMsg = document.getElementById('errorMsg');
+                
+                if (isValidKey(key)) {
+                    errorMsg.style.display = 'none';
+                    // Lưu key hiện tại để kiểm tra admin
+                    sessionStorage.setItem('current_key', key);
+                    showPanelPage();
+                    
+                    // Hiển thị admin panel nếu là admin key
+                    if (isAdminKey(key)) {
+                        document.getElementById('adminToggleBtn').style.display = 'inline-block';
+                    } else {
+                        document.getElementById('adminToggleBtn').style.display = 'none';
+                        document.getElementById('adminPanel').style.display = 'none';
+                    }
+                } else {
+                    errorMsg.style.display = 'block';
+                    document.getElementById('keyInput').style.animation = 'shake 0.5s ease';
+                    setTimeout(() => {
+                        document.getElementById('keyInput').style.animation = '';
+                    }, 500);
+                }
+            });
+            
+            // Cho phép nhấn Enter để đăng nhập
+            document.getElementById('keyInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('loginBtn').click();
+                }
+            });
+            
+            // Sự kiện đăng xuất
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            // Sự kiện toggle các tính năng
+            ['fixLag', 'inputLag', 'ramCpu', 'boostGame', 'autoOptimize'].forEach(feature => {
+                const toggle = document.getElementById(`toggle_${feature}`);
+                if (toggle) {
+                    toggle.addEventListener('click', () => toggleFeature(feature));
+                }
+            });
+            
+            // Sự kiện slider
+            ['pointSpeed', 'sensitivity'].forEach(feature => {
+                const slider = document.getElementById(`slider_${feature}`);
+                if (slider) {
+                    slider.addEventListener('input', (e) => {
+                        updateSlider(feature, e.target.value);
+                    });
+                }
+            });
+            
+            // Sự kiện clear cache
+            document.getElementById('btn_clearCache').addEventListener('click', executeClearCache);
+            
+            // Sự kiện admin panel toggle
+            document.getElementById('adminToggleBtn').addEventListener('click', () => {
+                const adminPanel = document.getElementById('adminPanel');
+                const currentKey = sessionStorage.getItem('current_key');
+                
+                if (!isAdminKey(currentKey)) {
+                    showNotification('CHỈ ADMIN MỚI CÓ QUYỀN TRUY CẬP!');
+                    return;
+                }
+                
+                if (adminPanel.style.display === 'none' || adminPanel.style.display === '') {
+                    adminPanel.style.display = 'block';
+                } else {
+                    adminPanel.style.display = 'none';
+                }
+            });
+            
+            // Sự kiện thêm key
+            document.getElementById('addKeyBtn').addEventListener('click', () => {
+                const newKey = document.getElementById('newKeyInput').value.trim();
+                addNewKey(newKey);
+            });
+            
+            // Cho phép nhấn Enter để thêm key
+            document.getElementById('newKeyInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('addKeyBtn').click();
+                }
+            });
+        }
+        
+        // --- Kiểm tra trạng thái đăng nhập khi load trang ---
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('uchiha_logged_in') === 'true';
+            const currentKey = sessionStorage.getItem('current_key');
+            
+            if (isLoggedIn && currentKey && isValidKey(currentKey)) {
+                showPanelPage();
+                if (isAdminKey(currentKey)) {
+                    document.getElementById('adminToggleBtn').style.display = 'inline-block';
+                } else {
+                    document.getElementById('adminToggleBtn').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'none';
+                }
+            } else {
+                showLoginPage();
+            }
+        }
+        
+        // --- Thêm animation shake cho key input ---
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(shakeStyle);
+        
+        // --- Khởi tạo toàn bộ ứng dụng ---
+        function initApp() {
+            initializeStorage();
+            initializeEvents();
+            checkLoginStatus();
+        }
+        
+        // Chạy ứng dụng khi DOM đã load xong
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // --- Xử lý sự kiện click vào feature item để toggle ---
+        document.addEventListener('click', (e) => {
+            const featureItem = e.target.closest('.feature-item');
+            if (featureItem && e.target.closest('.toggle-switch')) {
+                // Đã xử lý bởi toggle event
+                return;
+            }
+        });
+    </script>
+</body>
+                    </html>
+                     
