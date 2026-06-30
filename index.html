@@ -1,1092 +1,907 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCHIHA PANEL - OPTIMIZER</title>
-    <style>
-        /* === CSS TOÀN BỘ GIAO DIỆN === */
-        
-        /* Font chính - phong cách Uchiha mạnh mẽ */
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        /* Hiệu ứng nền lửa và sharingan */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 70%),
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 0, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-            animation: fireFlicker 3s ease-in-out infinite;
-        }
-        
-        @keyframes fireFlicker {
-            0%, 100% { opacity: 0.8; }
-            25% { opacity: 1; }
-            50% { opacity: 0.6; }
-            75% { opacity: 0.9; }
-        }
-        
-        /* Hiệu ứng Sharingan nền */
-        .sharingan-bg {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background: conic-gradient(
-                from 0deg,
-                transparent 0deg,
-                rgba(255, 0, 0, 0.03) 45deg,
-                transparent 90deg,
-                rgba(255, 0, 0, 0.03) 135deg,
-                transparent 180deg,
-                rgba(255, 0, 0, 0.03) 225deg,
-                transparent 270deg,
-                rgba(255, 0, 0, 0.03) 315deg,
-                transparent 360deg
-            );
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: rotateSharingan 20s linear infinite;
-        }
-        
-        @keyframes rotateSharingan {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        /* Container chính */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            justify-content: center;
-        }
-        
-        /* Style cho trang đăng nhập Key */
-        .login-container {
-            background: linear-gradient(135deg, rgba(20, 0, 0, 0.9), rgba(40, 0, 0, 0.8));
-            border: 2px solid #ff0000;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 
-                0 0 30px rgba(255, 0, 0, 0.3),
-                0 0 60px rgba(255, 0, 0, 0.1),
-                inset 0 0 30px rgba(255, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                transparent,
-                rgba(255, 0, 0, 0.1),
-                transparent 30%,
-                rgba(255, 0, 0, 0.1),
-                transparent 50%,
-                rgba(255, 0, 0, 0.1),
-                transparent 70%,
-                rgba(255, 0, 0, 0.1),
-                transparent
-            );
-            animation: spin 10s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .login-container * {
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Logo Uchiha */
-        .uchiha-logo {
-            font-size: 50px;
-            color: #ff0000;
-            text-shadow: 
-                0 0 20px rgba(255, 0, 0, 0.8),
-                0 0 40px rgba(255, 0, 0, 0.4);
-            margin-bottom: 20px;
-            animation: glowPulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes glowPulse {
-            0%, 100% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
-            50% { text-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 60px rgba(255, 0, 0, 0.6); }
-        }
-        
-        .title {
-            font-size: 36px;
-            font-weight: 700;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-        
-        .subtitle {
-            font-size: 16px;
-            color: #ccc;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-        }
-        
-        /* Input Key */
-        .key-input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff0000;
-            border-radius: 5px;
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-        }
-        
-        .key-input:focus {
-            border-color: #ff4444;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            background: rgba(20, 0, 0, 0.8);
-        }
-        
-        .key-input::placeholder {
-            color: #666;
-            letter-spacing: 1px;
-        }
-        
-        /* Nút bấm */
-        .btn {
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #cc0000, #660000);
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 20px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .btn:hover::before {
-            left: 100%;
-        }
-                .btn:hover {
-            background: linear-gradient(135deg, #ff0000, #990000);
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-        }
-        
-        /* Panel chính */
-        .panel-container {
-            display: none;
-            background: linear-gradient(135deg, rgba(20, 0, 0, 0.95), rgba(40, 0, 0, 0.9));
-            border: 2px solid #ff0000;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 
-                0 0 30px rgba(255, 0, 0, 0.3),
-                0 0 60px rgba(255, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px;
-        }
-        
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 0, 0, 0.3);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .panel-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-        
-        .status-badge {
-            padding: 8px 20px;
-            background: rgba(0, 255, 0, 0.1);
-            border: 1px solid #00ff00;
-            border-radius: 20px;
-            color: #00ff00;
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        
-        .version-info {
-            font-size: 14px;
-            color: #999;
-            letter-spacing: 1px;
-        }
-        
-        /* Danh sách chức năng */
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .feature-item {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .feature-item:hover {
-            border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .feature-info {
-            flex: 1;
-        }
-        
-        .feature-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        
-        .feature-desc {
-            font-size: 14px;
-            color: #aaa;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Toggle Switch */
-        .toggle-switch {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: #333;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 0, 0, 0.3);
-        }
-        
-        .toggle-switch.active {
-            background: #ff0000;
-            border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-        }
-        
-        .toggle-knob {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 24px;
-            height: 24px;
-            background: #fff;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .toggle-switch.active .toggle-knob {
-            left: 32px;
-        }
-        
-        /* Slider */
-        .slider-container {
-            width: 150px;
-        }
-        
-        .slider-input {
-            width: 100%;
-            height: 6px;
-            background: #333;
-            outline: none;
-            border-radius: 3px;
-            -webkit-appearance: none;
-            appearance: none;
-            cursor: pointer;
-        }
-        
-        .slider-input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #ff0000;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-        
-        .slider-value {
-            text-align: center;
-            color: #ff0000;
-            font-weight: 600;
-            margin-top: 5px;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        
-        /* Nút Admin */
-        .admin-btn {
-            padding: 8px 20px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            border-radius: 5px;
-            color: #ff0000;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-         .admin-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-        
-        /* Admin Panel */
-        .admin-panel {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #ff0000;
-            border-radius: 10px;
-        }
-        
-        .admin-title {
-            font-size: 20px;
-            color: #ff0000;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .admin-input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #ff0000;
-            border-radius: 5px;
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
-            margin-bottom: 10px;
-            outline: none;
-        }
-        
-        .key-list {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .key-item {
-            padding: 8px 12px;
-            background: rgba(255, 0, 0, 0.1);
-            margin-bottom: 5px;
-            border-radius: 3px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-        }
-        
-        .delete-key-btn {
-            background: none;
-            border: 1px solid #ff0000;
-            color: #ff0000;
-            padding: 2px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 12px;
-            transition: all 0.3s ease;
-        }
-        
-        .delete-key-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
-        }
-        
-        /* Logout button */
-        .logout-btn {
-            padding: 8px 20px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            border-radius: 5px;
-            color: #ff0000;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .logout-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-        
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .panel-container,
-            .login-container {
-                padding: 20px;
-            }
-            
-            .panel-title {
-                font-size: 24px;
-            }
-            
-            .feature-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .slider-container {
-                width: 100%;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>写輪眼 // UCHIHA KEY SYSTEM</title>
+<style>
+/* ============================================================
+   UCHIHA KEY SYSTEM — Toàn bộ CSS viết tay, không dùng thư viện
+   ============================================================ */
+:root{
+  --uchiha-red:#8B0000;
+  --uchiha-red-bright:#d40000;
+  --uchiha-black:#1a1a1a;
+  --mangekyou-purple:#4a0e0e;
+  --bg-deep:#0c0808;
+  --text-light:#f1e3e3;
+  --text-dim:#a98e8e;
+  --gold:#caa24a;
+  --success:#1f8b6e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',"Noto Serif",serif;
+  background:var(--bg-deep);
+  color:var(--text-light);
+  overflow-x:hidden;
+  cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><circle cx="14" cy="14" r="12" fill="black" stroke="%23d40000" stroke-width="2"/><circle cx="14" cy="14" r="3" fill="%23d40000"/><circle cx="14" cy="7" r="2" fill="%23d40000"/><circle cx="9" cy="18" r="2" fill="%23d40000"/><circle cx="19" cy="18" r="2" fill="%23d40000"/></svg>') 14 14, auto;
+  position:relative;
+}
+
+/* Nền hoa văn Mangekyou Sharingan mờ + quạt Uchiha lặp lại */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(139,0,0,0.10) 0, transparent 35%),
+    radial-gradient(circle at 85% 75%, rgba(74,14,14,0.18) 0, transparent 40%),
+    repeating-linear-gradient(45deg, rgba(139,0,0,0.03) 0 2px, transparent 2px 40px);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ============== Particle lửa đen Amaterasu bay nền ============== */
+#particles{position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;}
+.particle{
+  position:absolute; bottom:-20px;
+  width:6px; height:6px; border-radius:50%;
+  background:radial-gradient(circle, #2b2b2b 0%, #000 60%, transparent 100%);
+  box-shadow:0 0 8px 2px rgba(139,0,0,0.6);
+  animation:floatUp linear infinite;
+  opacity:0.8;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) translateX(0) scale(1); opacity:0.9;}
+  100%{transform:translateY(-110vh) translateX(var(--drift,30px)) scale(0.2); opacity:0;}
+}
+
+/* ============================ LOGIN SCREEN ============================ */
+#loginScreen{
+  position:fixed; inset:0; z-index:50;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    linear-gradient(180deg, rgba(10,5,5,0.85), rgba(10,5,5,0.95)),
+    radial-gradient(ellipse at center, #2a1010 0%, #0c0808 75%);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.uchiha-fan-bg{
+  position:absolute; inset:0; z-index:-1; opacity:0.10;
+  background-image:repeating-radial-gradient(circle at 50% 50%, var(--uchiha-red) 0 2px, transparent 2px 90px);
+  animation:slowSpin 90s linear infinite;
+}
+@keyframes slowSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.login-box{
+  width:380px; max-width:92vw;
+  background:linear-gradient(160deg, #1d1212 0%, #120a0a 100%);
+  border:2px solid var(--uchiha-red);
+  border-radius:10px;
+  padding:34px 30px;
+  position:relative;
+  box-shadow:0 0 35px rgba(139,0,0,0.45), inset 0 0 25px rgba(0,0,0,0.6);
+  animation:appear .6s ease;
+}
+@keyframes appear{from{opacity:0; transform:translateY(20px) scale(.96)} to{opacity:1; transform:translateY(0) scale(1)}}
+
+/* Viền hình quạt Uchiha đỏ trắng góc */
+.login-box::before, .login-box::after{
+  content:""; position:absolute; width:26px; height:26px;
+  background:linear-gradient(135deg, var(--uchiha-red) 50%, #fff 50%);
+  clip-path:polygon(0 0, 100% 0, 0 100%);
+}
+.login-box::before{top:-2px; left:-2px;}
+.login-box::after{bottom:-2px; right:-2px; transform:rotate(180deg);}
+
+.sharingan-logo{
+  width:90px; height:90px; margin:0 auto 14px;
+  border-radius:50%;
+  background:radial-gradient(circle, #b30000 0%, #5c0000 60%, #1a0000 100%);
+  border:3px solid #000;
+  position:relative;
+  box-shadow:0 0 25px rgba(212,0,0,0.7);
+  animation:sharinganSpin 8s linear infinite;
+}
+.sharingan-logo .pupil{
+  position:absolute; top:50%; left:50%; width:18px; height:18px;
+  background:#000; border-radius:50%; transform:translate(-50%,-50%);
+}
+.tomoe{position:absolute; width:14px; height:18px;}
+.tomoe::before{content:""; display:block; width:100%; height:100%; background:#000; border-radius:60% 60% 60% 0; }
+.tomoe.t1{top:8px; left:38px; transform:rotate(0deg);}
+.tomoe.t2{top:38px; left:62px; transform:rotate(120deg);}
+.tomoe.t3{top:60px; left:24px; transform:rotate(240deg);}
+@keyframes sharinganSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.login-title{
+  text-align:center; font-size:22px; letter-spacing:2px;
+  color:var(--uchiha-red-bright); text-shadow:0 0 10px rgba(212,0,0,0.7);
+  margin-bottom:4px; font-weight:bold;
+}
+.login-sub{text-align:center; font-size:12px; color:var(--text-dim); margin-bottom:24px; letter-spacing:1px;}
+
+.input-group{margin-bottom:18px;}
+.input-group label{display:block; font-size:12px; color:var(--gold); margin-bottom:6px; letter-spacing:1px;}
+.input-group input{
+  width:100%; padding:11px 14px; background:#0e0808; border:1px solid #4a1818;
+  border-radius:6px; color:var(--text-light); font-size:14px; outline:none;
+  transition:border-color .3s, box-shadow .3s;
+  font-family:inherit;
+}
+.input-group input:focus{border-color:var(--uchiha-red-bright); box-shadow:0 0 12px rgba(212,0,0,0.5);}
+
+.btn-uchiha{
+  width:100%; padding:13px; border:none; border-radius:6px; cursor:pointer;
+  background:linear-gradient(135deg, var(--uchiha-red) 0%, var(--mangekyou-purple) 100%);
+  color:#fff; font-size:15px; font-weight:bold; letter-spacing:2px;
+  box-shadow:0 4px 14px rgba(139,0,0,0.4);
+  transition:transform .2s, box-shadow .2s, background .3s;
+  position:relative; overflow:hidden;
+}
+.btn-uchiha:hover{transform:translateY(-2px); box-shadow:0 6px 22px rgba(212,0,0,0.7); background:linear-gradient(135deg, #b00000 0%, #6b1414 100%);}
+.btn-uchiha:active{transform:translateY(0);}
+
+.login-error{
+  display:none; margin-top:16px; padding:10px 12px; text-align:center;
+  border:1px solid var(--uchiha-red-bright); border-radius:6px;
+  background:rgba(139,0,0,0.18); color:#ff6464; font-size:13px;
+  animation:mangekyouFlash .5s ease;
+}
+@keyframes mangekyouFlash{
+  0%{box-shadow:0 0 0 rgba(212,0,0,0)}
+  40%{box-shadow:0 0 40px rgba(212,0,0,0.9)}
+  100%{box-shadow:0 0 12px rgba(212,0,0,0.4)}
+}
+
+/* ===================== Kamui warp transition ===================== */
+#kamuiWarp{
+  position:fixed; inset:0; z-index:100; pointer-events:none;
+  background:radial-gradient(circle at center, transparent 0%, #4a0e0e 2%, #000 60%);
+  opacity:0; mix-blend-mode:normal;
+}
+#kamuiWarp.active{animation:kamuiSpiral 1s ease forwards;}
+@keyframes kamuiSpiral{
+  0%{opacity:0; transform:scale(0.2) rotate(0deg);}
+  35%{opacity:1; transform:scale(1.4) rotate(180deg);}
+  70%{opacity:1; transform:scale(2.4) rotate(420deg);}
+  100%{opacity:0; transform:scale(4) rotate(620deg);}
+}
+
+/* ============================ MAIN PANEL ============================ */
+#mainPanel{display:none; position:relative; z-index:2; min-height:100vh;}
+.header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 28px; background:linear-gradient(180deg, #1d1212, #120a0a);
+  border-bottom:2px solid var(--uchiha-red);
+  flex-wrap:wrap; gap:12px;
+}
+.header-left{display:flex; align-items:center; gap:14px;}
+.mini-sharingan{
+  width:42px; height:42px; border-radius:50%;
+  background:radial-gradient(circle, #b30000, #5c0000 60%, #1a0000 100%);
+  border:2px solid #000; position:relative; animation:sharinganSpin 10s linear infinite;
+  flex-shrink:0;
+}
+.mini-sharingan .pupil{position:absolute; top:50%;left:50%;width:9px;height:9px;background:#000;border-radius:50%;transform:translate(-50%,-50%);}
+.header-title{font-size:18px; letter-spacing:2px; color:var(--uchiha-red-bright); text-shadow:0 0 8px rgba(212,0,0,0.5);}
+.header-title small{display:block; font-size:11px; color:var(--text-dim); letter-spacing:1px;}
+
+.header-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+.role-badge{
+  display:flex; align-items:center; gap:8px; padding:7px 14px; border-radius:20px;
+  font-size:12px; letter-spacing:1px; border:1px solid var(--uchiha-red);
+  background:rgba(139,0,0,0.12);
+}
+.role-badge .dot{width:9px; height:9px; border-radius:50%;}
+.role-badge.admin .dot{background:#ff3b3b; box-shadow:0 0 8px #ff3b3b;}
+.role-badge.normal .dot{background:#caa24a; box-shadow:0 0 8px #caa24a;}
+
+.btn-logout{
+  padding:8px 16px; background:transparent; border:1px solid var(--uchiha-red); color:var(--text-light);
+  border-radius:6px; cursor:pointer; font-size:12px; letter-spacing:1px; transition:.25s;
+  font-family:inherit;
+}
+.btn-logout:hover{background:var(--uchiha-red); box-shadow:0 0 14px rgba(212,0,0,.6);}
+
+.container{max-width:1180px; margin:0 auto; padding:26px 20px 60px;}
+
+.tabs{display:flex; gap:10px; margin-bottom:22px; flex-wrap:wrap;}
+.tab-btn{
+  padding:10px 20px; background:#160d0d; border:1px solid #3a1414; color:var(--text-dim);
+  border-radius:6px 6px 0 0; cursor:pointer; font-size:13px; letter-spacing:1px; transition:.25s;
+  font-family:inherit;
+}
+.tab-btn.active, .tab-btn:hover{color:#fff; background:linear-gradient(135deg, var(--uchiha-red), var(--mangekyou-purple)); border-color:var(--uchiha-red-bright);}
+.tab-content{display:none; animation:appear .4s ease;}
+.tab-content.active{display:block;}
+
+.panel-card{
+  background:linear-gradient(160deg, #1a1010 0%, #110a0a 100%);
+  border:1px solid #3a1414; border-radius:10px; padding:22px;
+  margin-bottom:20px; position:relative;
+}
+.panel-card h3{color:var(--gold); font-size:15px; margin-bottom:14px; letter-spacing:1px; display:flex; align-items:center; gap:8px;}
+
+/* ===================== Tính năng grid ===================== */
+.func-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;}
+.func-card{
+  background:radial-gradient(ellipse at top, #220f0f, #140a0a);
+  border:1px solid var(--uchiha-red); border-radius:10px; padding:20px; text-align:center;
+  position:relative; overflow:hidden;
+}
+.func-icon{
+  width:56px; height:56px; margin:0 auto 12px; border-radius:50%;
+  background:radial-gradient(circle, #b30000, #3a0000 70%); border:2px solid #000;
+  display:flex; align-items:center; justify-content:center; font-size:24px;
+}
+.func-card h4{font-size:14px; color:var(--text-light); margin-bottom:6px; letter-spacing:1px;}
+.func-card p{font-size:11.5px; color:var(--text-dim); margin-bottom:14px; line-height:1.5;}
+.func-status{font-size:11px; margin-top:10px; color:var(--text-dim); min-height:16px;}
+.func-status.done{color:#4ad6a4;}
+
+/* Susanoo glow khi active */
+.susanoo-active{
+  box-shadow:0 0 0px rgba(45,150,255,0); 
+  animation:susanooRise .9s ease forwards;
+}
+@keyframes susanooRise{
+  0%{box-shadow:0 0 0 rgba(45,150,255,0);}
+  50%{box-shadow:0 0 45px rgba(45,150,255,0.85), inset 0 0 25px rgba(45,150,255,0.4);}
+  100%{box-shadow:0 0 18px rgba(45,150,255,0.45);}
+}
+
+/* progress bar lửa Amaterasu */
+.progress-wrap{height:14px; background:#0e0808; border:1px solid #3a1414; border-radius:8px; overflow:hidden; margin-top:8px;}
+.progress-bar{height:100%; width:0%; background:linear-gradient(90deg, #000, #8B0000, #ff5b00); transition:width .15s linear; box-shadow:0 0 10px rgba(255,80,0,0.6);}
+
+/* mouse reg form */
+.mouse-form label{font-size:12px; color:var(--gold); display:block; margin:10px 0 5px;}
+.mouse-form input[type=range]{width:100%; accent-color:var(--uchiha-red-bright);}
+.mouse-form .val{font-size:12px; color:var(--text-dim); float:right;}
+select, .mouse-form select{
+  width:100%; padding:9px 10px; background:#0e0808; border:1px solid #4a1818; color:var(--text-light);
+  border-radius:6px; font-family:inherit; outline:none;
+}
+
+/* ===================== Quản lý key (admin) ===================== */
+.create-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; align-items:end;}
+.table-wrap{overflow-x:auto; margin-top:18px;}
+table{width:100%; border-collapse:collapse; font-size:13px;}
+th, td{padding:10px 12px; text-align:left; border-bottom:1px solid #3a1414; white-space:nowrap;}
+th{color:var(--gold); font-size:11.5px; letter-spacing:1px; text-transform:uppercase; border-bottom:2px solid var(--uchiha-red);}
+tr.burning td{animation:amaterasuBurn .8s forwards;}
+@keyframes amaterasuBurn{
+  0%{background:transparent;}
+  30%{background:rgba(0,0,0,0.6); color:#ff7b00; text-shadow:0 0 8px #ff5b00;}
+  100%{background:rgba(0,0,0,0.9); opacity:0; transform:scaleY(0); }
+}
+.badge{padding:3px 10px; border-radius:12px; font-size:11px; letter-spacing:.5px;}
+.badge.admin{background:rgba(255,59,59,0.15); color:#ff6464; border:1px solid #ff3b3b;}
+.badge.normal{background:rgba(202,162,74,0.15); color:var(--gold); border:1px solid var(--gold);}
+.badge.active{background:rgba(45,200,140,0.15); color:#4ad6a4; border:1px solid #2dc88c;}
+.badge.expired{background:rgba(139,0,0,0.25); color:#ff3b3b; border:1px solid var(--uchiha-red);}
+.btn-del{
+  padding:5px 12px; background:transparent; border:1px solid #ff3b3b; color:#ff7b7b; border-radius:5px;
+  cursor:pointer; font-size:11px; transition:.2s; font-family:inherit;
+}
+.btn-del:hover{background:#ff3b3b; color:#fff; box-shadow:0 0 12px #ff3b3b;}
+
+.new-key-row{animation:portalAppear .6s ease;}
+@keyframes portalAppear{
+  0%{opacity:0; transform:scale(0.3) rotate(20deg); filter:blur(6px);}
+  60%{opacity:1; transform:scale(1.05) rotate(-3deg); filter:blur(0);}
+  100%{transform:scale(1) rotate(0);}
+}
+
+/* ===================== Toast / Notification ===================== */
+#toastWrap{position:fixed; top:20px; right:20px; z-index:200; display:flex; flex-direction:column; gap:10px;}
+.toast{
+  min-width:240px; max-width:320px; padding:14px 16px; border-radius:8px; font-size:13px;
+  background:#150b0b; border:1px solid var(--uchiha-red); color:var(--text-light);
+  box-shadow:0 6px 18px rgba(0,0,0,.5); animation:toastIn .35s ease;
+}
+@keyframes toastIn{from{opacity:0; transform:translateX(40px)} to{opacity:1; transform:translateX(0)}}
+.toast.error{border-color:#ff3b3b; box-shadow:0 0 25px rgba(255,59,59,0.6);}
+.toast.success{border-color:#2dc88c; box-shadow:0 0 25px rgba(45,200,140,0.5);}
+
+/* Loading vòng Sharingan */
+.loader-ring{
+  width:18px; height:18px; border-radius:50%; border:3px solid #4a1818; border-top-color:#ff3b3b;
+  display:inline-block; animation:spinLoader .7s linear infinite; vertical-align:middle; margin-right:6px;
+}
+@keyframes spinLoader{to{transform:rotate(360deg)}}
+
+.no-access{text-align:center; padding:50px 20px; color:var(--text-dim);}
+.no-access .sharingan-logo{width:70px; height:70px; opacity:.5;}
+
+footer{text-align:center; padding:20px; color:var(--text-dim); font-size:11px; letter-spacing:1px; border-top:1px solid #2a1414;}
+
+@media(max-width:600px){
+  .header{padding:12px 16px;}
+  .header-title{font-size:15px;}
+  .container{padding:18px 12px 40px;}
+  .login-box{padding:26px 18px;}
+}
+</style>
 </head>
 <body>
-    <div class="sharingan-bg"></div>
-    
-    <div class="container">
-        <!-- Trang đăng nhập Key -->
-        <div class="login-container" id="loginPage">
-            <div class="uchiha-logo">⚡</div>
-            <div class="title">UCHIHA PANEL</div>
-            <div class="subtitle">OPTIMIZER By NHoang - V1.0</div>
-            <input 
-                type="password" 
-                class="key-input" 
-                id="keyInput" 
-                placeholder="NHẬP KEY Admin NHoang Cấp"
-                maxlength="20"
-            >
-            <button class="btn" id="loginBtn">
-                <span>TRUY CẬP</span>
-            </button>
-            <div style="margin-top: 15px; color: #ff0000; font-size: 14px; display: none;" id="errorMsg">
-                KEY KHÔNG HỢP LỆ! VUI LÒNG Liên hệ admin Nguyen Hoang.
-            </div>
-        </div>
-                <!-- Panel chính -->
-        <div class="panel-container" id="panelPage" style="display: none;">
-            <div class="panel-header">
-                <div>
-                    <div class="panel-title">⚡ UCHIHA OPTIMIZER</div>
-                    <div class="version-info">Version 1.0 | Status: <span style="color: #00ff00;">Active</span></div>
-                </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <span class="status-badge">KEY VALID</span>
-                    <button class="logout-btn" id="logoutBtn">LOGOUT</button>
-                </div>
-            </div>
-            
-            <!-- Danh sách tính năng -->
-            <div class="feature-list">
-                <!-- Fix Lag / Tối ưu FPS -->
-                <div class="feature-item" data-feature="fixLag">
-                    <div class="feature-info">
-                        <div class="feature-name">Fix Lag / Tối ưu FPS</div>
-                        <div class="feature-desc">Giảm độ trễ, tối ưu khung hình</div>
-                    </div>
-                    <div class="toggle-switch" id="toggle_fixLag">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-                
-                <!-- Tăng Point Speed -->
-                <div class="feature-item" data-feature="pointSpeed">
-                    <div class="feature-info">
-                        <div class="feature-name">Tăng Point Speed</div>
-                        <div class="feature-desc">Tăng tốc độ di chuyển chuột</div>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" class="slider-input" id="slider_pointSpeed" min="1" max="100" value="50">
-                        <div class="slider-value" id="value_pointSpeed">50%</div>
-                    </div>
-                </div>
-                
-                <!-- Tăng Sensitivity -->
-                <div class="feature-item" data-feature="sensitivity">
-                    <div class="feature-info">
-                        <div class="feature-name">Tăng Sensitivity</div>
-                        <div class="feature-desc">Điều chỉnh độ nhạy chuột</div>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" class="slider-input" id="slider_sensitivity" min="1" max="100" value="50">
-                        <div class="slider-value" id="value_sensitivity">50%</div>
-                    </div>
-                </div>
-                
-                <!-- Giảm Input Lag -->
-                <div class="feature-item" data-feature="inputLag">
-                    <div class="feature-info">
-                        <div class="feature-name">Giảm Input Lag</div>
-                        <div class="feature-desc">Giảm độ trễ đầu vào</div>
-                    </div>
-                    <div class="toggle-switch" id="toggle_inputLag">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-                
-                <!-- Tối ưu RAM & CPU -->
-                <div class="feature-item" data-feature="ramCpu">
-                    <div class="feature-info">
-                        <div class="feature-name">Tối ưu RAM & CPU</div>
-                        <div class="feature-desc">Giải phóng bộ nhớ, tối ưu CPU</div>
-                    </div>
-                    <div class="toggle-switch" id="toggle_ramCpu">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-                
-                <!-- Clear Cache -->
-                <div class="feature-item" data-feature="clearCache">
-                    <div class="feature-info">
-                        <div class="feature-name">Clear Cache</div>
-                        <div class="feature-desc">Xóa bộ nhớ đệm hệ thống</div>
-                    </div>
-                    <button class="admin-btn" id="btn_clearCache">EXECUTE</button>
-                </div>
-                
-                <!-- Boost Game Performance -->
-                <div class="feature-item" data-feature="boostGame">
-                    <div class="feature-info">
-                        <div class="feature-name">Boost Game Performance</div>
-                        <div class="feature-desc">Tăng hiệu suất game tối đa</div>
-                    </div>
-                    <div class="toggle-switch" id="toggle_boostGame">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-                
-                <!-- Auto Optimize -->
-                <div class="feature-item" data-feature="autoOptimize">
-                    <div class="feature-info">
-                        <div class="feature-name">Auto Optimize</div>
-                        <div class="feature-desc">Tự động tối ưu khi khởi động</div>
-                    </div>
-                    <div class="toggle-switch" id="toggle_autoOptimize">
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Admin Panel -->
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="admin-btn" id="adminToggleBtn">ADMIN PANEL</button>
-            </div>
-            
-            <div class="admin-panel" id="adminPanel">
-                <div class="admin-title">🔑 Key Management</div>
-                <input 
-                    type="text" 
-                    class="admin-input" 
-                    id="newKeyInput" 
-                    placeholder="Nhập key mới..."
-                >
-                <button class="btn" id="addKeyBtn" style="width: auto; padding: 10px 30px; font-size: 16px;">
-                    THÊM KEY
-                </button>
-                <div class="key-list" id="keyList">
-                    <!-- Danh sách key sẽ hiển thị ở đây -->
-                </div>
-            </div>
-        </div>
+
+<div id="particles"></div>
+<div id="kamuiWarp"></div>
+<div id="toastWrap"></div>
+
+<!-- ============================ TRANG ĐĂNG NHẬP ============================ -->
+<div id="loginScreen">
+  <div class="uchiha-fan-bg"></div>
+  <div class="login-box">
+    <div class="sharingan-logo">
+      <div class="pupil"></div>
+      <div class="tomoe t1"></div>
+      <div class="tomoe t2"></div>
+      <div class="tomoe t3"></div>
+    </div>
+    <div class="login-title">UCHIHA KEY SYSTEM</div>
+    <div class="login-sub">写輪眼 // Nhập Key NGUYEN HOANG Cấp</div>
+
+    <div class="input-group">
+      <label>KEY TRUY CẬP</label>
+      <input type="password" id="keyInput" placeholder="Nhập key của bạn..." autocomplete="off">
+    </div>
+    <button class="btn-uchiha" id="loginBtn">MỞ ẤN THUẬT</button>
+
+    <div class="login-error" id="loginError">
+      ⛩ Mangekyou Sharingan từ chối — Key không hợp lệ hoặc đã hết hạn!
+    </div>
+  </div>
+</div>
+<!-- ============================ PANEL CHÍNH ============================ -->
+<div id="mainPanel">
+  <div class="header">
+    <div class="header-left">
+      <div class="mini-sharingan"><div class="pupil"></div></div>
+      <div class="header-title">UCHIHA KEY PANEL
+        <small>一族の力 // Sức mạnh gia tộc</small>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="role-badge" id="roleBadge"><span class="dot"></span><span id="roleText">—</span></div>
+      <button class="btn-logout" id="logoutBtn">ĐĂNG XUẤT</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="functions">⚔ Chức Năng</button>
+      <button class="tab-btn" data-tab="manage">🔥 Quản Lý Key</button>
     </div>
 
-    <script>
-        // ============================================
-        // UCHIHA PANEL - OPTIMIZER JAVASCRIPT
-        // ============================================
-        
-        // --- Cấu hình ---
-        const ADMIN_KEY = 'nhoang123'; // Key admin mặc định
-        
-        // --- Khởi tạo LocalStorage ---
-        function initializeStorage() {
-            // Tạo danh sách key mặc định nếu chưa có
-            if (!localStorage.getItem('uchiha_keys')) {
-                const defaultKeys = ['nhoang123', 'uchiha2024', 'sharingan1'];
-                localStorage.setItem('uchiha_keys', JSON.stringify(defaultKeys));
-            }
-            
-            // Tạo trạng thái các tính năng nếu chưa có
-            if (!localStorage.getItem('uchiha_features')) {
-                const defaultFeatures = {
-                    fixLag: false,
-                    pointSpeed: 50,
-                    sensitivity: 50,
-                    inputLag: false,
-                    ramCpu: false,
-                    boostGame: false,
-                    autoOptimize: false
-                };
-                localStorage.setItem('uchiha_features', JSON.stringify(defaultFeatures));
-            }
-            
-            // Trạng thái đăng nhập
-            if (!localStorage.getItem('uchiha_logged_in')) {
-                localStorage.setItem('uchiha_logged_in', 'false');
-            }
-        }
-        
-        // --- Lấy danh sách key ---
-        function getKeys() {
-            return JSON.parse(localStorage.getItem('uchiha_keys') || '[]');
-        }
-        
-        // --- Lưu danh sách key ---
-        function saveKeys(keys) {
-            localStorage.setItem('uchiha_keys', JSON.stringify(keys));
-        }
-        
-        // --- Lấy trạng thái tính năng ---
-        function getFeatures() {
-            return JSON.parse(localStorage.getItem('uchiha_features') || '{}');
-        }
-        
-        // --- Lưu trạng thái tính năng ---
-        function saveFeatures(features) {
-            localStorage.setItem('uchiha_features', JSON.stringify(features));
-        }
-        
-        // --- Kiểm tra key hợp lệ ---
-        function isValidKey(key) {
-            const keys = getKeys();
-            return keys.includes(key);
-        }
-        
-        // --- Kiểm tra có phải admin key không ---
-        function isAdminKey(key) {
-            return key === ADMIN_KEY;
-        }
-        
-        // --- Hiển thị trang đăng nhập ---
-        function showLoginPage() {
-            document.getElementById('loginPage').style.display = 'block';
-            document.getElementById('panelPage').style.display = 'none';
-            localStorage.setItem('uchiha_logged_in', 'false');
-        }
-        
-        // --- Hiển thị panel chính ---
-        function showPanelPage() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('panelPage').style.display = 'block';
-            localStorage.setItem('uchiha_logged_in', 'true');
-            loadFeatureStates();
-            updateKeyList();
-        }
-        
-        // --- Đăng xuất ---
-        function logout() {
-            showLoginPage();
-            document.getElementById('keyInput').value = '';
-            document.getElementById('errorMsg').style.display = 'none';
-        }
-        
-        // --- Load trạng thái các tính năng ---
-        function loadFeatureStates() {
-            const features = getFeatures();
-            
-            // Load toggle switches
-            ['fixLag', 'inputLag', 'ramCpu', 'boostGame', 'autoOptimize'].forEach(feature => {
-                const toggle = document.getElementById(`toggle_${feature}`);
-                if (toggle) {
-                    if (features[feature]) {
-                        toggle.classList.add('active');
-                    } else {
-                        toggle.classList.remove('active');
-                    }
-                }
-            });
-            
-            // Load sliders
-            ['pointSpeed', 'sensitivity'].forEach(feature => {
-                const slider = document.getElementById(`slider_${feature}`);
-                const value = document.getElementById(`value_${feature}`);
-                if (slider && value) {
-                    slider.value = features[feature] || 50;
-                    value.textContent = slider.value + '%';
-                }
-            });
-        }
-        
-        // --- Cập nhật trạng thái toggle ---
-        function toggleFeature(featureName) {
-            const features = getFeatures();
-            features[featureName] = !features[featureName];
-            saveFeatures(features);
-            
-            // Cập nhật UI
-            const toggle = document.getElementById(`toggle_${featureName}`);
-            if (toggle) {
-                if (features[featureName]) {
-                    toggle.classList.add('active');
-                } else {
-                    toggle.classList.remove('active');
-                }
-            }
-            
-            // Hiệu ứng thông báo
-            showNotification(`${featureName.toUpperCase()}: ${features[featureName] ? 'ON' : 'OFF'}`);
-        }
-        
-        // --- Cập nhật slider ---
-        function updateSlider(featureName, value) {
-            const features = getFeatures();
-            features[featureName] = parseInt(value);
-            saveFeatures(features);
-            
-            // Cập nhật UI
-            const valueDisplay = document.getElementById(`value_${featureName}`);
-            if (valueDisplay) {
-                valueDisplay.textContent = value + '%';
-            }
-        }
-        
-        // --- Thực hiện clear cache ---
-        function executeClearCache() {
-            // Mô phỏng clear cache (trong thực tế sẽ gọi API hoặc thực hiện hành động khác)
-            showNotification('ĐANG XÓA CACHE...');
-            
-            setTimeout(() => {
-                showNotification('CACHE ĐÃ ĐƯỢC XÓA THÀNH CÔNG!');
-            }, 1500);
-        }
-        
-        // --- Hiển thị thông báo ---
-        function showNotification(message) {
-            // Tạo element thông báo
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: rgba(255, 0, 0, 0.9);
-                color: #fff;
-                padding: 15px 25px;
-                border-radius: 5px;
-                font-family: 'Rajdhani', sans-serif;
-                font-weight: 600;
-                letter-spacing: 1px;
-                z-index: 1000;
-                animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s forwards;
-                box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-            `;
-            
-            // Thêm animation keyframes
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes slideOut {
-                    from { transform: translateX(0); opacity: 1; }
-                    to { transform: translateX(100%); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            // Xóa thông báo sau 3 giây
-            setTimeout(() => {
-                document.body.removeChild(notification);
-                document.head.removeChild(style);
-            }, 3000);
-        }
-                // --- Thêm key mới ---
-        function addNewKey(newKey) {
-            if (!newKey || newKey.trim() === '') {
-                showNotification('VUI LÒNG NHẬP KEY!');
-                return;
-            }
-            
-            const keys = getKeys();
-            if (keys.includes(newKey)) {
-                showNotification('KEY ĐÃ TỒN TẠI!');
-                return;
-            }
-            
-            keys.push(newKey);
-            saveKeys(keys);
-            updateKeyList();
-            document.getElementById('newKeyInput').value = '';
-            showNotification('ĐÃ THÊM KEY MỚI: ' + newKey);
-        }
-        
-        // --- Xóa key ---
-        function deleteKey(keyToDelete) {
-            // Không cho phép xóa key admin
-            if (keyToDelete === ADMIN_KEY) {
-                showNotification('KHÔNG THỂ XÓA KEY ADMIN!');
-                return;
-            }
-            
-            const keys = getKeys();
-            const filteredKeys = keys.filter(key => key !== keyToDelete);
-            saveKeys(filteredKeys);
-            updateKeyList();
-            showNotification('ĐÃ XÓA KEY: ' + keyToDelete);
-        }
-        
-        // --- Cập nhật danh sách key trong admin panel ---
-        function updateKeyList() {
-            const keyList = document.getElementById('keyList');
-            if (!keyList) return;
-            
-            const keys = getKeys();
-            keyList.innerHTML = keys.map(key => `
-                <div class="key-item">
-                    <span>${key} ${key === ADMIN_KEY ? '(ADMIN)' : ''}</span>
-                    ${key !== ADMIN_KEY ? `<button class="delete-key-btn" onclick="deleteKey('${key}')">XÓA</button>` : ''}
-                </div>
-            `).join('');
-        }
-        
-        // --- Khởi tạo sự kiện ---
-        function initializeEvents() {
-            // Sự kiện đăng nhập
-            document.getElementById('loginBtn').addEventListener('click', () => {
-                const key = document.getElementById('keyInput').value.trim();
-                const errorMsg = document.getElementById('errorMsg');
-                
-                if (isValidKey(key)) {
-                    errorMsg.style.display = 'none';
-                    // Lưu key hiện tại để kiểm tra admin
-                    sessionStorage.setItem('current_key', key);
-                    showPanelPage();
-                    
-                    // Hiển thị admin panel nếu là admin key
-                    if (isAdminKey(key)) {
-                        document.getElementById('adminToggleBtn').style.display = 'inline-block';
-                    } else {
-                        document.getElementById('adminToggleBtn').style.display = 'none';
-                        document.getElementById('adminPanel').style.display = 'none';
-                    }
-                } else {
-                    errorMsg.style.display = 'block';
-                    document.getElementById('keyInput').style.animation = 'shake 0.5s ease';
-                    setTimeout(() => {
-                        document.getElementById('keyInput').style.animation = '';
-                    }, 500);
-                }
-            });
-            
-            // Cho phép nhấn Enter để đăng nhập
-            document.getElementById('keyInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    document.getElementById('loginBtn').click();
-                }
-            });
-            
-            // Sự kiện đăng xuất
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            // Sự kiện toggle các tính năng
-            ['fixLag', 'inputLag', 'ramCpu', 'boostGame', 'autoOptimize'].forEach(feature => {
-                const toggle = document.getElementById(`toggle_${feature}`);
-                if (toggle) {
-                    toggle.addEventListener('click', () => toggleFeature(feature));
-                }
-            });
-            
-            // Sự kiện slider
-            ['pointSpeed', 'sensitivity'].forEach(feature => {
-                const slider = document.getElementById(`slider_${feature}`);
-                if (slider) {
-                    slider.addEventListener('input', (e) => {
-                        updateSlider(feature, e.target.value);
-                    });
-                }
-            });
-            
-            // Sự kiện clear cache
-            document.getElementById('btn_clearCache').addEventListener('click', executeClearCache);
-            
-            // Sự kiện admin panel toggle
-            document.getElementById('adminToggleBtn').addEventListener('click', () => {
-                const adminPanel = document.getElementById('adminPanel');
-                const currentKey = sessionStorage.getItem('current_key');
-                
-                if (!isAdminKey(currentKey)) {
-                    showNotification('CHỈ ADMIN MỚI CÓ QUYỀN TRUY CẬP!');
-                    return;
-                }
-                
-                if (adminPanel.style.display === 'none' || adminPanel.style.display === '') {
-                    adminPanel.style.display = 'block';
-                } else {
-                    adminPanel.style.display = 'none';
-                }
-            });
-            
-            // Sự kiện thêm key
-            document.getElementById('addKeyBtn').addEventListener('click', () => {
-                const newKey = document.getElementById('newKeyInput').value.trim();
-                addNewKey(newKey);
-            });
-            
-            // Cho phép nhấn Enter để thêm key
-            document.getElementById('newKeyInput').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    document.getElementById('addKeyBtn').click();
-                }
-            });
-        }
-        
-        // --- Kiểm tra trạng thái đăng nhập khi load trang ---
-        function checkLoginStatus() {
-            const isLoggedIn = localStorage.getItem('uchiha_logged_in') === 'true';
-            const currentKey = sessionStorage.getItem('current_key');
-            
-            if (isLoggedIn && currentKey && isValidKey(currentKey)) {
-                showPanelPage();
-                if (isAdminKey(currentKey)) {
-                    document.getElementById('adminToggleBtn').style.display = 'inline-block';
-                } else {
-                    document.getElementById('adminToggleBtn').style.display = 'none';
-                    document.getElementById('adminPanel').style.display = 'none';
-                }
-            } else {
-                showLoginPage();
-            }
-        }
-        
-        // --- Thêm animation shake cho key input ---
-        const shakeStyle = document.createElement('style');
-        shakeStyle.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-5px); }
-                75% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(shakeStyle);
-        
-        // --- Khởi tạo toàn bộ ứng dụng ---
-        function initApp() {
-            initializeStorage();
-            initializeEvents();
-            checkLoginStatus();
-        }
-        
-        // Chạy ứng dụng khi DOM đã load xong
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        // --- Xử lý sự kiện click vào feature item để toggle ---
-        document.addEventListener('click', (e) => {
-            const featureItem = e.target.closest('.feature-item');
-            if (featureItem && e.target.closest('.toggle-switch')) {
-                // Đã xử lý bởi toggle event
-                return;
-            }
-        });
-    </script>
+    <!-- TAB CHỨC NĂNG -->
+    <div class="tab-content active" id="tab-functions">
+      <div class="panel-card">
+        <h3>⚡ Trạng thái Key hiện tại</h3>
+        <p style="font-size:13px; color:var(--text-dim)">Key: <b id="curKeyDisplay">—</b> &nbsp;|&nbsp; Hết hạn: <b id="curKeyExpiry">—</b></p>
+      </div>
+
+      <div class="func-grid">
+        <!-- FIX LAG -->
+        <div class="func-card" id="fixlagCard">
+          <div class="func-icon">⚙</div>
+          <h4>FIX LAG</h4>
+          <p>Kích hoạt Susanoo bảo vệ hệ thống, giảm độ trễ và giật lag khi chơi game.</p>
+          <button class="btn-uchiha" id="fixlagBtn">KÍCH HOẠT SUSANOO</button>
+          <div class="func-status" id="fixlagStatus"></div>
+        </div>
+
+        <!-- TỐI ƯU -->
+        <div class="func-card" id="optimizeCard">
+          <div class="func-icon">🔥</div>
+          <h4>TỐI ƯU HỆ THỐNG</h4>
+          <p>Dọn dẹp rác hệ thống bằng lửa đen Amaterasu, tối ưu hiệu năng máy.</p>
+          <button class="btn-uchiha" id="optimizeBtn">KHỞI ĐỘNG AMATERASU</button>
+          <div class="progress-wrap"><div class="progress-bar" id="optimizeBar"></div></div>
+          <div class="func-status" id="optimizeStatus"></div>
+        </div>
+
+        <!-- REG MOUSE -->
+        <div class="func-card" id="mouseCard">
+          <div class="func-icon">🎯</div>
+          <h4>REG MOUSE</h4>
+          <p>Tinh chỉnh DPI, Polling Rate và Sensitivity như đôi mắt Sharingan.</p>
+          <div class="mouse-form" style="text-align:left">
+            <label>DPI <span class="val" id="dpiVal">800</span></label>
+            <input type="range" id="dpiRange" min="100" max="6400" step="100" value="800">
+            <label>Polling Rate (Hz) <span class="val" id="pollVal">500</span></label>
+            <input type="range" id="pollRange" min="125" max="1000" step="125" value="500">
+            <label>Sensitivity <span class="val" id="sensVal">5</span></label>
+            <input type="range" id="sensRange" min="1" max="10" step="1" value="5">
+          </div>
+          <button class="btn-uchiha" style="margin-top:14px" id="mouseBtn">ÁP DỤNG ẤN THUẬT</button>
+          <div class="func-status" id="mouseStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB QUẢN LÝ KEY -->
+    <div class="tab-content" id="tab-manage">
+      <div id="manageContent"></div>
+    </div>
+  </div>
+
+  <footer>UCHIHA CLAN © — 「写輪眼を超える瞳はない」 — Không có con mắt nào vượt qua Sharingan</footer>
+</div>
+
+<script>
+/* ===========================================================================
+   UCHIHA KEY SYSTEM — Toàn bộ logic JavaScript thuần (Vanilla JS)
+   =========================================================================== */
+
+// ---------- Mã hóa đơn giản (Base64 + xor nhẹ) để lưu localStorage ----------
+const SECRET = "uchiha_mangekyou_2024"; // chuỗi bí mật dùng để "mã hóa" dữ liệu
+function encryptData(str){
+  let out = "";
+  for(let i=0;i<str.length;i++){
+    out += String.fromCharCode(str.charCodeAt(i) ^ SECRET.charCodeAt(i % SECRET.length));
+  }
+  return btoa(unescape(encodeURIComponent(out)));
+}
+function decryptData(enc){
+  try{
+    let str = decodeURIComponent(escape(atob(enc)));
+    let out = "";
+    for(let i=0;i<str.length;i++){
+      out += String.fromCharCode(str.charCodeAt(i) ^ SECRET.charCodeAt(i % SECRET.length));
+    }
+    return out;
+  }catch(e){ return null; }
+}
+
+const STORAGE_KEYS_DB = "uchiha_keys_db";       // danh sách toàn bộ key
+const STORAGE_SESSION = "uchiha_session";       // phiên đăng nhập hiện tại
+
+// ---------- Khởi tạo database key mặc định nếu chưa có ----------
+function loadKeysDB(){
+  const raw = localStorage.getItem(STORAGE_KEYS_DB);
+  if(!raw) return null;
+  const dec = decryptData(raw);
+  try{ return JSON.parse(dec); }catch(e){ return null; }
+}
+function saveKeysDB(db){
+  localStorage.setItem(STORAGE_KEYS_DB, encryptData(JSON.stringify(db)));
+}
+
+let keysDB = loadKeysDB();
+if(!keysDB){
+  // Key admin mặc định: "nhoang123" - không bao giờ hết hạn (9999 ngày)
+  keysDB = [
+    {
+      key:"nhoang123",
+      role:"admin",
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 9999*24*60*60*1000
+    }
+  ];
+  saveKeysDB(keysDB);
+}
+
+let currentSession = null; // { key, role, expiresAt }
+
+// ---------- Particle lửa đen Amaterasu nền ----------
+function spawnParticles(){
+  const wrap = document.getElementById('particles');
+  setInterval(()=>{
+    if(wrap.childElementCount > 40) return;
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const left = Math.random()*100;
+    const dur = 6 + Math.random()*8;
+    const drift = (Math.random()*60-30)+'px';
+    p.style.left = left+'vw';
+    p.style.setProperty('--drift', drift);
+    p.style.animationDuration = dur+'s';
+    p.style.width = p.style.height = (3+Math.random()*5)+'px';
+    wrap.appendChild(p);
+    setTimeout(()=>p.remove(), dur*1000);
+  }, 350);
+}
+spawnParticles();
+
+// ---------- Toast thông báo ----------
+function showToast(msg, type='success'){
+  const wrap = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast '+type;
+  t.innerHTML = (type==='error' ? '⛩ ' : '🌀 ') + msg;
+  wrap.appendChild(t);
+  setTimeout(()=>{
+    t.style.transition='opacity .4s, transform .4s';
+    t.style.opacity='0';
+    t.style.transform='translateX(40px)';
+    setTimeout(()=>t.remove(), 400);
+  }, 3200);
+}
+
+// ---------- Kiểm tra key hợp lệ ----------
+function findKeyEntry(keyStr){
+  return keysDB.find(k => k.key === keyStr);
+}
+function isExpired(entry){
+  return Date.now() > entry.expiresAt;
+}
+
+// ---------- XỬ LÝ ĐĂNG NHẬP ----------
+document.getElementById('loginBtn').addEventListener('click', attemptLogin);
+document.getElementById('keyInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') attemptLogin();
+});
+
+function attemptLogin(){
+  const val = document.getElementById('keyInput').value.trim();
+  const errBox = document.getElementById('loginError');
+  if(!val){
+    errBox.style.display='block';
+    errBox.textContent = '⛩ Vui lòng nhập Key trước khi mở ấn thuật!';
+    return;
+  }
+  const entry = findKeyEntry(val);
+  if(!entry || isExpired(entry)){
+    errBox.style.display='block';
+    errBox.textContent = '⛩ Mangekyou Sharingan từ chối — Key không hợp lệ hoặc đã hết hạn!';
+    // rung hiệu ứng
+    const box = document.querySelector('.login-box');
+    box.style.animation='none';
+    void box.offsetWidth;
+    box.style.animation='mangekyouFlash .5s ease';
+    return;
+  }
+  errBox.style.display='none';
+
+  // Lưu session (mã hóa)
+  currentSession = {
+    key: entry.key,
+    role: entry.role,
+    expiresAt: entry.expiresAt,
+    lastActivity: Date.now()
+  };
+  localStorage.setItem(STORAGE_SESSION, encryptData(JSON.stringify(currentSession)));
+
+  // Hiệu ứng Kamui dịch chuyển trước khi vào panel
+  triggerKamuiWarp(()=>{
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('mainPanel').style.display='block';
+    initPanel();
+  });
+}
+
+function triggerKamuiWarp(callback){
+  const warp = document.getElementById('kamuiWarp');
+  warp.classList.add('active');
+  setTimeout(()=>{
+    warp.classList.remove('active');
+    callback();
+  }, 600);
+}
+    // ---------- Đăng xuất ----------
+document.getElementById('logoutBtn').addEventListener('click', ()=>doLogout('Bạn đã đăng xuất khỏi gia tộc Uchiha.'));
+
+function doLogout(msg){
+  localStorage.removeItem(STORAGE_SESSION);
+  currentSession = null;
+  document.getElementById('mainPanel').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('keyInput').value='';
+  if(msg) showToast(msg, 'error');
+}
+
+// ---------- Session timeout 30 phút không hoạt động ----------
+let activityTimer = null;
+const SESSION_TIMEOUT_MS = 30*60*1000;
+function resetActivityTimer(){
+  if(!currentSession) return;
+  currentSession.lastActivity = Date.now();
+  localStorage.setItem(STORAGE_SESSION, encryptData(JSON.stringify(currentSession)));
+  clearTimeout(activityTimer);
+  activityTimer = setTimeout(()=>{
+    doLogout('Phiên đăng nhập đã hết hạn do không hoạt động 30 phút.');
+  }, SESSION_TIMEOUT_MS);
+}
+['click','keydown','mousemove','scroll'].forEach(evt=>{
+  document.addEventListener(evt, ()=>{ if(currentSession) resetActivityTimer(); });
+});
+
+// ---------- Tự động kiểm tra hết hạn key đang dùng (mỗi 30s) ----------
+setInterval(()=>{
+  if(!currentSession) return;
+  if(Date.now() > currentSession.expiresAt){
+    doLogout('Key của bạn đã hết hạn — Sharingan đã đóng.');
+  }
+}, 30000);
+
+// ---------- Khôi phục session khi load lại trang ----------
+function tryRestoreSession(){
+  const raw = localStorage.getItem(STORAGE_SESSION);
+  if(!raw) return false;
+  const dec = decryptData(raw);
+  let sess;
+  try{ sess = JSON.parse(dec); }catch(e){ return false; }
+  if(!sess) return false;
+
+  // Kiểm tra hết hạn key hoặc timeout hoạt động
+  if(Date.now() > sess.expiresAt) return false;
+  if(Date.now() - sess.lastActivity > SESSION_TIMEOUT_MS) return false;
+
+  // Kiểm tra key còn tồn tại trong DB không (phòng trường hợp admin đã xóa)
+  const entry = findKeyEntry(sess.key);
+  if(!entry || isExpired(entry)) return false;
+
+  currentSession = sess;
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('mainPanel').style.display='block';
+  initPanel();
+  resetActivityTimer();
+  return true;
+}
+
+// =====================================================================
+//                          KHỞI TẠO PANEL CHÍNH
+// =====================================================================
+function initPanel(){
+  resetActivityTimer();
+  renderRoleBadge();
+  renderCurrentKeyInfo();
+  renderManageTab();
+  bindTabs();
+}
+
+function renderRoleBadge(){
+  const badge = document.getElementById('roleBadge');
+  const text = document.getElementById('roleText');
+  if(currentSession.role === 'admin'){
+    badge.className='role-badge admin';
+    text.textContent='👁 ADMIN — Mangekyou Sharingan';
+  }else{
+    badge.className='role-badge normal';
+    text.textContent='👁 THƯỜNG — Sharingan';
+  }
+}
+
+function renderCurrentKeyInfo(){
+  document.getElementById('curKeyDisplay').textContent = maskKey(currentSession.key);
+  document.getElementById('curKeyExpiry').textContent = formatDate(currentSession.expiresAt);
+}
+
+function maskKey(k){
+  if(k.length <= 4) return '*'.repeat(k.length);
+  return k.slice(0,2) + '*'.repeat(Math.max(3,k.length-4)) + k.slice(-2);
+}
+function formatDate(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ---------- Tabs ----------
+function bindTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    };
+  });
+}
+
+// =====================================================================
+//                          TAB QUẢN LÝ KEY (ADMIN)
+// =====================================================================
+function renderManageTab(){
+  const wrap = document.getElementById('manageContent');
+  if(currentSession.role !== 'admin'){
+    wrap.innerHTML = `
+      <div class="panel-card no-access">
+        <div class="sharingan-logo" style="margin-bottom:16px;">
+          <div class="pupil"></div>
+          <div class="tomoe t1"></div><div class="tomoe t2"></div><div class="tomoe t3"></div>
+        </div>
+        <h3 style="color:var(--text-dim)">Chỉ Admin mới có thể mở Mangekyou cấp cao</h3>
+        <p style="margin-top:10px; font-size:13px;">Key của bạn chỉ thuộc quyền hạn THƯỜNG. Vui lòng dùng key Admin để quản lý hệ thống.</p>
+      </div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <div class="panel-card">
+      <h3>🌀 Tạo Key Mới (Mangekyou Portal)</h3>
+      <div class="create-form">
+        <div class="input-group" style="margin-bottom:0">
+          <label>KEY</label>
+          <input type="text" id="newKeyInput" placeholder="vd: uchiha2024">
+        </div>
+        <div class="input-group" style="margin-bottom:0">
+          <label>ROLE</label>
+          <select id="newKeyRole">
+            <option value="normal">Thường</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom:0">
+          <label>THỜI HẠN (NGÀY)</label>
+          <input type="number" id="newKeyDays" value="30" min="1">
+        </div>
+        <button class="btn-uchiha" id="createKeyBtn">TẠO KEY</button>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <h3>📜 Danh Sách Key (${keysDB.length})</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Key</th><th>Role</th><th>Ngày tạo</th><th>Hết hạn</th><th>Trạng thái</th><th>Hành động</th></tr>
+          </thead>
+          <tbody id="keysTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('createKeyBtn').onclick = handleCreateKey;
+  renderKeysTable();
+}
+
+function renderKeysTable(){
+  const tbody = document.getElementById('keysTableBody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  keysDB.forEach((entry, idx)=>{
+    const expired = isExpired(entry);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${maskKey(entry.key)}</td>
+      <td><span class="badge ${entry.role}">${entry.role === 'admin' ? 'Admin' : 'Thường'}</span></td>
+      <td>${formatDate(entry.createdAt)}</td>
+      <td>${formatDate(entry.expiresAt)}</td>
+      <td><span class="badge ${expired ? 'expired' : 'active'}">${expired ? 'Expired' : 'Active'}</span></td>
+      <td>${entry.key === 'nhoang123' ? '<span style="color:var(--text-dim); font-size:11px;">Key gốc</span>' : `<button class="btn-del" data-idx="${idx}">🔥 Xóa</button>`}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('.btn-del').forEach(btn=>{
+    btn.onclick = ()=>handleDeleteKey(parseInt(btn.dataset.idx));
+  });
+}
+
+function handleCreateKey(){
+  const keyVal = document.getElementById('newKeyInput').value.trim();
+  const role = document.getElementById('newKeyRole').value;
+  const days = parseInt(document.getElementById('newKeyDays').value) || 30;
+
+  if(!keyVal){
+    showToast('Vui lòng nhập tên Key!', 'error');
+    return;
+  }
+  if(findKeyEntry(keyVal)){
+    showToast('Key này đã tồn tại trong hệ thống!', 'error');
+    return;
+  }
+
+  const newEntry = {
+    key: keyVal,
+    role: role,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + days*24*60*60*1000
+  };
+  keysDB.push(newEntry);
+  saveKeysDB(keysDB);
+
+  renderManageTab(); // render lại toàn bộ (đơn giản, an toàn)
+  showToast(`Đã tạo key "${maskKey(keyVal)}" thành công từ Mangekyou Portal!`, 'success');
+
+  // Hiệu ứng dòng mới xuất hiện
+  setTimeout(()=>{
+    const rows = document.querySelectorAll('#keysTableBody tr');
+    const lastRow = rows[rows.length-1];
+    if(lastRow) lastRow.classList.add('new-key-row');
+  }, 50);
+}
+
+function handleDeleteKey(idx){
+  const entry = keysDB[idx];
+  if(entry.key === currentSession.key){
+    showToast('Không thể tự xóa key đang đăng nhập!', 'error');
+    return;
+  }
+  const tbody = document.getElementById('keysTableBody');
+  const rows = tbody.querySelectorAll('tr');
+  const row = rows[idx];
+  if(row){
+    row.classList.add('burning'); // hiệu ứng lửa Amaterasu cháy dòng
+    setTimeout(()=>{
+      keysDB.splice(idx,1);
+      saveKeysDB(keysDB);
+      renderManageTab();
+      showToast('Key đã bị thiêu rụi bởi Amaterasu! 🔥', 'success');
+    }, 750);
+  }
+}
+
+// =====================================================================
+//                       CHỨC NĂNG: FIX LAG
+// =====================================================================
+document.getElementById('fixlagBtn').addEventListener('click', ()=>{
+  const btn = document.getElementById('fixlagBtn');
+  const card = document.getElementById('fixlagCard');
+  const status = document.getElementById('fixlagStatus');
+  btn.disabled = true;
+  status.innerHTML = '<span class="loader-ring"></span> Đang triệu hồi Susanoo...';
+  card.classList.remove('susanoo-active'); void card.offsetWidth;
+
+  setTimeout(()=>{
+    card.classList.add('susanoo-active');
+    status.innerHTML = '✅ Susanoo đã bảo vệ hệ thống — Lag đã được khử trừ!';
+    status.classList.add('done');
+    btn.disabled = false;
+    showToast('Fix Lag hoàn tất! Susanoo đang bảo vệ hệ thống của bạn.', 'success');
+  }, 1600);
+});
+
+// =====================================================================
+//                       CHỨC NĂNG: TỐI ƯU HỆ THỐNG
+// =====================================================================
+document.getElementById('optimizeBtn').addEventListener('click', ()=>{
+  const btn = document.getElementById('optimizeBtn');
+  const bar = document.getElementById('optimizeBar');
+  const status = document.getElementById('optimizeStatus');
+  btn.disabled = true;
+  bar.style.width = '0%';
+  status.innerHTML = '<span class="loader-ring"></span> Amaterasu đang thiêu đốt rác hệ thống...';
+  status.classList.remove('done');
+
+  let pct = 0;
+  const interval = setInterval(()=>{
+    pct += Math.random()*12 + 4;
+    if(pct >= 100){
+      pct = 100;
+      clearInterval(interval);
+      status.innerHTML = '✅ Tối ưu hoàn tất — Hệ thống sạch như sau trận Amaterasu!';
+      status.classList.add('done');
+      btn.disabled = false;
+      showToast('Tối ưu hệ thống thành công!', 'success');
+    }
+    bar.style.width = pct + '%';
+  }, 180);
+});
+
+// =====================================================================
+//                       CHỨC NĂNG: REG MOUSE
+// =====================================================================
+const dpiRange = document.getElementById('dpiRange');
+const pollRange = document.getElementById('pollRange');
+const sensRange = document.getElementById('sensRange');
+dpiRange.addEventListener('input', ()=> document.getElementById('dpiVal').textContent = dpiRange.value);
+pollRange.addEventListener('input', ()=> document.getElementById('pollVal').textContent = pollRange.value);
+sensRange.addEventListener('input', ()=> document.getElementById('sensVal').textContent = sensRange.value);
+
+document.getElementById('mouseBtn').addEventListener('click', ()=>{
+  const status = document.getElementById('mouseStatus');
+  status.innerHTML = '<span class="loader-ring"></span> Đang áp dụng ấn thuật điều chỉnh chuột...';
+  status.classList.remove('done');
+  setTimeout(()=>{
+    status.innerHTML = `✅ Đã áp dụng: DPI ${dpiRange.value} / Polling ${pollRange.value}Hz / Sens ${sensRange.value}`;
+    status.classList.add('done');
+    showToast('Cấu hình chuột đã được lưu thành công!', 'success');
+  }, 1000);
+});
+
+// =====================================================================
+//                              KHỞI ĐỘNG
+// =====================================================================
+window.addEventListener('load', ()=>{
+  tryRestoreSession();
+});
+</script>
 </body>
-                    </html>
-                     
+</html>
+
+    
