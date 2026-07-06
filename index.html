@@ -22,10 +22,6 @@
   --border:rgba(255,255,255,0.08);
   --green:#00ff88;
   --font-title:'Segoe UI', 'Arial', sans-serif;
-  --ease-smooth:cubic-bezier(.22,.68,0,1.01);
-  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
-  --shadow-soft:0 10px 30px rgba(0,0,0,0.45);
-  --nav-h:64px;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -131,50 +127,6 @@ input{font-family:inherit;}
 .tomoe span:nth-child(3){transform:rotate(240deg);}
 
 /* ==========================================================================
-   SPLASH / BOOT LOADER - hiển thị trước khi vào màn đăng nhập
-   ========================================================================== */
-#splashScreen{
-  position:fixed;inset:0;
-  z-index:500;
-  background:var(--black);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:22px;
-  transition:opacity .6s var(--ease-smooth), visibility .6s;
-}
-#splashScreen.fade-out{opacity:0;visibility:hidden;pointer-events:none;}
-.splash-logo{
-  width:80px;height:80px;
-  animation:splashPulse 1.6s ease-in-out infinite;
-}
-@keyframes splashPulse{
-  0%,100%{filter:drop-shadow(0 0 8px rgba(224,16,44,0.5)) drop-shadow(0 0 18px rgba(123,47,247,0.3));transform:scale(1);}
-  50%{filter:drop-shadow(0 0 22px rgba(224,16,44,0.85)) drop-shadow(0 0 40px rgba(123,47,247,0.6));transform:scale(1.06);}
-}
-.splash-text{
-  font-size:13px;
-  letter-spacing:4px;
-  color:var(--gray);
-  text-transform:uppercase;
-  min-height:16px;
-}
-.splash-bar{
-  width:180px;height:3px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.08);
-  overflow:hidden;
-}
-.splash-bar-fill{
-  height:100%;width:0%;
-  border-radius:10px;
-  background:linear-gradient(90deg,var(--red),var(--purple));
-  box-shadow:0 0 12px rgba(123,47,247,0.7);
-  transition:width .35s ease;
-}
-
-/* ==========================================================================
    MÀN HÌNH ĐĂNG NHẬP
    ========================================================================== */
 #loginScreen{
@@ -203,28 +155,8 @@ input{font-family:inherit;}
   box-shadow:0 0 40px rgba(224,16,44,0.25), 0 0 80px rgba(123,47,247,0.15);
   text-align:center;
   position:relative;
-  animation:fadeUp .8s var(--ease-smooth);
-  overflow:hidden;
+  animation:fadeUp .8s ease;
 }
-.login-box::before{
-  content:'';
-  position:absolute;
-  top:-50%;left:-50%;
-  width:200%;height:200%;
-  background:conic-gradient(from 0deg, transparent 0deg, rgba(224,16,44,0.25) 30deg, transparent 90deg, rgba(123,47,247,0.25) 190deg, transparent 260deg);
-  animation:borderSpin 6s linear infinite;
-  z-index:0;
-}
-.login-box::after{
-  content:'';
-  position:absolute;
-  inset:1px;
-  border-radius:19px;
-  background:rgba(12,9,16,0.92);
-  z-index:0;
-}
-.login-box > *{position:relative;z-index:1;}
-@keyframes borderSpin{to{transform:rotate(360deg);}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 
 .login-logo{
@@ -254,18 +186,9 @@ input{font-family:inherit;}
   position:relative;
   margin-bottom:18px;
 }
-.input-group::before{
-  content:'🔒';
-  position:absolute;
-  left:14px;top:50%;
-  transform:translateY(-50%);
-  font-size:14px;
-  opacity:0.6;
-  z-index:2;
-}
 .input-group input{
   width:100%;
-  padding:14px 16px 14px 38px;
+  padding:14px 16px;
   border-radius:12px;
   background:rgba(0,0,0,0.4);
   border:1px solid var(--border);
@@ -296,7 +219,8 @@ input{font-family:inherit;}
 }
 .btn-neon:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(123,47,247,0.6);}
 .btn-neon:active{transform:translateY(0);}
-   /* hiệu ứng ripple cho tất cả nút */
+
+/* hiệu ứng ripple cho tất cả nút */
 .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);transform:scale(0);animation:rippleAnim .6s ease-out;pointer-events:none;}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
 
@@ -338,8 +262,7 @@ input{font-family:inherit;}
   40%{opacity:1;transform:scale(1.4);}
   100%{opacity:0;transform:scale(2.4);}
 }
-
-/* ==========================================================================
+   /* ==========================================================================
    BỐ CỤC CHÍNH
    ========================================================================== */
 #mainApp{
@@ -366,11 +289,6 @@ header.app-header{
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
-  transition:box-shadow .3s ease, background .3s ease;
-}
-header.app-header.scrolled{
-  background:rgba(6,4,9,0.92);
-  box-shadow:0 8px 24px rgba(0,0,0,0.5);
 }
 .header-inner{
   display:flex;
@@ -387,9 +305,7 @@ header.app-header.scrolled{
   align-items:center;
   gap:10px;
 }
-.brand .sharingan{width:38px;height:38px;cursor:pointer;transition:transform .3s var(--ease-bounce);}
-.brand .sharingan:hover{transform:scale(1.15) rotate(20deg);}
-.brand .sharingan.spin-fast{animation:spinSlow 0.6s linear infinite !important;}
+.brand .sharingan{width:38px;height:38px;}
 .brand-text h2{
   font-size:16px;
   letter-spacing:2px;
@@ -430,9 +346,7 @@ header.app-header.scrolled{
   font-size:12.5px;
   letter-spacing:1px;
   white-space:nowrap;
-  transition:all .25s var(--ease-smooth);
-  position:relative;
-  transform:translateY(0);
+  transition:all .25s ease;
 }
 .nav-tab.active{
   background:linear-gradient(90deg, rgba(224,16,44,0.25), rgba(123,47,247,0.25));
@@ -440,61 +354,19 @@ header.app-header.scrolled{
   border-color:rgba(255,255,255,0.15);
   box-shadow:0 0 14px rgba(123,47,247,0.35);
 }
-.nav-tab:hover{color:#fff;transform:translateY(-1px);}
-.nav-tab:active{transform:translateY(0) scale(0.96);}
-.nav-tab .badge-dot{
-  display:inline-block;
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--red-glow);
-  box-shadow:0 0 8px var(--red-glow);
-  margin-left:5px;
-  vertical-align:middle;
-  animation:blink 1.4s ease-in-out infinite;
-}
-
-/* Thanh điều hướng dạng thanh dưới cùng (bottom nav) cho điện thoại - dễ bấm bằng ngón cái */
-@media (max-width:640px){
-  .nav-tabs{
-    position:fixed;
-    bottom:0;left:0;right:0;
-    z-index:60;
-    background:rgba(6,4,9,0.92);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    border-top:1px solid var(--border);
-    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-    justify-content:space-around;
-    gap:4px;
-    box-shadow:0 -8px 24px rgba(0,0,0,0.4);
-  }
-  .nav-tab{
-    flex:1;
-    text-align:center;
-    padding:9px 6px;
-    font-size:11px;
-  }
-  #mainApp{padding-bottom:70px;}
-}
+.nav-tab:hover{color:#fff;}
 
 /* HERO */
 .hero{
   text-align:center;
   padding:38px 18px 10px;
   position:relative;
-  animation:heroIn .7s var(--ease-smooth);
-}
-@keyframes heroIn{
-  from{opacity:0;transform:translateY(18px) scale(0.98);}
-  to{opacity:1;transform:translateY(0) scale(1);}
 }
 .hero .sharingan{
   width:110px;height:110px;
   margin:0 auto 16px;
   box-shadow:0 0 35px rgba(224,16,44,0.7), 0 0 70px rgba(123,47,247,0.4);
-  transition:transform .4s var(--ease-bounce);
 }
-.hero .sharingan:hover{transform:scale(1.06);}
 .hero h1{
   font-size:34px;
   letter-spacing:5px;
@@ -534,7 +406,9 @@ header.app-header.scrolled{
   border-radius:3px;
   background:linear-gradient(var(--red),var(--purple));
   box-shadow:0 0 8px rgba(224,16,44,0.6);
-   /* GRID CARD CHỨC NĂNG */
+}
+
+/* GRID CARD CHỨC NĂNG */
 .grid-cards{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
@@ -550,38 +424,16 @@ header.app-header.scrolled{
   -webkit-backdrop-filter:blur(12px);
   position:relative;
   overflow:hidden;
-  transition:transform .25s var(--ease-smooth), box-shadow .25s ease, border-color .25s ease;
-  opacity:0;
-  transform:translateY(16px);
-  animation:cardIn .5s var(--ease-smooth) forwards;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-@keyframes cardIn{
-  to{opacity:1;transform:translateY(0);}
-}
-.feature-card::after{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(135deg, rgba(255,255,255,0.06), transparent 40%);
-  opacity:0;
-  transition:opacity .3s ease;
-  pointer-events:none;
-}
-.feature-card:hover::after{opacity:1;}
 .feature-card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-4px);
   border-color:rgba(255,255,255,0.18);
-  box-shadow:0 12px 32px rgba(0,0,0,0.45), 0 0 22px rgba(123,47,247,0.22);
+  box-shadow:0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(123,47,247,0.2);
 }
-.feature-card:active{transform:translateY(-2px) scale(0.985);}
 .feature-card.active{
   border-color:rgba(0,255,136,0.35);
   box-shadow:0 0 20px rgba(0,255,136,0.12);
-}
-.feature-card.just-toggled{animation:cardPulse .5s ease;}
-@keyframes cardPulse{
-  0%{box-shadow:0 0 0 rgba(123,47,247,0);}
-  40%{box-shadow:0 0 26px rgba(123,47,247,0.55);}
-  100%{box-shadow:0 0 20px rgba(0,255,136,0.12);}
 }
 .fc-top{
   display:flex;
@@ -628,7 +480,6 @@ header.app-header.scrolled{
   background:rgba(255,255,255,0.08);
   border:1px solid var(--border);
   transition:background .3s ease;
-  cursor:pointer;
 }
 .switch::after{
   content:'';
@@ -637,7 +488,7 @@ header.app-header.scrolled{
   width:18px;height:18px;
   border-radius:50%;
   background:#7d7688;
-  transition:all .35s var(--ease-bounce);
+  transition:all .3s cubic-bezier(.5,-0.3,.3,1.5);
 }
 .switch.on{
   background:linear-gradient(90deg,var(--red),var(--purple));
@@ -646,9 +497,7 @@ header.app-header.scrolled{
 .switch.on::after{
   left:24px;
   background:#fff;
-  box-shadow:0 0 8px rgba(255,255,255,0.8);
 }
-.switch:active::after{width:22px;}
 
 /* FOOTER */
 footer{
@@ -740,18 +589,7 @@ footer .f-title{
 }
 .btn-small.danger{background:linear-gradient(90deg,#5a0d18,#8f0f1e);}
 .btn-small.ghost{background:rgba(255,255,255,0.06);border:1px solid var(--border);}
-.btn-small{transition:transform .15s var(--ease-smooth), filter .2s ease, box-shadow .2s ease;}
-.btn-small:hover{filter:brightness(1.15);transform:translateY(-1px);}
-.btn-small:active{transform:translateY(0) scale(0.96);}
-
-.panel-box{transition:border-color .3s ease, box-shadow .3s ease;}
-.panel-box:hover{border-color:rgba(255,255,255,0.14);}
-
-.key-row-new{animation:rowHighlight 1.8s ease;}
-@keyframes rowHighlight{
-  0%{background:rgba(0,255,136,0.18);}
-  100%{background:transparent;}
-}
+.btn-small:hover{filter:brightness(1.15);}
 
 .key-table-wrap{overflow-x:auto;}
 table.key-table{
@@ -796,8 +634,6 @@ table.key-table td{
   overflow-y:auto;
   box-shadow:inset 0 0 30px rgba(0,255,136,0.05);
   line-height:1.6;
-  position:relative;
-  background-image:repeating-linear-gradient(0deg, rgba(0,255,136,0.025) 0px, rgba(0,255,136,0.025) 1px, transparent 1px, transparent 3px);
 }
 .terminal .t-line{white-space:pre-wrap;word-break:break-word;}
 .terminal .t-line::before{content:'> ';color:#037a41;}
@@ -829,10 +665,10 @@ table.key-table td{
   border-radius:18px;
   padding:24px;
   box-shadow:0 0 40px rgba(123,47,247,0.3);
-  transform:scale(0.85) translateY(10px);
-  transition:transform .35s var(--ease-bounce);
+  transform:scale(0.85);
+  transition:transform .3s ease;
 }
-.modal-overlay.show .modal-box{transform:scale(1) translateY(0);}
+.modal-overlay.show .modal-box{transform:scale(1);}
 .modal-box h3{
   font-size:15px;
   color:var(--purple-glow);
@@ -893,9 +729,8 @@ table.key-table td{
 }
 @media (max-width:420px){
   .grid-cards{grid-template-columns:1fr;}
-}
-
-/* focus rõ ràng cho accessibility */
+   }
+   /* focus rõ ràng cho accessibility */
 button:focus-visible, input:focus-visible{outline:2px solid var(--purple-glow);outline-offset:2px;}
 
 /* tôn trọng reduced motion */
@@ -905,7 +740,8 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--purple-glow);o
 </style>
 </head>
 <body>
-   <!-- ============================================================
+
+<!-- ============================================================
      CANVAS NỀN: lửa Amaterasu + hạt tro bay
      ============================================================ -->
 <canvas id="bgCanvas"></canvas>
@@ -917,18 +753,6 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--purple-glow);o
   <circle cx="100" cy="100" r="95" fill="#e0102c"/>
   <circle cx="100" cy="100" r="30" fill="#050508"/>
 </svg>
-
-<!-- ============================================================
-     SPLASH / BOOT LOADER
-     ============================================================ -->
-<div id="splashScreen">
-  <svg class="splash-logo" viewBox="0 0 200 200">
-    <circle cx="100" cy="100" r="95" fill="#e0102c"/>
-    <circle cx="100" cy="100" r="28" fill="#050508"/>
-  </svg>
-  <div class="splash-text" id="splashText">ĐANG KHỞI TẠO HỆ THỐNG...</div>
-  <div class="splash-bar"><div class="splash-bar-fill" id="splashBarFill"></div></div>
-</div>
 
 <!-- ============================================================
      HIỆU ỨNG MỞ KHÓA
@@ -1132,35 +956,6 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--purple-glow);o
    ========================================================================== */
 
 /* ---------------------------------------------------------------
-   0. SPLASH / BOOT LOADER - chạy trước tiên khi mở trang
-   --------------------------------------------------------------- */
-function runSplash(onDone){
-  const steps = [
-    { pct: 25, text: "ĐANG TẢI MODULE UCHIHA..." },
-    { pct: 55, text: "KIỂM TRA HỆ THỐNG BẢO MẬT..." },
-    { pct: 80, text: "ĐỒNG BỘ DỮ LIỆU LOCALSTORAGE..." },
-    { pct: 100, text: "SẴN SÀNG..." }
-  ];
-  const fill = document.getElementById('splashBarFill');
-  const text = document.getElementById('splashText');
-  let i = 0;
-  function next(){
-    if(i < steps.length){
-      fill.style.width = steps[i].pct + '%';
-      text.textContent = steps[i].text;
-      i++;
-      setTimeout(next, 320);
-    } else {
-      setTimeout(()=>{
-        document.getElementById('splashScreen').classList.add('fade-out');
-        setTimeout(onDone, 600);
-      }, 200);
-    }
-  }
-  next();
-}
-
-/* ---------------------------------------------------------------
    1. HẰNG SỐ & KHỞI TẠO DỮ LIỆU MẶC ĐỊNH
    --------------------------------------------------------------- */
 const ADMIN_KEY = "nhoang123"; // key admin mặc định, không thể xóa
@@ -1352,9 +1147,8 @@ function enterMainApp(){
     renderTerminal();
   }
   startTerminalBoot();
-}
-
-/* kiểm tra phiên đăng nhập đã lưu trước đó (localStorage) */
+       }
+   /* kiểm tra phiên đăng nhập đã lưu trước đó (localStorage) */
 function checkExistingSession(){
   const session = loadData(STORAGE.SESSION, null);
   if(session){
@@ -1370,44 +1164,22 @@ function checkExistingSession(){
   }
   return false;
 }
-   
-   }
-   /* ---------------------------------------------------------------
+
+/* ---------------------------------------------------------------
    6. ĐIỀU HƯỚNG TAB
    --------------------------------------------------------------- */
 document.getElementById('navTabs').addEventListener('click', (e)=>{
   const btn = e.target.closest('.nav-tab');
   if(!btn) return;
-  if(btn.classList.contains('active')) return; // đang ở tab này rồi thì không làm gì
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   const tab = btn.dataset.tab;
-  switchTab(tab);
-});
-
-function switchTab(tab){
-  const panels = {
-    home: document.getElementById('tab-home'),
-    notif: document.getElementById('tab-notif'),
-    admin: document.getElementById('tab-admin')
-  };
-  const target = panels[tab];
-  // ẩn các tab khác ngay lập tức
-  Object.entries(panels).forEach(([key, el])=>{
-    if(key !== tab) el.style.display = 'none';
-  });
-  // hiện tab được chọn với hiệu ứng fade + trượt nhẹ
-  target.style.display = '';
-  target.style.animation = 'none';
-  void target.offsetWidth; // reflow để chạy lại animation
-  target.style.animation = 'fadeUp .4s var(--ease-smooth)';
-
+  document.getElementById('tab-home').style.display = tab==='home' ? '' : 'none';
+  document.getElementById('tab-notif').style.display = tab==='notif' ? '' : 'none';
+  document.getElementById('tab-admin').style.display = tab==='admin' ? '' : 'none';
   if(tab === 'admin'){ renderAdminDashboard(); renderKeyTable(); }
-  if(tab === 'notif'){ renderNotifications(); updateNotifBadge(false); }
-
-  // cuộn nhẹ về đầu nội dung khi chuyển tab trên mobile
-  window.scrollTo({top:0, behavior:'smooth'});
-}
+  if(tab === 'notif'){ renderNotifications(); }
+});
 
 /* ---------------------------------------------------------------
    7. TOGGLE CHỨC NĂNG (FEATURE CARDS)
@@ -1415,17 +1187,14 @@ function switchTab(tab){
 function getToggles(){ return loadData(STORAGE.TOGGLES, {}); }
 function setToggles(t){ saveData(STORAGE.TOGGLES, t); }
 
-function renderFeatureGrid(preserveScroll){
+function renderFeatureGrid(){
   const grid = document.getElementById('featureGrid');
   const toggles = getToggles();
   grid.innerHTML = '';
-  FEATURES.forEach((f, idx)=>{
+  FEATURES.forEach(f=>{
     const isOn = !!toggles[f.id];
     const card = document.createElement('div');
     card.className = 'feature-card' + (isOn ? ' active' : '');
-    card.dataset.id = f.id;
-    // hiệu ứng xuất hiện tuần tự: mỗi card trễ hơn card trước 35ms
-    card.style.animationDelay = (idx * 0.035) + 's';
     card.innerHTML = `
       <div class="fc-top">
         <div class="fc-icon">${f.icon}</div>
@@ -1449,23 +1218,8 @@ document.getElementById('featureGrid').addEventListener('click', (e)=>{
   const toggles = getToggles();
   toggles[id] = !toggles[id];
   setToggles(toggles);
-
-  // rung nhẹ phản hồi cảm ứng nếu thiết bị hỗ trợ (không lỗi nếu không hỗ trợ)
-  if(navigator.vibrate) navigator.vibrate(12);
-
-  // cập nhật trực tiếp card thay vì render lại toàn bộ grid -> mượt hơn, không giật layout
-  const card = e.target.closest('.feature-card');
-  const isOn = toggles[id];
-  card.classList.toggle('active', isOn);
-  sw.classList.toggle('on', isOn);
-  card.querySelector('.led').classList.toggle('on', isOn);
-  card.querySelector('.led-label').textContent = isOn ? 'ĐANG BẬT' : 'ĐANG TẮT';
-  card.classList.remove('just-toggled');
-  void card.offsetWidth;
-  card.classList.add('just-toggled');
-
-  updateFeatureStat();
-  showToast(isOn ? `Đã bật: ${FEATURES.find(f=>f.id===id).name}` : `Đã tắt: ${FEATURES.find(f=>f.id===id).name}`);
+  renderFeatureGrid();
+  showToast(toggles[id] ? `Đã bật: ${FEATURES.find(f=>f.id===id).name}` : `Đã tắt: ${FEATURES.find(f=>f.id===id).name}`);
 });
 
 function updateFeatureStat(){
@@ -1489,14 +1243,13 @@ function renderAdminDashboard(){
   updateFeatureStat();
 }
 
-function renderKeyTable(highlightId){
+function renderKeyTable(){
   const keys = getKeys();
   const tbody = document.getElementById('keyTableBody');
   tbody.innerHTML = '';
   keys.forEach(k=>{
     const status = getKeyStatus(k);
     const tr = document.createElement('tr');
-    if(highlightId && k.id === highlightId) tr.classList.add('key-row-new');
     tr.innerHTML = `
       <td>${k.id}</td>
       <td>${k.name} ${k.isAdmin? '<span class="badge admin">ADMIN</span>':''}</td>
@@ -1505,7 +1258,6 @@ function renderKeyTable(highlightId){
       <td>${k.creator}</td>
       <td><span class="badge ${status==='active'?'active':'expired'}">${status==='active'?'Hoạt động':'Hết hạn'}</span></td>
       <td style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button class="btn-small ghost" data-copy="${k.key}" style="padding:6px 10px;font-size:11px;">📋 Copy</button>
         ${k.isAdmin ? '' : `
           <button class="btn-small ghost" data-extend="${k.id}" style="padding:6px 10px;font-size:11px;">+7 ngày</button>
           <button class="btn-small danger" data-delete="${k.id}" style="padding:6px 10px;font-size:11px;">Xóa</button>
@@ -1538,22 +1290,16 @@ document.getElementById('btnCreateKey').addEventListener('click', ()=>{
   setKeys(keys);
   document.getElementById('newKeyName').value = '';
   document.getElementById('newKeyDays').value = '';
-  renderKeyTable(newKey.id);
+  renderKeyTable();
   renderAdminDashboard();
   addLog(`Tạo key mới: ${newKey.key} (${days} ngày)`);
-  showToast(`Đã tạo key: ${newKey.key}`, false, 'Sao chép', ()=> copyToClipboard(newKey.key));
+  showToast(`Đã tạo key: ${newKey.key}`);
 });
 
 // xử lý click trong bảng key (xóa / gia hạn)
 document.getElementById('keyTableBody').addEventListener('click', (e)=>{
   const delBtn = e.target.closest('[data-delete]');
   const extendBtn = e.target.closest('[data-extend]');
-  const copyBtn = e.target.closest('[data-copy]');
-
-  if(copyBtn){
-    copyToClipboard(copyBtn.dataset.copy);
-    return;
-  }
 
   if(delBtn){
     const id = delBtn.dataset.delete;
@@ -1651,24 +1397,9 @@ function checkNewNotifications(){
   let seen = getSeenNotifs();
   const unseen = notifs.filter(n => !seen.includes(n.id));
   if(unseen.length > 0){
-    updateNotifBadge(true);
     showNotifPopup(unseen[0]);
     seen = seen.concat(unseen.map(n=>n.id));
     saveData(STORAGE.SEEN_NOTIFS, seen);
-    // tắt chấm đỏ sau khi người dùng đã xem popup
-    setTimeout(()=> updateNotifBadge(false), 4000);
-  }
-}
-
-// hiện/ẩn chấm đỏ trên tab "Thông báo"
-function updateNotifBadge(show){
-  const tab = document.querySelector('.nav-tab[data-tab="notif"]');
-  if(!tab) return;
-  const existing = tab.querySelector('.badge-dot');
-  if(show && !existing){
-    tab.insertAdjacentHTML('beforeend', '<span class="badge-dot"></span>');
-  } else if(!show && existing){
-    existing.remove();
   }
 }
 
@@ -1772,55 +1503,14 @@ document.getElementById('btnClearLog').addEventListener('click', ()=>{
 /* ---------------------------------------------------------------
    12. TOAST THÔNG BÁO NHỎ
    --------------------------------------------------------------- */
-function showToast(msg, isError, actionLabel, actionFn){
+function showToast(msg, isError){
   const box = document.getElementById('toastBox');
-  // giới hạn tối đa 3 toast cùng lúc để tránh rối giao diện
-  while(box.children.length >= 3){ box.removeChild(box.firstChild); }
-
   const t = document.createElement('div');
   t.className = 'toast';
-  t.style.display = 'flex';
-  t.style.alignItems = 'center';
-  t.style.gap = '10px';
   if(isError) t.style.borderColor = 'rgba(224,16,44,0.5)';
-
-  const icon = document.createElement('span');
-  icon.textContent = isError ? '⚠️' : '✅';
-  t.appendChild(icon);
-
-  const text = document.createElement('span');
-  text.textContent = msg;
-  text.style.flex = '1';
-  t.appendChild(text);
-
-  if(actionLabel && actionFn){
-    const actionBtn = document.createElement('button');
-    actionBtn.textContent = actionLabel;
-    actionBtn.style.cssText = 'padding:5px 10px;border-radius:8px;background:linear-gradient(90deg,var(--red),var(--purple));color:#fff;font-size:11px;font-weight:600;';
-    actionBtn.addEventListener('click', ()=>{ actionFn(); t.remove(); });
-    t.appendChild(actionBtn);
-    t.style.animation = 'toastIn .3s ease'; // không tự động ẩn khi có action, để người dùng kịp bấm
-    setTimeout(()=> t.remove(), 6000);
-  } else {
-    setTimeout(()=> t.remove(), 3000);
-  }
+  t.textContent = msg;
   box.appendChild(t);
-}
-
-// hàm sao chép văn bản vào clipboard, có phương án dự phòng nếu API không khả dụng
-function copyToClipboard(text){
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(()=> showToast('Đã sao chép: ' + text));
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try{ document.execCommand('copy'); showToast('Đã sao chép: ' + text); }catch(e){ showToast('Không thể sao chép', true); }
-    document.body.removeChild(ta);
-  }
+  setTimeout(()=> t.remove(), 3000);
 }
 
 /* ---------------------------------------------------------------
@@ -1930,9 +1620,8 @@ class FireParticle{
     ctx.fillStyle = grad;
     ctx.fill();
   }
-}
-
-const ashParticles = Array.from({length:PARTICLE_COUNT}, ()=> new AshParticle());
+   }
+   const ashParticles = Array.from({length:PARTICLE_COUNT}, ()=> new AshParticle());
 const fireParticles = Array.from({length:FIRE_COUNT}, ()=> new FireParticle());
 
 let lastFrameTime = 0;
@@ -1956,42 +1645,19 @@ function animateBg(timestamp){
 requestAnimationFrame(animateBg);
 
 /* ---------------------------------------------------------------
-   16. HIỆU ỨNG SCROLL HEADER (đổ bóng khi cuộn trang)
-   --------------------------------------------------------------- */
-window.addEventListener('scroll', ()=>{
-  const header = document.querySelector('header.app-header');
-  if(!header) return;
-  header.classList.toggle('scrolled', window.scrollY > 10);
-}, { passive:true });
-
-/* ---------------------------------------------------------------
-   17. EASTER EGG: bấm vào logo Sharingan ở header để xoay nhanh
-   --------------------------------------------------------------- */
-document.addEventListener('click', (e)=>{
-  const logo = e.target.closest('.brand .sharingan');
-  if(!logo) return;
-  logo.classList.add('spin-fast');
-  showToast('Mangekyō đã kích hoạt! 👁️');
-  setTimeout(()=> logo.classList.remove('spin-fast'), 1500);
-});
-
-/* ---------------------------------------------------------------
-   18. KHỞI CHẠY ỨNG DỤNG
+   16. KHỞI CHẠY ỨNG DỤNG
    --------------------------------------------------------------- */
 (function boot(){
-  runSplash(()=>{
-    initKeys();
-    updateClock();
-    // nếu đã có phiên đăng nhập hợp lệ trong localStorage thì vào thẳng
-    const restored = checkExistingSession();
-    if(!restored){
-      // hiển thị màn hình đăng nhập bình thường
-      keyInput.focus();
-    }
-  });
+  initKeys();
+  updateClock();
+  // nếu đã có phiên đăng nhập hợp lệ trong localStorage thì vào thẳng
+  const restored = checkExistingSession();
+  if(!restored){
+    // hiển thị màn hình đăng nhập bình thường
+    keyInput.focus();
+  }
 })();
 
 </script>
 </body>
 </html>
-   
