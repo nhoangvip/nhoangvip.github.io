@@ -2,1662 +2,1374 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>UCHIHA V2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>UCHIHA V3 · PREMIUM PANEL</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-/* ==========================================================================
-   UCHIHA V2 - STYLESHEET
-   Bảng màu chủ đạo: Đen (#050508) - Đỏ (#e0102c) - Tím (#7b2ff7)
-   ========================================================================== */
+/* ============================================================
+   UCHIHA V3 PREMIUM PANEL — CSS
+   Bảng màu: Đen huyền (void) · Đỏ Sharingan (crimson) · Tím Mangekyou
+   ============================================================ */
 :root{
-  --black:#050508;
-  --black-2:#0b0b12;
-  --panel:rgba(20,15,25,0.55);
-  --red:#e0102c;
-  --red-glow:#ff1744;
-  --purple:#7b2ff7;
-  --purple-glow:#a56bff;
-  --white:#f2eef7;
-  --gray:#9a93ab;
-  --border:rgba(255,255,255,0.08);
-  --green:#00ff88;
-  --font-title:'Segoe UI', 'Arial', sans-serif;
+  --void:#050106;
+  --abyss:#0b0308;
+  --panel:#12060a;
+  --crimson:#b3001b;
+  --blood:#ff1636;
+  --blood-soft:#ff4d63;
+  --purple:#3d0a5c;
+  --neon-purple:#a238ff;
+  --gold:#e8b84b;
+  --glass:rgba(22,6,14,.55);
+  --glass-light:rgba(40,10,20,.35);
+  --border:rgba(255,40,70,.22);
+  --border-purple:rgba(162,56,255,.25);
+  --text:#f4e8ec;
+  --text-dim:#a9838f;
+  --text-faint:#6e4d55;
+  --radius:18px;
+  --radius-sm:10px;
+  --ease:cubic-bezier(.22,.9,.32,1);
 }
-
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-
-html,body{
-  height:100%;
-  background:var(--black);
-  color:var(--white);
-  font-family:var(--font-title);
+html,body{height:100%;overscroll-behavior:none;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--void);
+  color:var(--text);
   overflow-x:hidden;
+  min-height:100vh;
+  min-height:100dvh;
   -webkit-font-smoothing:antialiased;
+  position:relative;
 }
-
-/* thanh cuộn tùy chỉnh */
-::-webkit-scrollbar{width:6px;}
+.eyebrow,.display-font{
+  font-family:"Segoe UI",Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:800;
+}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--crimson),var(--purple));border-radius:10px;}
 ::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--red),var(--purple));border-radius:10px;}
-
 a{color:inherit;text-decoration:none;}
-button{font-family:inherit;cursor:pointer;border:none;outline:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
 input{font-family:inherit;}
 
-/* ==========================================================================
-   NỀN ĐỘNG: canvas lửa Amaterasu + tro bay
-   ========================================================================== */
-#bgCanvas{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  z-index:0;
-  pointer-events:none;
-}
-
-.bg-vignette{
-  position:fixed;inset:0;
-  z-index:1;
-  pointer-events:none;
+/* ============ BACKGROUND FX LAYERS ============ */
+#bgfx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.bg-gradient{
+  position:absolute;inset:-10%;
   background:
-    radial-gradient(circle at 50% 0%, rgba(123,47,247,0.18), transparent 55%),
-    radial-gradient(circle at 15% 85%, rgba(224,16,44,0.16), transparent 55%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+    radial-gradient(circle at 20% 20%, rgba(179,0,27,.35), transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(162,56,255,.28), transparent 50%),
+    radial-gradient(circle at 50% 90%, rgba(255,22,54,.22), transparent 55%),
+    linear-gradient(180deg,#050106 0%,#0b0308 45%,#0a0210 100%);
+  animation:gradientShift 18s ease-in-out infinite alternate;
 }
-
+@keyframes gradientShift{
+  0%{transform:scale(1) translate(0,0);filter:hue-rotate(0deg);}
+  100%{transform:scale(1.08) translate(-2%,-2%);filter:hue-rotate(8deg);}
+}
 .bg-grid{
-  position:fixed;inset:0;
-  z-index:1;
-  pointer-events:none;
-  opacity:0.25;
+  position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(224,16,44,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(123,47,247,0.06) 1px, transparent 1px);
-  background-size:38px 38px;
-  mask-image:radial-gradient(circle at center, black 0%, transparent 75%);
+    linear-gradient(rgba(255,30,60,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,30,60,.05) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:radial-gradient(circle at 50% 30%, black, transparent 75%);
 }
-
-/* sharingan xoay nền mờ */
+.bg-smoke{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(60,10,30,.5), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 100%, rgba(30,5,45,.45), transparent 60%);
+  animation:smokeFloat 14s ease-in-out infinite alternate;
+  filter:blur(6px);
+}
+@keyframes smokeFloat{
+  0%{transform:translateY(0) scale(1);opacity:.7;}
+  100%{transform:translateY(-3%) scale(1.05);opacity:.95;}
+}
+/* Sharingan xoay nền lớn */
 .bg-sharingan{
-  position:fixed;
-  top:50%;left:50%;
+  position:absolute;
   width:900px;height:900px;
-  transform:translate(-50%,-50%);
-  z-index:1;
-  opacity:0.05;
-  pointer-events:none;
-  animation:spinSlow 60s linear infinite;
+  right:-320px;top:-260px;
+  opacity:.14;
+  animation:spinSlow 40s linear infinite;
+  filter:drop-shadow(0 0 60px rgba(255,20,50,.4));
 }
-@keyframes spinSlow{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
-
-/* ==========================================================================
-   COMPONENT DÙNG CHUNG: SHARINGAN ICON
-   ========================================================================== */
-.sharingan{
-  position:relative;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #ff3b52, #7a0010 70%, #2b0006 100%);
-  box-shadow:0 0 15px rgba(224,16,44,0.7), inset 0 0 12px rgba(0,0,0,0.6);
-  display:flex;align-items:center;justify-content:center;
-  animation:spinSlow 8s linear infinite;
-}
-.sharingan::before{
-  content:'';
+.bg-mangekyou{
   position:absolute;
-  width:32%;height:32%;
-  background:var(--black);
-  border-radius:50%;
-  box-shadow:0 0 6px rgba(0,0,0,0.8);
-  z-index:2;
+  width:700px;height:700px;
+  left:-260px;bottom:-260px;
+  opacity:.1;
+  animation:spinSlowRev 55s linear infinite, mangekyouPulse 5s ease-in-out infinite;
+  filter:drop-shadow(0 0 50px rgba(162,56,255,.4));
 }
-.sharingan .tomoe{
-  position:absolute;
-  width:100%;height:100%;
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes spinSlowRev{from{transform:rotate(360deg)}to{transform:rotate(0)}}
+@keyframes mangekyouPulse{0%,100%{opacity:.08}50%{opacity:.18}}
+/* Tia sét đỏ */
+.bg-lightning{position:absolute;inset:0;mix-blend-mode:screen;opacity:0;}
+.bg-lightning.flash{animation:lightningFlash .5s ease-out;}
+@keyframes lightningFlash{
+  0%{opacity:0}
+  8%{opacity:.5}
+  12%{opacity:0}
+  18%{opacity:.35}
+  25%{opacity:0}
 }
-.tomoe span{
-  position:absolute;
-  width:22%;height:22%;
-  background:var(--black);
-  border-radius:60% 60% 60% 0%;
-  top:8%;left:39%;
-  transform-origin:50% 190%;
-}
-.tomoe span:nth-child(1){transform:rotate(0deg);}
-.tomoe span:nth-child(2){transform:rotate(120deg);}
-.tomoe span:nth-child(3){transform:rotate(240deg);}
+/* Canvas particle lửa */
+#fireCanvas{position:absolute;inset:0;width:100%;height:100%;}
 
-/* ==========================================================================
-   MÀN HÌNH ĐĂNG NHẬP
-   ========================================================================== */
-#loginScreen{
-  position:fixed;inset:0;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:radial-gradient(ellipse at center, #120912 0%, #050508 80%);
-  transition:opacity .8s ease, transform .8s ease;
-}
-#loginScreen.hide{
-  opacity:0;
-  transform:scale(1.05);
-  pointer-events:none;
-}
-
-.login-box{
-  width:min(92vw, 400px);
-  padding:38px 30px 32px;
-  border-radius:20px;
-  background:var(--panel);
+/* ============ GLASS CARD BASE ============ */
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
   border:1px solid var(--border);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 0 40px rgba(224,16,44,0.25), 0 0 80px rgba(123,47,247,0.15);
+  border-radius:var(--radius);
+  box-shadow:0 8px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* ============ SPLASH SCREEN ============ */
+#splash{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 40%, #170410 0%, #050106 70%);
+  transition:opacity .8s var(--ease), visibility .8s;
+}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.splash-logo-wrap{position:relative;width:150px;height:150px;margin-bottom:28px;}
+.splash-logo-wrap svg{width:100%;height:100%;animation:spinSlow 12s linear infinite, logoGlow 2.4s ease-in-out infinite;}
+@keyframes logoGlow{
+  0%,100%{filter:drop-shadow(0 0 12px rgba(255,20,50,.6)) drop-shadow(0 0 28px rgba(162,56,255,.3));}
+  50%{filter:drop-shadow(0 0 26px rgba(255,20,50,.95)) drop-shadow(0 0 46px rgba(162,56,255,.6));}
+}
+.splash-title{
+  font-size:26px;letter-spacing:.3em;
+  background:linear-gradient(90deg,#ff2d4d,#ff8a5c,#a238ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:6px;text-align:center;
+}
+.splash-sub{font-size:11px;letter-spacing:.35em;color:var(--text-dim);margin-bottom:34px;}
+.splash-bar-track{width:min(280px,70vw);height:6px;border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;position:relative;border:1px solid var(--border);}
+.splash-bar-fill{height:100%;width:0%;border-radius:10px;background:linear-gradient(90deg,var(--crimson),var(--blood),var(--neon-purple));box-shadow:0 0 14px rgba(255,30,60,.8);transition:width .18s linear;}
+.splash-pct{margin-top:12px;font-size:11px;letter-spacing:.2em;color:var(--text-dim);font-variant-numeric:tabular-nums;}
+.splash-log{margin-top:18px;font-size:10.5px;color:var(--text-faint);letter-spacing:.08em;min-height:16px;}
+
+/* ============ KEY SCREEN ============ */
+#keyScreen{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .6s var(--ease), visibility .6s;
+}
+#keyScreen.show{opacity:1;visibility:visible;}
+.key-card{
+  width:100%;max-width:380px;
+  padding:36px 28px 30px;
   text-align:center;
   position:relative;
-  animation:fadeUp .8s ease;
+  animation:cardFloat 6s ease-in-out infinite;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-
-.login-logo{
-  width:90px;height:90px;
-  margin:0 auto 18px;
-}
-
-.login-box h1{
-  font-size:26px;
-  letter-spacing:3px;
-  background:linear-gradient(90deg, var(--red-glow), var(--purple-glow));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:0 0 25px rgba(224,16,44,0.4);
-  margin-bottom:4px;
-}
-.login-box .sub{
-  color:var(--gray);
-  font-size:12px;
-  letter-spacing:4px;
-  margin-bottom:26px;
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.key-icon{width:64px;height:64px;margin:0 auto 16px;animation:spinSlow 10s linear infinite;filter:drop-shadow(0 0 16px rgba(255,20,50,.7));}
+.key-card h1{font-size:19px;letter-spacing:.16em;margin-bottom:6px;
+  background:linear-gradient(90deg,#ff2d4d,#a238ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.key-card p{font-size:12px;color:var(--text-dim);margin-bottom:24px;letter-spacing:.03em;}
+.key-input-wrap{position:relative;margin-bottom:16px;}
+#keyInput{
+  width:100%;padding:14px 16px;
+  background:rgba(0,0,0,.35);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--text);font-size:15px;letter-spacing:.12em;text-align:center;
   text-transform:uppercase;
+  outline:none;transition:border-color .25s, box-shadow .25s;
 }
-
-.input-group{
-  position:relative;
-  margin-bottom:18px;
+#keyInput:focus{border-color:var(--blood-soft);box-shadow:0 0 0 3px rgba(255,30,60,.18), 0 0 20px rgba(255,30,60,.25);}
+.key-input-wrap.shake #keyInput{animation:shakeInput .45s;border-color:var(--blood);}
+@keyframes shakeInput{
+  10%,90%{transform:translateX(-2px)}
+  20%,80%{transform:translateX(4px)}
+  30%,50%,70%{transform:translateX(-8px)}
+  40%,60%{transform:translateX(8px)}
 }
-.input-group input{
-  width:100%;
-  padding:14px 16px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.4);
-  border:1px solid var(--border);
-  color:var(--white);
-  font-size:15px;
-  letter-spacing:1px;
-  transition:border-color .3s, box-shadow .3s;
-}
-.input-group input:focus{
-  border-color:var(--purple);
-  box-shadow:0 0 15px rgba(123,47,247,0.4);
-}
-.input-group input::placeholder{color:#665f78;}
-
-.btn-neon{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  background:linear-gradient(90deg, var(--red), var(--purple));
-  color:#fff;
-  font-weight:600;
-  font-size:15px;
-  letter-spacing:2px;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 0 20px rgba(224,16,44,0.4);
+.key-btn{
+  width:100%;padding:14px;border-radius:var(--radius-sm);
+  background:linear-gradient(90deg,var(--crimson),var(--purple));
+  font-weight:700;letter-spacing:.14em;font-size:13px;text-transform:uppercase;
+  color:#fff;position:relative;overflow:hidden;
+  box-shadow:0 6px 22px rgba(255,20,50,.35);
   transition:transform .2s, box-shadow .2s;
 }
-.btn-neon:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(123,47,247,0.6);}
-.btn-neon:active{transform:translateY(0);}
+.key-btn:active{transform:scale(.97);}
+.key-hint{margin-top:18px;font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;line-height:1.6;}
 
-/* hiệu ứng ripple cho tất cả nút */
-.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);transform:scale(0);animation:rippleAnim .6s ease-out;pointer-events:none;}
-@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+/* Ripple hiệu ứng cho button */
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:rippleAnim .6s ease-out;pointer-events:none;}
+@keyframes rippleAnim{to{transform:scale(3);opacity:0;}}
 
-.error-msg{
-  margin-top:14px;
-  color:var(--red-glow);
-  font-size:13px;
-  font-weight:600;
-  min-height:18px;
-  animation:shake .4s ease;
-}
-@keyframes shake{
-  0%,100%{transform:translateX(0);}
-  20%{transform:translateX(-6px);}
-  40%{transform:translateX(6px);}
-  60%{transform:translateX(-4px);}
-  80%{transform:translateX(4px);}
-}
-.hidden-msg{visibility:hidden;}
-
-.login-hint{
-  margin-top:16px;
-  font-size:11px;
-  color:#544d63;
-  letter-spacing:1px;
-}
-
-/* hiệu ứng mở khóa (unlock) */
-.unlock-flash{
-  position:fixed;inset:0;
-  z-index:200;
-  background:radial-gradient(circle, rgba(255,80,90,0.9), rgba(123,47,247,0.4) 40%, transparent 70%);
-  opacity:0;
-  pointer-events:none;
-}
-.unlock-flash.play{animation:flashOut .7s ease forwards;}
-@keyframes flashOut{
-  0%{opacity:0;transform:scale(0.2);}
-  40%{opacity:1;transform:scale(1.4);}
-  100%{opacity:0;transform:scale(2.4);}
-}
-   /* ==========================================================================
-   BỐ CỤC CHÍNH
-   ========================================================================== */
-#mainApp{
-  position:relative;
-  z-index:5;
-  min-height:100vh;
-  opacity:0;
-  transform:translateY(15px);
-  transition:opacity .7s ease, transform .7s ease;
-}
-#mainApp.show{opacity:1;transform:translateY(0);}
-#mainApp.hidden{display:none;}
-
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:0 18px;
-}
-
-/* HEADER */
-header.app-header{
-  position:sticky;top:0;z-index:50;
-  background:rgba(8,6,12,0.7);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-}
-.header-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:12px 18px;
-  max-width:1100px;
-  margin:0 auto;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.brand .sharingan{width:38px;height:38px;}
-.brand-text h2{
-  font-size:16px;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,var(--red-glow),var(--purple-glow));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 15px rgba(224,16,44,0.3);
-}
-.brand-text span{font-size:10px;color:var(--gray);letter-spacing:2px;}
-
-.header-time{
-  text-align:right;
-  font-size:12px;
-  color:var(--gray);
-}
-.header-time .clock{
-  font-size:17px;
-  color:var(--white);
-  font-weight:600;
-  letter-spacing:1px;
-  text-shadow:0 0 10px rgba(123,47,247,0.6);
-}
-
-.nav-tabs{
-  display:flex;
-  gap:8px;
-  padding:10px 18px 14px;
-  max-width:1100px;
-  margin:0 auto;
-  overflow-x:auto;
-}
-.nav-tabs::-webkit-scrollbar{display:none;}
-.nav-tab{
-  padding:9px 16px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--border);
-  color:var(--gray);
-  font-size:12.5px;
-  letter-spacing:1px;
-  white-space:nowrap;
-  transition:all .25s ease;
-}
-.nav-tab.active{
-  background:linear-gradient(90deg, rgba(224,16,44,0.25), rgba(123,47,247,0.25));
-  color:#fff;
-  border-color:rgba(255,255,255,0.15);
-  box-shadow:0 0 14px rgba(123,47,247,0.35);
-}
-.nav-tab:hover{color:#fff;}
-
-/* HERO */
-.hero{
-  text-align:center;
-  padding:38px 18px 10px;
-  position:relative;
-}
-.hero .sharingan{
-  width:110px;height:110px;
-  margin:0 auto 16px;
-  box-shadow:0 0 35px rgba(224,16,44,0.7), 0 0 70px rgba(123,47,247,0.4);
-}
-.hero h1{
-  font-size:34px;
-  letter-spacing:5px;
-  background:linear-gradient(90deg,var(--red-glow),var(--purple-glow));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 30px rgba(224,16,44,0.4);
-  animation:pulseGlow 3s ease-in-out infinite;
-}
-@keyframes pulseGlow{
-  0%,100%{filter:drop-shadow(0 0 6px rgba(224,16,44,0.5));}
-  50%{filter:drop-shadow(0 0 20px rgba(123,47,247,0.7));}
-}
-.hero p{color:var(--gray);font-size:13px;letter-spacing:2px;margin-top:6px;}
-.hero .welcome-user{
-  margin-top:10px;
-  font-size:12px;
-  color:var(--purple-glow);
-}
-
-/* SECTIONS */
-.section{
-  padding:20px 18px 10px;
-  animation:fadeUp .5s ease;
-}
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:16px;
-  font-size:15px;
-  letter-spacing:2px;
-  color:#fff;
-}
-.section-title::before{
-  content:'';
-  width:5px;height:18px;
-  border-radius:3px;
-  background:linear-gradient(var(--red),var(--purple));
-  box-shadow:0 0 8px rgba(224,16,44,0.6);
-}
-
-/* GRID CARD CHỨC NĂNG */
-.grid-cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
-  gap:14px;
-}
-
-.feature-card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  position:relative;
-  overflow:hidden;
-  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-}
-.feature-card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(255,255,255,0.18);
-  box-shadow:0 10px 30px rgba(0,0,0,0.4), 0 0 20px rgba(123,47,247,0.2);
-}
-.feature-card.active{
-  border-color:rgba(0,255,136,0.35);
-  box-shadow:0 0 20px rgba(0,255,136,0.12);
-}
-.fc-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:10px;
-}
-.fc-icon{
-  font-size:22px;
-  width:42px;height:42px;
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg, rgba(224,16,44,0.18), rgba(123,47,247,0.18));
-  border:1px solid var(--border);
-}
-.fc-name{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px;}
-.fc-desc{font-size:11.5px;color:var(--gray);line-height:1.4;min-height:30px;}
-
-.fc-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:12px;
-}
-.led{
-  width:9px;height:9px;
-  border-radius:50%;
-  background:#5a1c1c;
-  box-shadow:0 0 6px rgba(224,16,44,0.6);
-  transition:all .3s ease;
-}
-.led.on{
-  background:var(--green);
-  box-shadow:0 0 10px rgba(0,255,136,0.9);
-}
-.led-label{font-size:10px;color:var(--gray);letter-spacing:1px;margin-left:6px;}
-.led-wrap{display:flex;align-items:center;}
-
-/* TOGGLE SWITCH */
-.switch{
-  position:relative;
-  width:46px;height:24px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--border);
-  transition:background .3s ease;
-}
-.switch::after{
-  content:'';
-  position:absolute;
-  top:2px;left:2px;
-  width:18px;height:18px;
-  border-radius:50%;
-  background:#7d7688;
-  transition:all .3s cubic-bezier(.5,-0.3,.3,1.5);
-}
-.switch.on{
-  background:linear-gradient(90deg,var(--red),var(--purple));
-  box-shadow:0 0 12px rgba(123,47,247,0.5);
-}
-.switch.on::after{
-  left:24px;
-  background:#fff;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:34px 18px 26px;
-  color:var(--gray);
-  font-size:11.5px;
-  letter-spacing:1.5px;
-}
-footer .f-title{
-  font-size:14px;
-  letter-spacing:3px;
-  background:linear-gradient(90deg,var(--red-glow),var(--purple-glow));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  margin-bottom:6px;
-}
-
-/* ==========================================================================
-   ADMIN PANEL
-   ========================================================================== */
-.admin-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
-  gap:12px;
-  margin-bottom:20px;
-}
-.stat-box{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  text-align:center;
-}
-.stat-box .num{
-  font-size:24px;
-  font-weight:700;
-  background:linear-gradient(90deg,var(--red-glow),var(--purple-glow));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.stat-box .lbl{font-size:11px;color:var(--gray);letter-spacing:1px;margin-top:4px;}
-
-.panel-box{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:18px;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.panel-box h3{
-  font-size:14px;
-  letter-spacing:1.5px;
-  margin-bottom:14px;
-  color:#fff;
-  display:flex;align-items:center;gap:8px;
-}
-
-.form-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-.form-row input, .form-row textarea{
-  flex:1;
-  min-width:150px;
-  padding:11px 14px;
-  border-radius:10px;
-  background:rgba(0,0,0,0.35);
-  border:1px solid var(--border);
-  color:#fff;
-  font-size:13px;
-}
-.form-row textarea{resize:vertical;min-height:60px;}
-.form-row input:focus, .form-row textarea:focus{border-color:var(--purple);}
-
-.btn-small{
-  padding:11px 18px;
-  border-radius:10px;
-  background:linear-gradient(90deg,var(--red),var(--purple));
-  color:#fff;
-  font-size:12.5px;
-  font-weight:600;
-  letter-spacing:1px;
-  position:relative;
-  overflow:hidden;
-  white-space:nowrap;
-}
-.btn-small.danger{background:linear-gradient(90deg,#5a0d18,#8f0f1e);}
-.btn-small.ghost{background:rgba(255,255,255,0.06);border:1px solid var(--border);}
-.btn-small:hover{filter:brightness(1.15);}
-
-.key-table-wrap{overflow-x:auto;}
-table.key-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:12.5px;
-  min-width:640px;
-}
-table.key-table th{
-  text-align:left;
-  padding:10px 8px;
-  color:var(--gray);
-  font-weight:600;
-  border-bottom:1px solid var(--border);
-  letter-spacing:0.5px;
-}
-table.key-table td{
-  padding:10px 8px;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  color:#e8e4f0;
-}
-.badge{
-  padding:3px 9px;
-  border-radius:20px;
-  font-size:10.5px;
-  letter-spacing:0.5px;
-}
-.badge.active{background:rgba(0,255,136,0.15);color:var(--green);border:1px solid rgba(0,255,136,0.3);}
-.badge.expired{background:rgba(224,16,44,0.15);color:var(--red-glow);border:1px solid rgba(224,16,44,0.3);}
-.badge.admin{background:rgba(123,47,247,0.2);color:var(--purple-glow);border:1px solid rgba(123,47,247,0.4);}
-
-/* TERMINAL */
-.terminal{
-  background:#020203;
-  border:1px solid rgba(0,255,136,0.2);
-  border-radius:14px;
-  padding:16px;
-  font-family:'Courier New', monospace;
-  font-size:12.5px;
-  color:#00ff88;
-  height:260px;
-  overflow-y:auto;
-  box-shadow:inset 0 0 30px rgba(0,255,136,0.05);
-  line-height:1.6;
-}
-.terminal .t-line{white-space:pre-wrap;word-break:break-word;}
-.terminal .t-line::before{content:'> ';color:#037a41;}
-.terminal-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-.cursor-blink{
-  display:inline-block;
-  width:7px;height:14px;
-  background:#00ff88;
-  animation:blink 1s step-start infinite;
-  vertical-align:middle;
-}
-@keyframes blink{50%{opacity:0;}}
-
-/* NOTIFICATION POPUP */
-.modal-overlay{
-  position:fixed;inset:0;
-  z-index:300;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter:blur(6px);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s ease;
-}
-.modal-overlay.show{opacity:1;pointer-events:all;}
-.modal-box{
-  width:min(90vw,380px);
-  background:var(--black-2);
-  border:1px solid rgba(123,47,247,0.35);
-  border-radius:18px;
-  padding:24px;
-  box-shadow:0 0 40px rgba(123,47,247,0.3);
-  transform:scale(0.85);
-  transition:transform .3s ease;
-}
-.modal-overlay.show .modal-box{transform:scale(1);}
-.modal-box h3{
-  font-size:15px;
-  color:var(--purple-glow);
-  margin-bottom:8px;
-  display:flex;align-items:center;gap:8px;
-}
-.modal-box p{font-size:13px;color:#d9d3e6;line-height:1.5;margin-bottom:18px;white-space:pre-wrap;}
-.notif-list-item{
-  padding:12px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.03);
-  border:1px solid var(--border);
-  margin-bottom:10px;
-}
-.notif-list-item h4{font-size:13px;color:#fff;margin-bottom:4px;}
-.notif-list-item p{font-size:12px;color:var(--gray);margin-bottom:6px;}
-.notif-list-item small{color:#5c5568;font-size:10.5px;}
-
-/* toast nhỏ */
-#toastBox{
-  position:fixed;
-  bottom:20px;left:50%;
-  transform:translateX(-50%);
-  z-index:400;
-  display:flex;flex-direction:column;gap:8px;
-  align-items:center;
-}
+/* ============ TOAST / POPUP ============ */
+#toastHost{position:fixed;top:max(16px,env(safe-area-inset-top));left:0;right:0;z-index:200;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;}
 .toast{
-  padding:12px 20px;
-  border-radius:12px;
-  background:rgba(15,10,20,0.9);
+  pointer-events:auto;
+  padding:12px 18px;border-radius:12px;
+  display:flex;align-items:center;gap:10px;
+  font-size:12.5px;font-weight:600;letter-spacing:.02em;
+  max-width:90vw;
+  animation:toastIn .35s var(--ease), toastOut .35s var(--ease) 2.6s forwards;
   border:1px solid var(--border);
-  color:#fff;
-  font-size:12.5px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.5);
-  animation:toastIn .3s ease, toastOut .3s ease 2.6s forwards;
 }
-@keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-@keyframes toastOut{to{opacity:0;transform:translateY(-10px);}}
+.toast.error{background:rgba(60,5,15,.9);color:#ffd3da;box-shadow:0 0 24px rgba(255,20,50,.4);}
+.toast.success{background:rgba(6,40,25,.9);color:#c9ffe0;border-color:rgba(50,255,140,.3);box-shadow:0 0 24px rgba(50,255,140,.25);}
+.toast.info{background:rgba(20,10,45,.9);color:#e3d3ff;border-color:var(--border-purple);box-shadow:0 0 24px rgba(162,56,255,.25);}
+@keyframes toastIn{from{opacity:0;transform:translateY(-14px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-10px) scale(.96)}}
 
-/* confirm dialog */
-.confirm-box{max-width:340px;text-align:center;}
-.confirm-box .btn-row{display:flex;gap:10px;margin-top:6px;}
-.confirm-box .btn-row button{flex:1;}
+#modalOverlay{position:fixed;inset:0;background:rgba(3,0,5,.72);backdrop-filter:blur(6px);z-index:150;display:none;align-items:center;justify-content:center;padding:20px;}
+#modalOverlay.show{display:flex;animation:fadeIn .25s var(--ease);}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{width:100%;max-width:420px;padding:24px;max-height:85vh;overflow-y:auto;}
+.modal-box h3{font-size:15px;letter-spacing:.08em;margin-bottom:14px;color:#ffb3c0;}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;}
+.modal-box{position:relative;}
 
-/* ==========================================================================
-   RESPONSIVE - ĐIỆN THOẠI
-   ========================================================================== */
-@media (max-width:640px){
-  .hero h1{font-size:26px;letter-spacing:3px;}
-  .hero .sharingan{width:85px;height:85px;}
-  .header-inner{padding:10px 14px;}
-  .brand-text h2{font-size:14px;}
-  .grid-cards{grid-template-columns:1fr 1fr;}
-  .stat-box .num{font-size:19px;}
-  table.key-table{font-size:11.5px;}
-  .login-box{padding:30px 20px 26px;}
+/* ============ DASHBOARD LAYOUT ============ */
+#dashboard{position:relative;z-index:1;display:none;min-height:100vh;min-height:100dvh;padding-bottom:env(safe-area-inset-bottom);}
+#dashboard.show{display:block;animation:fadeIn .5s var(--ease);}
+
+header#topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+  padding:12px 16px;
+  padding-top:max(12px,env(safe-area-inset-top));
+  border-radius:0 0 var(--radius) var(--radius);
+  border-top:none;
 }
-@media (max-width:420px){
-  .grid-cards{grid-template-columns:1fr;}
-   }
-   /* focus rõ ràng cho accessibility */
-button:focus-visible, input:focus-visible{outline:2px solid var(--purple-glow);outline-offset:2px;}
+.topbar-left{display:flex;align-items:center;gap:10px;min-width:0;}
+.logo-mini{width:36px;height:36px;flex:none;animation:spinSlow 14s linear infinite;filter:drop-shadow(0 0 8px rgba(255,20,50,.7));}
+.topbar-titles{min-width:0;}
+.topbar-titles .site-name{font-size:13px;letter-spacing:.1em;font-weight:800;color:#ffdfe4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.topbar-titles .site-tag{font-size:9.5px;color:var(--text-faint);letter-spacing:.12em;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.clock-box{text-align:right;display:none;}
+.clock-box .time{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:#ffd3da;text-shadow:0 0 10px rgba(255,20,50,.5);}
+.clock-box .date{font-size:9px;color:var(--text-faint);letter-spacing:.06em;}
+@media(min-width:420px){.clock-box{display:block;}}
+.avatar-wrap{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border-radius:30px;background:rgba(255,255,255,.04);border:1px solid var(--border);}
+.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--crimson),var(--purple));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;box-shadow:0 0 10px rgba(255,20,50,.5);}
+.avatar-info{line-height:1.15;}
+.avatar-info .uname{font-size:11px;font-weight:700;}
+.avatar-info .urole{font-size:8.5px;color:var(--gold);letter-spacing:.08em;}
+.sound-toggle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;transition:.2s;}
+.sound-toggle:active{transform:scale(.9);}
 
-/* tôn trọng reduced motion */
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+/* Menu ngang cuộn ngang trên mobile */
+nav#menu{
+  display:flex;gap:10px;overflow-x:auto;
+  padding:12px 14px;
+  scrollbar-width:none;
 }
+nav#menu::-webkit-scrollbar{display:none;}
+.menu-item{
+  flex:none;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 14px;min-width:76px;
+  border-radius:14px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  transition:transform .25s var(--ease), box-shadow .25s, background .25s, border-color .25s;
+}
+.menu-item i,.menu-item svg{font-size:18px;transition:transform .3s var(--ease), filter .3s;}
+.menu-item span{font-size:9.5px;letter-spacing:.03em;color:var(--text-dim);white-space:nowrap;}
+.menu-item:active{transform:scale(.95);}
+.menu-item:hover,.menu-item.active{
+  border-color:var(--blood-soft);
+  background:linear-gradient(160deg, rgba(255,20,50,.14), rgba(162,56,255,.1));
+  box-shadow:0 0 22px rgba(255,20,50,.25);
+}
+.menu-item.active i{color:#ff5570;filter:drop-shadow(0 0 8px rgba(255,20,50,.8));transform:rotate(-6deg) scale(1.1);}
+.menu-item.admin-only{display:none;}
+body.is-admin .menu-item.admin-only{display:flex;}
+
+main#content{padding:6px 14px 30px;max-width:900px;margin:0 auto;}
+.panel{display:none;animation:panelIn .4s var(--ease);}
+.panel.active{display:block;}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.section-title{display:flex;align-items:center;gap:10px;margin:18px 0 12px;}
+.section-title i{color:var(--blood-soft);font-size:16px;}
+.section-title h2{font-size:14px;letter-spacing:.1em;}
+.section-title .line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+.card{padding:18px;margin-bottom:14px;}
+.card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:420px){.grid2{grid-template-columns:1fr;}}
+
+/* Stat card */
+.stat-card{padding:16px;text-align:center;position:relative;overflow:hidden;}
+.stat-card i{font-size:20px;color:var(--blood-soft);margin-bottom:8px;filter:drop-shadow(0 0 8px rgba(255,20,50,.5));}
+.stat-card .val{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;}
+.stat-card .lbl{font-size:9.5px;color:var(--text-dim);letter-spacing:.08em;margin-top:2px;}
+
+/* progress bar mô phỏng */
+.prog-track{width:100%;height:8px;border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:10px;border:1px solid var(--border);}
+.prog-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--crimson),var(--blood),var(--neon-purple));width:0%;transition:width .25s linear;box-shadow:0 0 10px rgba(255,20,50,.6);}
+
+.btn{
+  padding:11px 18px;border-radius:12px;font-size:12px;font-weight:700;letter-spacing:.06em;
+  background:linear-gradient(90deg,var(--crimson),var(--purple));color:#fff;
+  display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(255,20,50,.28);transition:transform .2s;
+}
+.btn:active{transform:scale(.96);}
+.btn.ghost{background:rgba(255,255,255,.05);border:1px solid var(--border);box-shadow:none;}
+.btn.sm{padding:7px 12px;font-size:10.5px;border-radius:9px;}
+.btn.danger{background:linear-gradient(90deg,#7a0012,#3a0006);}
+.btn.gold{background:linear-gradient(90deg,#8a6a1e,var(--gold));color:#241800;}
+.btn[disabled]{opacity:.45;pointer-events:none;}
+
+/* ============ TERMINAL ============ */
+.terminal{
+  background:#020102;
+  border:1px solid rgba(0,255,110,.2);
+  border-radius:var(--radius);
+  padding:14px;
+  font-family:"SFMono-Regular",Consolas,"Courier New",monospace;
+  font-size:12px;
+  color:#38ff8f;
+  height:280px;overflow-y:auto;
+  box-shadow:inset 0 0 30px rgba(0,255,110,.05), 0 0 24px rgba(0,255,110,.08);
+  position:relative;
+}
+.terminal .tline{margin-bottom:5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;}
+.terminal .tline .ts{color:#1c7a4a;margin-right:6px;}
+.terminal .cursor{display:inline-block;width:7px;height:13px;background:#38ff8f;margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle;}
+@keyframes blink{50%{opacity:0}}
+.term-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+
+/* ============ TABLE (key management) ============ */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border);}
+table.keytbl{width:100%;border-collapse:collapse;min-width:640px;font-size:11.5px;}
+table.keytbl th{background:rgba(255,20,50,.1);color:#ffb3c0;text-align:left;padding:10px 10px;letter-spacing:.05em;font-size:10px;text-transform:uppercase;white-space:nowrap;}
+table.keytbl td{padding:9px 10px;border-top:1px solid rgba(255,255,255,.05);white-space:nowrap;}
+table.keytbl tr:hover td{background:rgba(255,255,255,.02);}
+.badge{padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:700;letter-spacing:.04em;}
+.badge.active{background:rgba(50,255,140,.15);color:#7dffb0;border:1px solid rgba(50,255,140,.3);}
+.badge.locked{background:rgba(255,20,50,.15);color:#ff8a97;border:1px solid rgba(255,20,50,.3);}
+.badge.expired{background:rgba(255,180,20,.12);color:#ffcf6b;border:1px solid rgba(255,180,20,.3);}
+.icon-btn{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.05);display:inline-flex;align-items:center;justify-content:center;font-size:11px;margin:1px;border:1px solid transparent;transition:.2s;}
+.icon-btn:hover{border-color:var(--border);background:rgba(255,20,50,.12);}
+
+.form-row{margin-bottom:12px;}
+.form-row label{display:block;font-size:10.5px;color:var(--text-dim);letter-spacing:.05em;margin-bottom:6px;}
+.form-row input,.form-row select,.form-row textarea{
+  width:100%;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.3);
+  border:1px solid var(--border);color:var(--text);font-size:12.5px;outline:none;
+}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--blood-soft);}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;}
+.toolbar input[type=text]{flex:1;min-width:140px;padding:9px 12px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid var(--border);color:var(--text);font-size:12px;}
+.toolbar select{padding:9px 10px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid var(--border);color:var(--text);font-size:12px;}
+
+/* Notification list */
+.notif-item{padding:12px 14px;border-radius:12px;margin-bottom:10px;border-left:3px solid var(--blood-soft);}
+.notif-item .n-head{display:flex;justify-content:space-between;font-size:10px;color:var(--text-faint);margin-bottom:5px;letter-spacing:.03em;}
+.notif-item .n-body{font-size:12.5px;line-height:1.5;}
+
+/* Toggle switch */
+.switch{width:42px;height:24px;border-radius:20px;background:rgba(255,255,255,.08);position:relative;border:1px solid var(--border);transition:.25s;}
+.switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.25s;box-shadow:0 2px 6px rgba(0,0,0,.4);}
+.switch.on{background:linear-gradient(90deg,var(--crimson),var(--purple));}
+.switch.on::after{left:20px;}
+
+footer.foot{text-align:center;padding:26px 14px 40px;font-size:10px;color:var(--text-faint);letter-spacing:.08em;}
+
+/* cursor glow (desktop) */
+#cursorGlow{position:fixed;width:220px;height:220px;border-radius:50%;pointer-events:none;z-index:5;
+  background:radial-gradient(circle, rgba(255,20,50,.10), transparent 70%);
+  transform:translate(-50%,-50%);transition:opacity .3s;display:none;}
+@media(hover:hover) and (pointer:fine){#cursorGlow{display:block;}}
+
+.hidden{display:none !important;}
+.text-dim{color:var(--text-dim);}
+.mt8{margin-top:8px;}
+.mt14{margin-top:14px;}
+.flexwrap{display:flex;flex-wrap:wrap;gap:8px;}
 </style>
 </head>
 <body>
 
 <!-- ============================================================
-     CANVAS NỀN: lửa Amaterasu + hạt tro bay
-     ============================================================ -->
-<canvas id="bgCanvas"></canvas>
-<div class="bg-grid"></div>
-<div class="bg-vignette"></div>
+     LỚP HIỆU ỨNG NỀN (Sharingan, Mangekyou, lửa, khói, sét)
+============================================================ -->
+<div id="bgfx">
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-smoke"></div>
+  <canvas id="fireCanvas"></canvas>
+  <svg class="bg-sharingan" viewBox="0 0 200 200"><use href="#sharinganSVG"/></svg>
+  <svg class="bg-mangekyou" viewBox="0 0 200 200"><use href="#mangekyouSVG"/></svg>
+  <div class="bg-lightning" id="lightning"></div>
+</div>
+<div id="cursorGlow"></div>
 
-<!-- sharingan mờ xoay nền -->
-<svg class="bg-sharingan" viewBox="0 0 200 200">
-  <circle cx="100" cy="100" r="95" fill="#e0102c"/>
-  <circle cx="100" cy="100" r="30" fill="#050508"/>
+<!-- Định nghĩa SVG dùng chung (Sharingan / Mangekyou) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="sharinganSVG">
+      <circle cx="100" cy="100" r="96" fill="#0a0005" stroke="#ff1636" stroke-width="4"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#ff1636" stroke-width="1.5" opacity=".5"/>
+      <circle cx="100" cy="100" r="16" fill="#ff1636"/>
+      <g fill="#ff1636">
+        <path d="M100 30 C120 45 120 75 100 90 C95 60 90 45 100 30 Z"/>
+        <path d="M164 130 C144 140 116 128 112 104 C142 108 156 116 164 130 Z"/>
+        <path d="M36 130 C56 140 84 128 88 104 C58 108 44 116 36 130 Z"/>
+      </g>
+    </g>
+    <g id="mangekyouSVG">
+      <circle cx="100" cy="100" r="96" fill="#0a0210" stroke="#a238ff" stroke-width="4"/>
+      <circle cx="100" cy="100" r="14" fill="#a238ff"/>
+      <g stroke="#a238ff" stroke-width="6" fill="none" opacity=".85">
+        <path d="M100 14 L100 60"/>
+        <path d="M186 100 L140 100"/>
+        <path d="M100 186 L100 140"/>
+        <path d="M14 100 L60 100"/>
+        <path d="M155 45 L124 76"/>
+        <path d="M155 155 L124 124"/>
+        <path d="M45 155 L76 124"/>
+        <path d="M45 45 L76 76"/>
+      </g>
+    </g>
+  </defs>
 </svg>
 
 <!-- ============================================================
-     HIỆU ỨNG MỞ KHÓA
-     ============================================================ -->
-<div class="unlock-flash" id="unlockFlash"></div>
+     MÀN HÌNH KHỞI ĐỘNG (SPLASH)
+============================================================ -->
+<div id="splash">
+  <div class="splash-logo-wrap"><svg viewBox="0 0 200 200"><use href="#sharinganSVG"/></svg></div>
+  <div class="splash-title">UCHIHA V3</div>
+  <div class="splash-sub">PREMIUM PANEL</div>
+  <div class="splash-bar-track"><div class="splash-bar-fill" id="splashBar"></div></div>
+  <div class="splash-pct" id="splashPct">0%</div>
+  <div class="splash-log" id="splashLog">Đang khởi tạo Sharingan...</div>
+</div>
 
 <!-- ============================================================
-     MÀN HÌNH ĐĂNG NHẬP
-     ============================================================ -->
-<div id="loginScreen">
-  <div class="login-box">
-    <svg class="login-logo" viewBox="0 0 200 200">
-      <defs>
-        <radialGradient id="gradEye" cx="35%" cy="35%">
-          <stop offset="0%" stop-color="#ff3b52"/>
-          <stop offset="70%" stop-color="#7a0010"/>
-          <stop offset="100%" stop-color="#2b0006"/>
-        </radialGradient>
-      </defs>
-      <circle cx="100" cy="100" r="95" fill="url(#gradEye)" stroke="#a56bff" stroke-width="2" opacity="0.9"/>
-      <circle cx="100" cy="100" r="28" fill="#050508"/>
-      <g id="tomoeSvg">
-        <path d="M100 30 Q120 45 100 65 Q95 50 100 30 Z" fill="#050508"/>
-        <path d="M100 30 Q120 45 100 65 Q95 50 100 30 Z" fill="#050508" transform="rotate(120 100 100)"/>
-        <path d="M100 30 Q120 45 100 65 Q95 50 100 30 Z" fill="#050508" transform="rotate(240 100 100)"/>
-      </g>
-    </svg>
-    <h1>UCHIHA V2 PANEL</h1>
-    <p class="sub">Nhập Key để tiếp tục</p>
-
-    <div class="input-group">
-      <input type="text" id="keyInput" placeholder="Nhập Key của bạn..." autocomplete="off">
+     MÀN HÌNH NHẬP KEY
+============================================================ -->
+<div id="keyScreen">
+  <div class="key-card glass">
+    <svg class="key-icon" viewBox="0 0 200 200"><use href="#sharinganSVG"/></svg>
+    <h1>XÁC THỰC TRUY CẬP</h1>
+    <p>Nhập Key để mở khóa Uchiha Dashboard</p>
+    <div class="key-input-wrap" id="keyInputWrap">
+      <input type="text" id="keyInput" placeholder="UCHIHA-XXXX-XXXX" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false">
     </div>
-    <button class="btn-neon" id="btnLogin">ĐĂNG NHẬP</button>
-    <div class="error-msg hidden-msg" id="loginError">Sai Key</div>
-    <div class="login-hint">Hệ thống bảo mật Uchiha Clan • V2.0</div>
+    <button class="btn key-btn" id="unlockBtn" style="width:100%;justify-content:center;">
+      <i class="fa-solid fa-unlock"></i> MỞ KHÓA
+    </button>
+    <div class="key-hint">Mỗi lần tải lại trang đều yêu cầu nhập Key.<br>Không lưu phiên đăng nhập.</div>
   </div>
 </div>
 
 <!-- ============================================================
-     ỨNG DỤNG CHÍNH
-     ============================================================ -->
-<div id="mainApp" class="hidden">
+     TOAST HOST + MODAL OVERLAY
+============================================================ -->
+<div id="toastHost"></div>
+<div id="modalOverlay">
+  <div class="modal-box glass" id="modalBox"></div>
+</div>
 
-  <!-- HEADER -->
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="brand">
-        <svg class="sharingan" viewBox="0 0 200 200" style="width:38px;height:38px;">
-          <circle cx="100" cy="100" r="95" fill="#e0102c"/>
-          <circle cx="100" cy="100" r="28" fill="#050508"/>
-        </svg>
-        <div class="brand-text">
-          <h2>UCHIHA V2</h2>
-          <span>PERFORMANCE PANEL</span>
+<!-- ============================================================
+     DASHBOARD
+============================================================ -->
+<div id="dashboard">
+
+  <header id="topbar" class="glass">
+    <div class="topbar-left">
+      <svg class="logo-mini" viewBox="0 0 200 200"><use href="#sharinganSVG"/></svg>
+      <div class="topbar-titles">
+        <div class="site-name">UCHIHA V3 PANEL</div>
+        <div class="site-tag" id="siteTag">CYBERPUNK · GAMING PREMIUM</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="clock-box">
+        <div class="time" id="clockTime">00:00:00</div>
+        <div class="date" id="clockDate">--/--/----</div>
+      </div>
+      <button class="sound-toggle" id="soundToggle" title="Bật/Tắt âm thanh"><i class="fa-solid fa-volume-high"></i></button>
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatarInit">U</div>
+        <div class="avatar-info">
+          <div class="uname" id="userName">Guest</div>
+          <div class="urole" id="userRole">USER</div>
         </div>
       </div>
-      <div class="header-time">
-        <div class="clock" id="clockDisplay">00:00:00</div>
-        <div id="dateDisplay">--/--/----</div>
-      </div>
     </div>
-    <nav class="nav-tabs" id="navTabs">
-      <button class="nav-tab active" data-tab="home">🏠 Trang chính</button>
-      <button class="nav-tab" data-tab="notif">🔔 Thông báo</button>
-      <button class="nav-tab admin-only" data-tab="admin" style="display:none;">🛡️ Admin Panel</button>
-    </nav>
   </header>
 
-  <!-- TAB: TRANG CHÍNH -->
-  <div id="tab-home">
-    <section class="hero">
-      <svg class="sharingan" viewBox="0 0 200 200" style="width:110px;height:110px;">
-        <circle cx="100" cy="100" r="95" fill="#e0102c"/>
-        <circle cx="100" cy="100" r="28" fill="#050508"/>
-      </svg>
-      <h1>UCHIHA V2</h1>
-      <p>ĐÁNH THỨC SỨC MẠNH THIẾT BỊ CỦA BẠN</p>
-      <div class="welcome-user" id="welcomeUser"></div>
-    </section>
+  <nav id="menu">
+    <button class="menu-item active" data-panel="opt-iphone"><i class="fa-solid fa-bolt"></i><span>Tối ưu iPhone</span></button>
+    <button class="menu-item" data-panel="boost"><i class="fa-solid fa-rocket"></i><span>Tăng hiệu năng</span></button>
+    <button class="menu-item" data-panel="ram"><i class="fa-solid fa-broom"></i><span>Dọn RAM</span></button>
+    <button class="menu-item" data-panel="device"><i class="fa-solid fa-mobile-screen-button"></i><span>Thiết bị</span></button>
+    <button class="menu-item" data-panel="touch"><i class="fa-solid fa-hand-pointer"></i><span>Cảm ứng</span></button>
+    <button class="menu-item" data-panel="cool"><i class="fa-solid fa-temperature-low"></i><span>Giảm nhiệt</span></button>
+    <button class="menu-item" data-panel="network"><i class="fa-solid fa-wifi"></i><span>Mạng</span></button>
+    <button class="menu-item" data-panel="sysinfo"><i class="fa-solid fa-chart-line"></i><span>Hệ thống</span></button>
+    <button class="menu-item" data-panel="terminal"><i class="fa-solid fa-terminal"></i><span>Terminal</span></button>
+    <button class="menu-item" data-panel="notif"><i class="fa-solid fa-bell"></i><span>Thông báo</span></button>
+    <button class="menu-item" data-panel="settings"><i class="fa-solid fa-gear"></i><span>Cài đặt</span></button>
+    <button class="menu-item" data-panel="about"><i class="fa-solid fa-circle-info"></i><span>Giới thiệu</span></button>
+    <button class="menu-item admin-only" data-panel="admin"><i class="fa-solid fa-crown"></i><span>Admin</span></button>
+  </nav>
 
-    <section class="section">
-      <div class="section-title">MENU CHỨC NĂNG</div>
-      <div class="grid-cards" id="featureGrid"></div>
-    </section>
-  </div>
+  <main id="content">
 
-  <!-- TAB: THÔNG BÁO -->
-  <div id="tab-notif" class="section" style="display:none;">
-    <div class="section-title">TRUNG TÂM THÔNG BÁO</div>
-    <div id="notifList"></div>
-    <div id="notifEmpty" style="color:var(--gray);font-size:13px;text-align:center;padding:30px 0;">Chưa có thông báo nào.</div>
-  </div>
-
-  <!-- TAB: ADMIN PANEL -->
-  <div id="tab-admin" class="section" style="display:none;">
-    <div class="section-title">DASHBOARD QUẢN TRỊ</div>
-    <div class="admin-grid">
-      <div class="stat-box"><div class="num" id="statTotalKeys">0</div><div class="lbl">TỔNG SỐ KEY</div></div>
-      <div class="stat-box"><div class="num" id="statActiveKeys">0</div><div class="lbl">KEY HOẠT ĐỘNG</div></div>
-      <div class="stat-box"><div class="num" id="statExpiredKeys">0</div><div class="lbl">KEY HẾT HẠN</div></div>
-      <div class="stat-box"><div class="num" id="statNotif">0</div><div class="lbl">THÔNG BÁO</div></div>
-    </div>
-
-    <!-- TẠO KEY -->
-    <div class="panel-box">
-      <h3>🔑 TẠO KEY MỚI</h3>
-      <div class="form-row">
-        <input type="text" id="newKeyName" placeholder="Tên key (VD: VIP_Member01)">
-        <input type="number" id="newKeyDays" placeholder="Số ngày sử dụng" min="1">
-        <button class="btn-small" id="btnCreateKey">+ TẠO KEY</button>
+    <!-- ---- TỐI ƯU IPHONE ---- -->
+    <section class="panel active" id="panel-opt-iphone">
+      <div class="section-title"><i class="fa-solid fa-bolt"></i><h2>TỐI ƯU IPHONE</h2><div class="line"></div></div>
+      <div class="grid2">
+        <div class="stat-card glass"><i class="fa-solid fa-microchip"></i><div class="val" id="statCPU">—</div><div class="lbl">CPU LOAD</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-memory"></i><div class="val" id="statRAM">—</div><div class="lbl">RAM FREE</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-battery-three-quarters"></i><div class="val" id="statBattery">—</div><div class="lbl">PIN</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-gauge-high"></i><div class="val" id="statFPS">—</div><div class="lbl">FPS ƯỚC TÍNH</div></div>
       </div>
-    </div>
+      <div class="card glass">
+        <div class="card-row">
+          <div><strong>Quét &amp; tối ưu tổng thể</strong><div class="text-dim" style="font-size:11px;margin-top:3px;">Mô phỏng dọn tiến trình nền, cache, RAM</div></div>
+          <button class="btn" id="btnFullOpt"><i class="fa-solid fa-play"></i> Chạy</button>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="progFullOpt"></div></div>
+      </div>
+      <p class="text-dim" style="font-size:10.5px;line-height:1.6;">* Đây là giao diện mô phỏng minh họa, không thực hiện thay đổi hệ thống thực trên thiết bị.</p>
+    </section>
 
-    <!-- DANH SÁCH KEY -->
-    <div class="panel-box">
-      <h3>📋 DANH SÁCH KEY</h3>
-      <div class="key-table-wrap">
-        <table class="key-table">
-          <thead>
-            <tr><th>ID</th><th>Tên Key</th><th>Ngày tạo</th><th>Hết hạn</th><th>Người tạo</th><th>Trạng thái</th><th>Thao tác</th></tr>
-          </thead>
+    <!-- ---- TĂNG HIỆU NĂNG ---- -->
+    <section class="panel" id="panel-boost">
+      <div class="section-title"><i class="fa-solid fa-rocket"></i><h2>TĂNG HIỆU NĂNG</h2><div class="line"></div></div>
+      <div class="card glass">
+        <div class="card-row"><strong>Chế độ hiệu năng cao</strong>
+          <div class="switch" data-toggle="boostMode"></div>
+        </div>
+        <p class="text-dim mt8" style="font-size:11px;">Mô phỏng ưu tiên CPU/GPU cho ứng dụng đang chạy.</p>
+      </div>
+      <div class="card glass">
+        <div class="card-row"><strong>Tắt hiệu ứng nền hệ thống</strong>
+          <div class="switch" data-toggle="reduceMotionSim"></div>
+        </div>
+      </div>
+      <button class="btn" id="btnBoostRun" style="width:100%;justify-content:center;"><i class="fa-solid fa-gauge-high"></i> Bắt đầu tăng tốc</button>
+      <div class="prog-track"><div class="prog-fill" id="progBoost"></div></div>
+    </section>
+
+    <!-- ---- DỌN RAM ---- -->
+    <section class="panel" id="panel-ram">
+      <div class="section-title"><i class="fa-solid fa-broom"></i><h2>DỌN DẸP RAM</h2><div class="line"></div></div>
+      <div class="card glass" style="text-align:center;">
+        <div style="font-size:34px;font-weight:800;color:#ff5570;" id="ramFreedVal">0%</div>
+        <div class="text-dim" style="font-size:11px;">Bộ nhớ đã giải phóng (mô phỏng)</div>
+        <div class="prog-track"><div class="prog-fill" id="progRam"></div></div>
+        <button class="btn mt14" id="btnRamClean"><i class="fa-solid fa-broom"></i> Dọn ngay</button>
+      </div>
+    </section>
+
+    <!-- ---- KIỂM TRA THIẾT BỊ ---- -->
+    <section class="panel" id="panel-device">
+      <div class="section-title"><i class="fa-solid fa-mobile-screen-button"></i><h2>THÔNG TIN THIẾT BỊ</h2><div class="line"></div></div>
+      <div class="card glass" id="deviceInfoCard"></div>
+    </section>
+
+    <!-- ---- TỐI ƯU CẢM ỨNG ---- -->
+    <section class="panel" id="panel-touch">
+      <div class="section-title"><i class="fa-solid fa-hand-pointer"></i><h2>TỐI ƯU CẢM ỨNG</h2><div class="line"></div></div>
+      <div class="card glass">
+        <div class="card-row"><strong>Độ nhạy cảm ứng</strong><span id="touchSenVal" class="text-dim">80%</span></div>
+        <input type="range" id="touchSensitivity" min="0" max="100" value="80" style="width:100%;margin-top:10px;accent-color:#ff1636;">
+      </div>
+      <button class="btn" id="btnTouchCal" style="width:100%;justify-content:center;"><i class="fa-solid fa-crosshairs"></i> Hiệu chỉnh cảm ứng</button>
+      <div class="prog-track"><div class="prog-fill" id="progTouch"></div></div>
+    </section>
+
+    <!-- ---- GIẢM NHIỆT ---- -->
+    <section class="panel" id="panel-cool">
+      <div class="section-title"><i class="fa-solid fa-temperature-low"></i><h2>GIẢM NHIỆT ĐỘ</h2><div class="line"></div></div>
+      <div class="card glass" style="text-align:center;">
+        <div style="font-size:34px;font-weight:800;" id="tempVal">38°C</div>
+        <div class="text-dim" style="font-size:11px;">Nhiệt độ ước tính (mô phỏng)</div>
+        <div class="prog-track"><div class="prog-fill" id="progCool"></div></div>
+        <button class="btn mt14" id="btnCool"><i class="fa-solid fa-snowflake"></i> Kích hoạt làm mát</button>
+      </div>
+    </section>
+
+    <!-- ---- KIỂM TRA MẠNG ---- -->
+    <section class="panel" id="panel-network">
+      <div class="section-title"><i class="fa-solid fa-wifi"></i><h2>KIỂM TRA MẠNG</h2><div class="line"></div></div>
+      <div class="grid2">
+        <div class="stat-card glass"><i class="fa-solid fa-download"></i><div class="val" id="netDown">—</div><div class="lbl">TỐC ĐỘ TẢI</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-upload"></i><div class="val" id="netUp">—</div><div class="lbl">TỐC ĐỘ GỬI</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-tower-cell"></i><div class="val" id="netPing">—</div><div class="lbl">PING</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-signal"></i><div class="val" id="netType">—</div><div class="lbl">LOẠI KẾT NỐI</div></div>
+      </div>
+      <button class="btn" id="btnNetCheck" style="width:100%;justify-content:center;"><i class="fa-solid fa-satellite-dish"></i> Kiểm tra ngay</button>
+    </section>
+
+    <!-- ---- THÔNG TIN HỆ THỐNG ---- -->
+    <section class="panel" id="panel-sysinfo">
+      <div class="section-title"><i class="fa-solid fa-chart-line"></i><h2>THÔNG TIN HỆ THỐNG</h2><div class="line"></div></div>
+      <div class="card glass" id="sysInfoCard"></div>
+    </section>
+
+    <!-- ---- TERMINAL ---- -->
+    <section class="panel" id="panel-terminal">
+      <div class="section-title"><i class="fa-solid fa-terminal"></i><h2>TERMINAL</h2><div class="line"></div></div>
+      <div class="terminal" id="terminalBox"></div>
+      <div class="term-toolbar">
+        <button class="btn ghost sm" id="btnTermClear"><i class="fa-solid fa-trash"></i> Xóa</button>
+        <button class="btn ghost sm" id="btnTermCopy"><i class="fa-solid fa-copy"></i> Sao chép</button>
+        <button class="btn ghost sm" id="btnTermDownload"><i class="fa-solid fa-download"></i> Tải log</button>
+        <div class="switch on" id="autoScrollToggle" title="Tự cuộn"></div>
+        <span class="text-dim" style="font-size:10.5px;">Tự cuộn</span>
+      </div>
+    </section>
+    <!-- ---- THÔNG BÁO ---- -->
+    <section class="panel" id="panel-notif">
+      <div class="section-title"><i class="fa-solid fa-bell"></i><h2>THÔNG BÁO</h2><div class="line"></div></div>
+      <div id="notifList"></div>
+      <p class="text-dim" style="font-size:11px;" id="notifEmpty">Chưa có thông báo nào.</p>
+    </section>
+
+    <!-- ---- CÀI ĐẶT ---- -->
+    <section class="panel" id="panel-settings">
+      <div class="section-title"><i class="fa-solid fa-gear"></i><h2>CÀI ĐẶT</h2><div class="line"></div></div>
+      <div class="card glass">
+        <div class="card-row"><strong>Âm thanh hệ thống</strong><div class="switch on" id="settingsSound"></div></div>
+      </div>
+      <div class="card glass">
+        <div class="card-row"><strong>Hiệu ứng nền (Particle lửa)</strong><div class="switch on" id="settingsParticles"></div></div>
+      </div>
+      <div class="card glass">
+        <div class="card-row"><strong>Hiệu ứng sét đỏ ngẫu nhiên</strong><div class="switch on" id="settingsLightning"></div></div>
+      </div>
+      <button class="btn danger mt14" id="btnLogout" style="width:100%;justify-content:center;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+    </section>
+
+    <!-- ---- GIỚI THIỆU ---- -->
+    <section class="panel" id="panel-about">
+      <div class="section-title"><i class="fa-solid fa-circle-info"></i><h2>GIỚI THIỆU</h2><div class="line"></div></div>
+      <div class="card glass">
+        <p style="font-size:12.5px;line-height:1.8;">
+          <strong>Uchiha là ứng dụng tối ưu iPhone do Nhoang phát triển, giúp cải thiện hiệu năng, tăng độ ổn định và nâng cao trải nghiệm chơi game. Với hệ thống tối ưu thông minh cùng giao diện hiện đại, Uchiha mang đến cảm giác mượt mà, nhanh chóng và chuyên nghiệp cho game thủ.
+        </p>
+        <p class="text-dim mt14" style="font-size:11px;">Phiên bản 3.0.0 · Uchiha Systems</p>
+      </div>
+    </section>
+
+    <!-- ---- ADMIN PANEL ---- -->
+    <section class="panel" id="panel-admin">
+      <div class="section-title"><i class="fa-solid fa-crown"></i><h2>ADMIN DASHBOARD</h2><div class="line"></div></div>
+
+      <div class="grid2">
+        <div class="stat-card glass"><i class="fa-solid fa-key"></i><div class="val" id="admStatTotal">0</div><div class="lbl">TỔNG SỐ KEY</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-circle-check"></i><div class="val" id="admStatActive">0</div><div class="lbl">KEY HOẠT ĐỘNG</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-lock"></i><div class="val" id="admStatLocked">0</div><div class="lbl">KEY BỊ KHÓA</div></div>
+        <div class="stat-card glass"><i class="fa-solid fa-clock-rotate-left"></i><div class="val" id="admStatExpired">0</div><div class="lbl">KEY HẾT HẠN</div></div>
+      </div>
+
+      <div class="section-title"><i class="fa-solid fa-key"></i><h2>QUẢN LÝ KEY</h2><div class="line"></div></div>
+
+      <div class="card glass">
+        <div class="grid2">
+          <div class="form-row"><label>Tên người dùng / Ghi chú</label><input type="text" id="newKeyName" placeholder="VD: Khách VIP A"></div>
+          <div class="form-row"><label>Số ngày hiệu lực</label><input type="number" id="newKeyDays" value="30" min="1"></div>
+        </div>
+        <button class="btn" id="btnCreateKey"><i class="fa-solid fa-plus"></i> Tạo Key mới</button>
+        <button class="btn ghost" id="btnExportKeys"><i class="fa-solid fa-file-export"></i> Xuất danh sách</button>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" id="keySearch" placeholder="🔍 Tìm theo tên hoặc mã Key...">
+        <select id="keyFilter">
+          <option value="all">Tất cả trạng thái</option>
+          <option value="active">Đang hoạt động</option>
+          <option value="locked">Đã khóa</option>
+          <option value="expired">Hết hạn</option>
+        </select>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="keytbl">
+          <thead><tr>
+            <th>Mã Key</th><th>Tên</th><th>Ngày tạo</th><th>Hết hạn</th><th>Trạng thái</th><th>Thao tác</th>
+          </tr></thead>
           <tbody id="keyTableBody"></tbody>
         </table>
       </div>
-    </div>
 
-    <!-- GỬI THÔNG BÁO -->
-    <div class="panel-box">
-      <h3>📢 GỬI THÔNG BÁO</h3>
-      <div class="form-row">
-        <input type="text" id="newNotifTitle" placeholder="Tiêu đề thông báo">
+      <div class="section-title"><i class="fa-solid fa-paper-plane"></i><h2>GỬI THÔNG BÁO</h2><div class="line"></div></div>
+      <div class="card glass">
+        <div class="form-row"><label>Nội dung thông báo</label><textarea id="notifContent" rows="3" placeholder="Nhập nội dung gửi tới toàn bộ người dùng..."></textarea></div>
+        <button class="btn" id="btnSendNotif"><i class="fa-solid fa-paper-plane"></i> Gửi thông báo</button>
       </div>
-      <div class="form-row">
-        <textarea id="newNotifContent" placeholder="Nội dung thông báo..."></textarea>
-      </div>
-      <button class="btn-small" id="btnSendNotif">GỬI THÔNG BÁO</button>
-    </div>
 
-    <!-- TERMINAL -->
-    <div class="panel-box">
-      <h3>💻 TERMINAL HỆ THỐNG</h3>
-      <div class="terminal" id="terminalBox"></div>
-      <div class="terminal-controls">
-        <input type="text" id="newLogInput" placeholder="Nhập log mới..." style="flex:1;min-width:150px;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.4);border:1px solid var(--border);color:#00ff88;font-family:'Courier New',monospace;">
-        <button class="btn-small" id="btnSendLog">GỬI LOG</button>
-        <button class="btn-small danger" id="btnClearLog">XÓA LOG</button>
-      </div>
-    </div>
+      <div class="section-title"><i class="fa-solid fa-scroll"></i><h2>NHẬT KÝ HỆ THỐNG</h2><div class="line"></div></div>
+      <div class="card glass" id="adminLogCard" style="max-height:220px;overflow-y:auto;font-size:11px;"></div>
+    </section>
 
-    <!-- THỐNG KÊ -->
-    <div class="panel-box">
-      <h3>📊 THỐNG KÊ HỆ THỐNG</h3>
-      <div class="admin-grid">
-        <div class="stat-box"><div class="num" id="statFeaturesOn">0</div><div class="lbl">CHỨC NĂNG ĐANG BẬT</div></div>
-        <div class="stat-box"><div class="num" id="statFeaturesTotal">21</div><div class="lbl">TỔNG CHỨC NĂNG</div></div>
-        <div class="stat-box"><div class="num" id="statLogs">0</div><div class="lbl">SỐ DÒNG LOG</div></div>
-      </div>
-    </div>
-  </div>
+  </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="f-title">UCHIHA V2</div>
-    <div>Version 2.0</div>
-    <div>Designed by Hoàng</div>
-  </footer>
+  <footer class="foot">© UCHIHA SYSTEMS · V3 PREMIUM PANEL · Giao diện mô phỏng, phi hệ thống thật</footer>
 </div>
-
-<!-- ============================================================
-     MODAL: THÔNG BÁO POPUP
-     ============================================================ -->
-<div class="modal-overlay" id="notifModal">
-  <div class="modal-box" id="notifModalContent">
-    <h3>🔔 <span id="notifModalTitle">Thông báo</span></h3>
-    <p id="notifModalBody">Nội dung...</p>
-    <button class="btn-small" style="width:100%;" id="btnCloseNotifModal">ĐÃ HIỂU</button>
-  </div>
-</div>
-
-<!-- MODAL: XÁC NHẬN XÓA -->
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal-box confirm-box">
-    <h3 style="justify-content:center;">⚠️ Xác nhận</h3>
-    <p id="confirmText">Bạn có chắc muốn xóa?</p>
-    <div class="btn-row">
-      <button class="btn-small ghost" id="btnConfirmNo">HỦY</button>
-      <button class="btn-small danger" id="btnConfirmYes">XÓA</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="toastBox"></div>
 
 <script>
-/* ==========================================================================
-   UCHIHA V2 - JAVASCRIPT
-   Toàn bộ logic: đăng nhập, key system, admin panel, terminal, toggle,
-   thông báo, hiệu ứng nền... được lưu trữ bằng LocalStorage.
-   ========================================================================== */
+/* ============================================================
+   UCHIHA V3 PREMIUM PANEL — JAVASCRIPT
+   Toàn bộ logic: Splash, Key Auth, Dashboard, Terminal, Admin,
+   Hiệu ứng nền, Âm thanh, LocalStorage Key Management
+============================================================ */
+(function(){
+"use strict";
 
-/* ---------------------------------------------------------------
-   1. HẰNG SỐ & KHỞI TẠO DỮ LIỆU MẶC ĐỊNH
-   --------------------------------------------------------------- */
-const ADMIN_KEY = "nhoang123"; // key admin mặc định, không thể xóa
+/* ---------------- HẰNG SỐ & TRẠNG THÁI ---------------- */
+const ADMIN_KEY = "nhoang123";
+const LS_KEYS = "uchiha_v3_keys";
+const LS_NOTIFS = "uchiha_v3_notifs";
+const LS_LOGS = "uchiha_v3_logs";
 
-const STORAGE = {
-  KEYS: "uchiha_keys",
-  NOTIFS: "uchiha_notifications",
-  SEEN_NOTIFS: "uchiha_seen_notifs",
-  LOGS: "uchiha_terminal_logs",
-  TOGGLES: "uchiha_toggles",
-  SESSION: "uchiha_session"
+let state = {
+  soundOn: true,
+  isAdmin: false,
+  userName: "Guest",
+  particlesOn: true,
+  lightningOn: true,
+  autoScroll: true
 };
 
-// Danh sách 21 chức năng của bảng điều khiển
-const FEATURES = [
-  {id:"fps", icon:"⚡", name:"FPS Boost", desc:"Tăng tốc khung hình mượt mà hơn."},
-  {id:"cpu", icon:"⚡", name:"CPU Optimization", desc:"Tối ưu hiệu suất xử lý CPU."},
-  {id:"ram", icon:"⚡", name:"RAM Cleaner", desc:"Dọn dẹp bộ nhớ RAM đang chiếm dụng."},
-  {id:"gpu", icon:"⚡", name:"GPU Optimize", desc:"Tối ưu hóa xử lý đồ họa GPU."},
-  {id:"dns", icon:"⚡", name:"DNS Boost", desc:"Tăng tốc độ phân giải DNS."},
-  {id:"network", icon:"⚡", name:"Network Optimize", desc:"Tối ưu kết nối mạng ổn định."},
-  {id:"touch", icon:"⚡", name:"Touch Boost", desc:"Tăng độ nhạy phản hồi cảm ứng."},
-  {id:"thermal", icon:"⚡", name:"Thermal Mode", desc:"Kiểm soát nhiệt độ thiết bị."},
-  {id:"lowpower", icon:"⚡", name:"Low Power Mode", desc:"Chế độ tiết kiệm năng lượng."},
-  {id:"smooth", icon:"⚡", name:"Smooth Animation", desc:"Làm mượt hiệu ứng chuyển động."},
-  {id:"safaricache", icon:"⚡", name:"Safari Cache Cleaner", desc:"Xóa bộ nhớ đệm trình duyệt."},
-  {id:"bgapp", icon:"⚡", name:"Background App Cleaner", desc:"Dọn dẹp ứng dụng chạy ngầm."},
-  {id:"battery", icon:"⚡", name:"Battery Optimization", desc:"Tối ưu hóa tuổi thọ pin."},
-  {id:"memory", icon:"⚡", name:"Memory Refresh", desc:"Làm mới bộ nhớ hệ thống."},
-  {id:"game", icon:"⚡", name:"Game Mode", desc:"Chế độ chơi game hiệu suất cao."},
-  {id:"screen", icon:"⚡", name:"Screen Response", desc:"Cải thiện độ phản hồi màn hình."},
-  {id:"animspeed", icon:"⚡", name:"Animation Speed", desc:"Tăng tốc độ hiệu ứng hệ thống."},
-  {id:"ping", icon:"⚡", name:"Ping Stabilizer", desc:"Ổn định độ trễ mạng (ping)."},
-  {id:"audio", icon:"⚡", name:"Audio Optimize", desc:"Tối ưu chất lượng âm thanh."},
-  {id:"storage", icon:"⚡", name:"Storage Cleaner", desc:"Dọn dẹp bộ nhớ lưu trữ máy."},
-  {id:"iphoneperf", icon:"⚡", name:"iPhone Performance Mode", desc:"Chế độ hiệu suất tối đa cho iPhone."}
-];
+/* ---------------- TIỆN ÍCH LOCALSTORAGE ---------------- */
+function loadKeys(){ try{ return JSON.parse(localStorage.getItem(LS_KEYS)) || []; }catch(e){ return []; } }
+function saveKeys(list){ localStorage.setItem(LS_KEYS, JSON.stringify(list)); }
+function loadNotifs(){ try{ return JSON.parse(localStorage.getItem(LS_NOTIFS)) || []; }catch(e){ return []; } }
+function saveNotifs(list){ localStorage.setItem(LS_NOTIFS, JSON.stringify(list)); }
+function loadLogs(){ try{ return JSON.parse(localStorage.getItem(LS_LOGS)) || []; }catch(e){ return []; } }
+function saveLogs(list){ localStorage.setItem(LS_LOGS, JSON.stringify(list)); }
+function addLog(msg){
+  const logs = loadLogs();
+  logs.unshift({time:new Date().toISOString(), msg});
+  saveLogs(logs.slice(0,200));
+  renderAdminLogs();
+}
 
-/* ---------------------------------------------------------------
-   2. TIỆN ÍCH LOCALSTORAGE
-   --------------------------------------------------------------- */
-function loadData(key, fallback){
+/* ---------------- ÂM THANH (Web Audio API, không cần file ngoài) ---------------- */
+let audioCtx = null;
+function ctx(){ if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } return audioCtx; }
+function beep(freq, duration, type, gainVal){
+  if(!state.soundOn) return;
   try{
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
-  }catch(e){
-    return fallback;
-  }
+    const ac = ctx();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = type||"sine";
+    osc.frequency.value = freq;
+    gain.gain.value = gainVal||0.05;
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + duration);
+    osc.stop(ac.currentTime + duration);
+  }catch(e){}
 }
-function saveData(key, value){
-  localStorage.setItem(key, JSON.stringify(value));
+const Sound = {
+  click: ()=>beep(320,0.08,"square",0.04),
+  success: ()=>{ beep(520,0.12,"sine",0.06); setTimeout(()=>beep(780,0.15,"sine",0.06),90); },
+  error: ()=>{ beep(160,0.22,"sawtooth",0.07); },
+  notify: ()=>{ beep(660,0.1,"triangle",0.05); setTimeout(()=>beep(880,0.12,"triangle",0.05),110); }
+};
+
+/* ---------------- TOAST ---------------- */
+function toast(msg, kind, icon){
+  const host = document.getElementById("toastHost");
+  const el = document.createElement("div");
+  el.className = "toast " + (kind||"info");
+  el.innerHTML = `<i class="fa-solid ${icon||'fa-circle-info'}"></i><span>${msg}</span>`;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3100);
 }
 
-// Định dạng ngày tháng kiểu VN
-function formatDate(d){
-  const dt = new Date(d);
-  const pad = n => n.toString().padStart(2,'0');
-  return `${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()}`;
-}
-function daysFromNow(days){
-  const d = new Date();
-  d.setDate(d.getDate() + Number(days));
-  return d.getTime();
-}
-function genId(){
-  return 'K' + Math.random().toString(36).substr(2,6).toUpperCase();
+/* ---------------- RIPPLE EFFECT CHO NÚT BẤM ---------------- */
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".btn, .menu-item, .icon-btn, .switch");
+  if(!btn) return;
+  Sound.click();
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size+"px";
+  ripple.style.left = (e.clientX - rect.left - size/2)+"px";
+  ripple.style.top = (e.clientY - rect.top - size/2)+"px";
+  btn.style.position = btn.style.position || "relative";
+  btn.style.overflow = "hidden";
+  btn.appendChild(ripple);
+  setTimeout(()=>ripple.remove(), 650);
+});
+
+/* ============================================================
+   1. SPLASH SCREEN
+============================================================ */
+const splashLogs = [
+  "Đang khởi tạo Sharingan...",
+  "Đang tải Mangekyou Module...",
+  "Đang thiết lập Chakra Network...",
+  "Đang mã hóa dữ liệu...",
+  "Đang hoàn tất khởi động..."
+];
+function runSplash(){
+  const bar = document.getElementById("splashBar");
+  const pct = document.getElementById("splashPct");
+  const log = document.getElementById("splashLog");
+  let p = 0;
+  const timer = setInterval(()=>{
+    p += Math.random()*14 + 6;
+    if(p >= 100){ p = 100; clearInterval(timer); }
+    bar.style.width = p+"%";
+    pct.textContent = Math.floor(p)+"%";
+    const idx = Math.min(splashLogs.length-1, Math.floor((p/100)*splashLogs.length));
+    log.textContent = splashLogs[idx];
+    if(p===100){
+      setTimeout(()=>{
+        document.getElementById("splash").classList.add("hide");
+        document.getElementById("keyScreen").classList.add("show");
+        document.getElementById("keyInput").focus();
+      }, 450);
+    }
+  }, 220);
 }
 
-/* ---------------------------------------------------------------
-   3. KHỞI TẠO DỮ LIỆU KEY MẶC ĐỊNH (chạy 1 lần khi load web)
-   --------------------------------------------------------------- */
-function initKeys(){
-  let keys = loadData(STORAGE.KEYS, null);
-  if(!keys){ keys = []; }
-  // đảm bảo luôn tồn tại admin key và không thể bị xóa
-  const hasAdmin = keys.some(k => k.key === ADMIN_KEY);
-  if(!hasAdmin){
-    keys.unshift({
-      id: "ADMIN-ROOT",
-      name: "Admin Master Key",
-      key: ADMIN_KEY,
-      createdDate: Date.now(),
-      expiryDate: null, // null = vĩnh viễn
-      creator: "Hệ thống",
-      status: "active",
-      isAdmin: true
-    });
-  }
-  saveData(STORAGE.KEYS, keys);
-  return keys;
+/* ============================================================
+   2. HỆ THỐNG XÁC THỰC KEY (không lưu session)
+============================================================ */
+function isValidUserKey(code){
+  const keys = loadKeys();
+  const found = keys.find(k => k.code === code);
+  if(!found) return {ok:false};
+  if(found.status === "locked") return {ok:false, reason:"locked"};
+  if(found.expiresAt && new Date(found.expiresAt) < new Date()) return {ok:false, reason:"expired"};
+  return {ok:true, key:found};
 }
-
-function getKeys(){ return loadData(STORAGE.KEYS, []); }
-function setKeys(k){ saveData(STORAGE.KEYS, k); }
-
-function getKeyStatus(k){
-  if(k.isAdmin) return "active";
-  if(!k.expiryDate) return "active";
-  return Date.now() > k.expiryDate ? "expired" : "active";
-}
-
-/* ---------------------------------------------------------------
-   4. XỬ LÝ ĐĂNG NHẬP
-   --------------------------------------------------------------- */
-const loginScreen = document.getElementById('loginScreen');
-const mainApp = document.getElementById('mainApp');
-const keyInput = document.getElementById('keyInput');
-const btnLogin = document.getElementById('btnLogin');
-const loginError = document.getElementById('loginError');
-const unlockFlash = document.getElementById('unlockFlash');
-
-let CURRENT_SESSION = null; // { key, isAdmin, name }
 
 function attemptLogin(){
-  const value = keyInput.value.trim();
-  if(!value){
-    showLoginError("Vui lòng nhập Key");
-    return;
-  }
-  const keys = getKeys();
-  const found = keys.find(k => k.key === value);
+  const input = document.getElementById("keyInput");
+  const wrap = document.getElementById("keyInputWrap");
+  const raw = input.value.trim().toUpperCase();
 
-  if(!found){
-    showLoginError("Sai Key");
-    return;
-  }
-  if(getKeyStatus(found) === "expired"){
-    showLoginError("Key đã hết hạn");
+  if(!raw){ shakeKeyInput(); toast("Vui lòng nhập Key","error","fa-triangle-exclamation"); return; }
+
+  if(raw === ADMIN_KEY.toUpperCase()){
+    state.isAdmin = true;
+    state.userName = "Admin Uchiha";
+    Sound.success();
+    toast("Đăng nhập Admin thành công","success","fa-crown");
+    addLog("Admin đã đăng nhập vào hệ thống.");
+    openDashboard();
     return;
   }
 
-  // đăng nhập thành công
-  CURRENT_SESSION = {
-    key: found.key,
-    isAdmin: !!found.isAdmin,
-    name: found.name
-  };
-  saveData(STORAGE.SESSION, CURRENT_SESSION);
-  playUnlockEffect();
+  const check = isValidUserKey(raw);
+  if(check.ok){
+    state.isAdmin = false;
+    state.userName = check.key.name || "Thành viên";
+    Sound.success();
+    toast("Xác thực thành công","success","fa-circle-check");
+    addLog(`Key ${raw} (${check.key.name}) đã đăng nhập.`);
+    openDashboard();
+  } else {
+    shakeKeyInput();
+    Sound.error();
+    let msg = "❌ Key không hợp lệ";
+    if(check.reason === "locked") msg = "❌ Key đã bị khóa";
+    if(check.reason === "expired") msg = "❌ Key đã hết hạn";
+    toast(msg, "error", "fa-lock");
+  }
+}
+function shakeKeyInput(){
+  const wrap = document.getElementById("keyInputWrap");
+  wrap.classList.remove("shake"); void wrap.offsetWidth; wrap.classList.add("shake");
 }
 
-function showLoginError(msg){
-  loginError.textContent = msg;
-  loginError.classList.remove('hidden-msg');
-  loginError.style.animation = 'none';
-  void loginError.offsetWidth; // reflow để chạy lại animation
-  loginError.style.animation = 'shake .4s ease';
-  const loginBox = document.querySelector('.login-box');
-  loginBox.style.animation = 'none';
-  void loginBox.offsetWidth;
-  loginBox.style.animation = 'shake .4s ease';
-}
+document.getElementById("unlockBtn").addEventListener("click", attemptLogin);
+document.getElementById("keyInput").addEventListener("keyup", function(e){ if(e.key==="Enter") attemptLogin(); });
 
-function playUnlockEffect(){
-  unlockFlash.classList.add('play');
+/* ============================================================
+   3. MỞ DASHBOARD
+============================================================ */
+function openDashboard(){
+  document.getElementById("keyScreen").classList.remove("show");
+  document.body.classList.toggle("is-admin", state.isAdmin);
+  document.getElementById("userName").textContent = state.userName;
+  document.getElementById("userRole").textContent = state.isAdmin ? "★ ADMINISTRATOR" : "MEMBER";
+  document.getElementById("avatarInit").textContent = state.userName.trim().charAt(0).toUpperCase() || "U";
   setTimeout(()=>{
-    loginScreen.classList.add('hide');
-    setTimeout(()=>{
-      loginScreen.style.display = 'none';
-      unlockFlash.classList.remove('play');
-      enterMainApp();
-    }, 800);
-  }, 350);
-}
-
-btnLogin.addEventListener('click', attemptLogin);
-keyInput.addEventListener('keydown', e => { if(e.key === 'Enter') attemptLogin(); });
-
-/* ---------------------------------------------------------------
-   5. VÀO ỨNG DỤNG CHÍNH
-   --------------------------------------------------------------- */
-function enterMainApp(){
-  mainApp.classList.remove('hidden');
-  requestAnimationFrame(()=> mainApp.classList.add('show'));
-
-  document.getElementById('welcomeUser').textContent =
-    CURRENT_SESSION.isAdmin ? "Xin chào, Quản trị viên 🛡️" : `Xin chào, ${CURRENT_SESSION.name || 'Người dùng'}`;
-
-  if(CURRENT_SESSION.isAdmin){
-    document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'inline-flex');
-  }
-
-  renderFeatureGrid();
+    document.getElementById("dashboard").classList.add("show");
+  }, 200);
+  termLog("Connecting...");
+  setTimeout(()=>termLog("Checking..."), 500);
+  setTimeout(()=>termLog("Optimizing..."), 1000);
+  setTimeout(()=>termLog(`Xin chào ${state.userName}, hệ thống đã sẵn sàng.`), 1500);
+  renderDeviceInfo();
+  renderSysInfo();
   renderNotifications();
-  checkNewNotifications();
-  if(CURRENT_SESSION.isAdmin){
-    renderAdminDashboard();
-    renderKeyTable();
-    renderTerminal();
-  }
-  startTerminalBoot();
-       }
-   /* kiểm tra phiên đăng nhập đã lưu trước đó (localStorage) */
-function checkExistingSession(){
-  const session = loadData(STORAGE.SESSION, null);
-  if(session){
-    // xác thực lại key còn hợp lệ không
-    const keys = getKeys();
-    const found = keys.find(k => k.key === session.key);
-    if(found && getKeyStatus(found) !== 'expired'){
-      CURRENT_SESSION = session;
-      loginScreen.style.display = 'none';
-      enterMainApp();
-      return true;
-    }
-  }
-  return false;
+  if(state.isAdmin){ renderKeyTable(); renderAdminLogs(); }
 }
 
-/* ---------------------------------------------------------------
-   6. ĐIỀU HƯỚNG TAB
-   --------------------------------------------------------------- */
-document.getElementById('navTabs').addEventListener('click', (e)=>{
-  const btn = e.target.closest('.nav-tab');
-  if(!btn) return;
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  const tab = btn.dataset.tab;
-  document.getElementById('tab-home').style.display = tab==='home' ? '' : 'none';
-  document.getElementById('tab-notif').style.display = tab==='notif' ? '' : 'none';
-  document.getElementById('tab-admin').style.display = tab==='admin' ? '' : 'none';
-  if(tab === 'admin'){ renderAdminDashboard(); renderKeyTable(); }
-  if(tab === 'notif'){ renderNotifications(); }
-});
-
-/* ---------------------------------------------------------------
-   7. TOGGLE CHỨC NĂNG (FEATURE CARDS)
-   --------------------------------------------------------------- */
-function getToggles(){ return loadData(STORAGE.TOGGLES, {}); }
-function setToggles(t){ saveData(STORAGE.TOGGLES, t); }
-
-function renderFeatureGrid(){
-  const grid = document.getElementById('featureGrid');
-  const toggles = getToggles();
-  grid.innerHTML = '';
-  FEATURES.forEach(f=>{
-    const isOn = !!toggles[f.id];
-    const card = document.createElement('div');
-    card.className = 'feature-card' + (isOn ? ' active' : '');
-    card.innerHTML = `
-      <div class="fc-top">
-        <div class="fc-icon">${f.icon}</div>
-        <div class="switch ${isOn?'on':''}" data-id="${f.id}"></div>
-      </div>
-      <div class="fc-name">${f.name}</div>
-      <div class="fc-desc">${f.desc}</div>
-      <div class="fc-bottom">
-        <div class="led-wrap"><div class="led ${isOn?'on':''}"></div><span class="led-label">${isOn?'ĐANG BẬT':'ĐANG TẮT'}</span></div>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
-  updateFeatureStat();
-}
-
-document.getElementById('featureGrid').addEventListener('click', (e)=>{
-  const sw = e.target.closest('.switch');
-  if(!sw) return;
-  const id = sw.dataset.id;
-  const toggles = getToggles();
-  toggles[id] = !toggles[id];
-  setToggles(toggles);
-  renderFeatureGrid();
-  showToast(toggles[id] ? `Đã bật: ${FEATURES.find(f=>f.id===id).name}` : `Đã tắt: ${FEATURES.find(f=>f.id===id).name}`);
-});
-
-function updateFeatureStat(){
-  const toggles = getToggles();
-  const onCount = Object.values(toggles).filter(Boolean).length;
-  const el1 = document.getElementById('statFeaturesOn');
-  if(el1) el1.textContent = onCount;
-}
-
-/* ---------------------------------------------------------------
-   8. ADMIN - TẠO / XÓA / GIA HẠN KEY
-   --------------------------------------------------------------- */
-function renderAdminDashboard(){
-  const keys = getKeys();
-  const notifs = loadData(STORAGE.NOTIFS, []);
-  document.getElementById('statTotalKeys').textContent = keys.length;
-  document.getElementById('statActiveKeys').textContent = keys.filter(k=>getKeyStatus(k)==='active').length;
-  document.getElementById('statExpiredKeys').textContent = keys.filter(k=>getKeyStatus(k)==='expired').length;
-  document.getElementById('statNotif').textContent = notifs.length;
-  document.getElementById('statLogs').textContent = loadData(STORAGE.LOGS, []).length;
-  updateFeatureStat();
-}
-
-function renderKeyTable(){
-  const keys = getKeys();
-  const tbody = document.getElementById('keyTableBody');
-  tbody.innerHTML = '';
-  keys.forEach(k=>{
-    const status = getKeyStatus(k);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${k.id}</td>
-      <td>${k.name} ${k.isAdmin? '<span class="badge admin">ADMIN</span>':''}</td>
-      <td>${formatDate(k.createdDate)}</td>
-      <td>${k.expiryDate ? formatDate(k.expiryDate) : 'Vĩnh viễn'}</td>
-      <td>${k.creator}</td>
-      <td><span class="badge ${status==='active'?'active':'expired'}">${status==='active'?'Hoạt động':'Hết hạn'}</span></td>
-      <td style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${k.isAdmin ? '' : `
-          <button class="btn-small ghost" data-extend="${k.id}" style="padding:6px 10px;font-size:11px;">+7 ngày</button>
-          <button class="btn-small danger" data-delete="${k.id}" style="padding:6px 10px;font-size:11px;">Xóa</button>
-        `}
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-document.getElementById('btnCreateKey').addEventListener('click', ()=>{
-  const name = document.getElementById('newKeyName').value.trim();
-  const days = document.getElementById('newKeyDays').value;
-  if(!name || !days || Number(days) <= 0){
-    showToast('Vui lòng nhập đầy đủ Tên key và Số ngày', true);
-    return;
-  }
-  const keys = getKeys();
-  const newKey = {
-    id: genId(),
-    name: name,
-    key: name.toLowerCase().replace(/\s+/g,'') + Math.floor(Math.random()*900+100),
-    createdDate: Date.now(),
-    expiryDate: daysFromNow(days),
-    creator: CURRENT_SESSION.isAdmin ? "Admin" : "Người dùng",
-    status: "active",
-    isAdmin: false
-  };
-  keys.push(newKey);
-  setKeys(keys);
-  document.getElementById('newKeyName').value = '';
-  document.getElementById('newKeyDays').value = '';
-  renderKeyTable();
-  renderAdminDashboard();
-  addLog(`Tạo key mới: ${newKey.key} (${days} ngày)`);
-  showToast(`Đã tạo key: ${newKey.key}`);
-});
-
-// xử lý click trong bảng key (xóa / gia hạn)
-document.getElementById('keyTableBody').addEventListener('click', (e)=>{
-  const delBtn = e.target.closest('[data-delete]');
-  const extendBtn = e.target.closest('[data-extend]');
-
-  if(delBtn){
-    const id = delBtn.dataset.delete;
-    openConfirm(`Xóa key có ID ${id}? Hành động này không thể hoàn tác.`, ()=>{
-      let keys = getKeys();
-      const target = keys.find(k=>k.id===id);
-      if(target && target.isAdmin){
-        showToast('Không thể xóa Admin Key!', true);
-        return;
-      }
-      keys = keys.filter(k=>k.id!==id);
-      setKeys(keys);
-      renderKeyTable();
-      renderAdminDashboard();
-      addLog(`Đã xóa key ID: ${id}`);
-      showToast('Đã xóa key thành công');
-    });
-  }
-
-  if(extendBtn){
-    const id = extendBtn.dataset.extend;
-    let keys = getKeys();
-    const target = keys.find(k=>k.id===id);
-    if(target){
-      const base = target.expiryDate && target.expiryDate > Date.now() ? target.expiryDate : Date.now();
-      target.expiryDate = base + 7*24*60*60*1000;
-      setKeys(keys);
-      renderKeyTable();
-      addLog(`Gia hạn key ${target.key} thêm 7 ngày`);
-      showToast(`Đã gia hạn key: ${target.key}`);
-    }
-  }
-});
-
-/* ---------------------------------------------------------------
-   9. HỘP THOẠI XÁC NHẬN DÙNG CHUNG
-   --------------------------------------------------------------- */
-let confirmCallback = null;
-const confirmModal = document.getElementById('confirmModal');
-function openConfirm(text, callback){
-  document.getElementById('confirmText').textContent = text;
-  confirmCallback = callback;
-  confirmModal.classList.add('show');
-}
-document.getElementById('btnConfirmNo').addEventListener('click', ()=> confirmModal.classList.remove('show'));
-document.getElementById('btnConfirmYes').addEventListener('click', ()=>{
-  confirmModal.classList.remove('show');
-  if(confirmCallback) confirmCallback();
-  confirmCallback = null;
-});
-
-/* ---------------------------------------------------------------
-   10. HỆ THỐNG THÔNG BÁO
-   --------------------------------------------------------------- */
-function getNotifs(){ return loadData(STORAGE.NOTIFS, []); }
-function setNotifs(n){ saveData(STORAGE.NOTIFS, n); }
-function getSeenNotifs(){ return loadData(STORAGE.SEEN_NOTIFS, []); }
-
-document.getElementById('btnSendNotif').addEventListener('click', ()=>{
-  const title = document.getElementById('newNotifTitle').value.trim();
-  const content = document.getElementById('newNotifContent').value.trim();
-  if(!title || !content){
-    showToast('Vui lòng nhập tiêu đề và nội dung', true);
-    return;
-  }
-  const notifs = getNotifs();
-  notifs.unshift({ id: 'N'+Date.now(), title, content, date: Date.now() });
-  setNotifs(notifs);
-  document.getElementById('newNotifTitle').value = '';
-  document.getElementById('newNotifContent').value = '';
-  renderAdminDashboard();
-  addLog(`Đã gửi thông báo: "${title}"`);
-  showToast('Đã gửi thông báo thành công');
-});
-
-function renderNotifications(){
-  const notifs = getNotifs();
-  const list = document.getElementById('notifList');
-  const empty = document.getElementById('notifEmpty');
-  list.innerHTML = '';
-  if(notifs.length === 0){ empty.style.display='block'; return; }
-  empty.style.display = 'none';
-  notifs.forEach(n=>{
-    const item = document.createElement('div');
-    item.className = 'notif-list-item';
-    item.innerHTML = `<h4>${n.title}</h4><p>${n.content}</p><small>${formatDate(n.date)}</small>`;
-    list.appendChild(item);
-  });
-}
-
-// hiện popup cho các thông báo chưa xem khi đăng nhập
-function checkNewNotifications(){
-  const notifs = getNotifs();
-  if(notifs.length === 0) return;
-  let seen = getSeenNotifs();
-  const unseen = notifs.filter(n => !seen.includes(n.id));
-  if(unseen.length > 0){
-    showNotifPopup(unseen[0]);
-    seen = seen.concat(unseen.map(n=>n.id));
-    saveData(STORAGE.SEEN_NOTIFS, seen);
-  }
-}
-
-const notifModal = document.getElementById('notifModal');
-function showNotifPopup(n){
-  document.getElementById('notifModalTitle').textContent = n.title;
-  document.getElementById('notifModalBody').textContent = n.content;
-  notifModal.classList.add('show');
-}
-document.getElementById('btnCloseNotifModal').addEventListener('click', ()=> notifModal.classList.remove('show'));
-
-/* ---------------------------------------------------------------
-   11. TERMINAL HACKER
-   --------------------------------------------------------------- */
-function getLogs(){ return loadData(STORAGE.LOGS, []); }
-function setLogs(l){ saveData(STORAGE.LOGS, l); }
-
-function addLog(text){
-  const logs = getLogs();
-  logs.push(text);
-  setLogs(logs);
-  appendTerminalLine(text);
-  renderAdminDashboard();
-}
-
-function appendTerminalLine(text){
-  const box = document.getElementById('terminalBox');
-  if(!box) return;
-  const line = document.createElement('div');
-  line.className = 't-line';
-  box.appendChild(line);
-  typeWriter(line, text, ()=>{ box.scrollTop = box.scrollHeight; });
-}
-
-function typeWriter(el, text, done){
-  let i = 0;
-  const speed = 14;
-  function step(){
-    if(i <= text.length){
-      el.textContent = text.slice(0,i);
-      i++;
-      setTimeout(step, speed);
-    } else if(done) done();
-  }
-  step();
-}
-
-function renderTerminal(){
-  const box = document.getElementById('terminalBox');
-  box.innerHTML = '';
-  const logs = getLogs();
-  logs.forEach(l=>{
-    const line = document.createElement('div');
-    line.className = 't-line';
-    line.textContent = l;
-    box.appendChild(line);
-  });
-  box.scrollTop = box.scrollHeight;
-}
-
-// log khởi động hệ thống chạy 1 lần khi vào app (hiệu ứng gõ chữ)
-function startTerminalBoot(){
-  const bootLogs = [
-    "Loading Uchiha...",
-    "Loading Modules...",
-    "Checking Key...",
-    "Optimization Ready...",
-    `Welcome ${CURRENT_SESSION.isAdmin ? 'Admin' : 'User'}...`,
-    "Panel Ready..."
-  ];
-  const existing = getLogs();
-  if(existing.length === 0){
-    let delay = 0;
-    bootLogs.forEach(l=>{
-      setTimeout(()=> addLog(l), delay);
-      delay += 500;
-    });
-  }
-}
-
-document.getElementById('btnSendLog').addEventListener('click', ()=>{
-  const input = document.getElementById('newLogInput');
-  const val = input.value.trim();
-  if(!val) return;
-  addLog(val);
-  input.value = '';
-});
-document.getElementById('newLogInput').addEventListener('keydown', e=>{
-  if(e.key === 'Enter') document.getElementById('btnSendLog').click();
-});
-
-document.getElementById('btnClearLog').addEventListener('click', ()=>{
-  openConfirm('Xóa toàn bộ log terminal?', ()=>{
-    setLogs([]);
-    renderTerminal();
-    renderAdminDashboard();
-    showToast('Đã xóa toàn bộ log');
-  });
-});
-
-/* ---------------------------------------------------------------
-   12. TOAST THÔNG BÁO NHỎ
-   --------------------------------------------------------------- */
-function showToast(msg, isError){
-  const box = document.getElementById('toastBox');
-  const t = document.createElement('div');
-  t.className = 'toast';
-  if(isError) t.style.borderColor = 'rgba(224,16,44,0.5)';
-  t.textContent = msg;
-  box.appendChild(t);
-  setTimeout(()=> t.remove(), 3000);
-}
-
-/* ---------------------------------------------------------------
-   13. HIỆU ỨNG RIPPLE CHO TẤT CẢ NÚT
-   --------------------------------------------------------------- */
-document.addEventListener('click', (e)=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  const rect = btn.getBoundingClientRect();
-  const ripple = document.createElement('span');
-  const size = Math.max(rect.width, rect.height);
-  ripple.className = 'ripple';
-  ripple.style.width = ripple.style.height = size + 'px';
-  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-  btn.style.position = btn.style.position || 'relative';
-  btn.style.overflow = 'hidden';
-  btn.appendChild(ripple);
-  setTimeout(()=> ripple.remove(), 650);
-});
-
-/* ---------------------------------------------------------------
-   14. ĐỒNG HỒ & NGÀY THÁNG THỜI GIAN THỰC
-   --------------------------------------------------------------- */
+/* ============================================================
+   4. ĐỒNG HỒ THỜI GIAN THỰC
+============================================================ */
 function updateClock(){
   const now = new Date();
-  const pad = n => n.toString().padStart(2,'0');
-  document.getElementById('clockDisplay').textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  const days = ['Chủ Nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
-  document.getElementById('dateDisplay').textContent = `${days[now.getDay()]}, ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
+  const hh = String(now.getHours()).padStart(2,"0");
+  const mm = String(now.getMinutes()).padStart(2,"0");
+  const ss = String(now.getSeconds()).padStart(2,"0");
+  document.getElementById("clockTime").textContent = `${hh}:${mm}:${ss}`;
+  const dd = String(now.getDate()).padStart(2,"0");
+  const mo = String(now.getMonth()+1).padStart(2,"0");
+  document.getElementById("clockDate").textContent = `${dd}/${mo}/${now.getFullYear()}`;
 }
-setInterval(updateClock, 1000);
+setInterval(updateClock, 1000); updateClock();
 
-/* ---------------------------------------------------------------
-   15. HIỆU ỨNG NỀN CANVAS: LỬA AMATERASU + TRO BAY
-   --------------------------------------------------------------- */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W, H;
-function resizeCanvas(){
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+/* ============================================================
+   5. ĐIỀU HƯỚNG MENU
+============================================================ */
+document.querySelectorAll(".menu-item").forEach(item=>{
+  item.addEventListener("click", ()=>{
+    document.querySelectorAll(".menu-item").forEach(i=>i.classList.remove("active"));
+    item.classList.add("active");
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    document.getElementById("panel-"+item.dataset.panel).classList.add("active");
+    if(item.dataset.panel === "admin" && !state.isAdmin){
+      toast("Bạn không có quyền truy cập Admin Panel","error","fa-ban");
+      document.getElementById("panel-admin").classList.remove("active");
+      document.getElementById("panel-opt-iphone").classList.add("active");
+      document.querySelectorAll(".menu-item").forEach(i=>i.classList.remove("active"));
+      document.querySelector('.menu-item[data-panel="opt-iphone"]').classList.add("active");
+    }
+  });
+});
+   /* ============================================================
+   6. TERMINAL
+============================================================ */
+const termBox = document.getElementById("terminalBox");
+function termLog(text){
+  const line = document.createElement("div");
+  line.className = "tline";
+  const t = new Date();
+  const ts = `[${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}:${String(t.getSeconds()).padStart(2,"0")}]`;
+  line.innerHTML = `<span class="ts">${ts}</span><span class="txt"></span><span class="cursor"></span>`;
+  // xóa cursor cũ
+  const oldCursor = termBox.querySelector(".cursor");
+  if(oldCursor) oldCursor.remove();
+  termBox.appendChild(line);
+  const txtEl = line.querySelector(".txt");
+  let i = 0;
+  function typeChar(){
+    if(i < text.length){
+      txtEl.textContent += text[i]; i++;
+      setTimeout(typeChar, 12);
+      if(state.autoScroll) termBox.scrollTop = termBox.scrollHeight;
+    }
+  }
+  typeChar();
+  if(state.autoScroll) termBox.scrollTop = termBox.scrollHeight;
 }
+document.getElementById("btnTermClear").addEventListener("click", ()=>{ termBox.innerHTML=""; toast("Đã xóa Terminal","info","fa-trash"); });
+document.getElementById("btnTermCopy").addEventListener("click", ()=>{
+  const text = Array.from(termBox.querySelectorAll(".tline")).map(l=>l.textContent).join("\n");
+  navigator.clipboard && navigator.clipboard.writeText(text).then(()=>toast("Đã sao chép log","success","fa-copy"));
+});
+document.getElementById("btnTermDownload").addEventListener("click", ()=>{
+  const text = Array.from(termBox.querySelectorAll(".tline")).map(l=>l.textContent).join("\n");
+  const blob = new Blob([text], {type:"text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "uchiha-terminal-log.txt"; a.click();
+  toast("Đã tải log","success","fa-download");
+});
+document.getElementById("autoScrollToggle").addEventListener("click", function(){
+  state.autoScroll = !state.autoScroll;
+  this.classList.toggle("on", state.autoScroll);
+});
+
+/* ============================================================
+   7. MÔ-ĐUN TỐI ƯU MÔ PHỎNG (progress bar + terminal)
+============================================================ */
+function runFakeProgress(progEl, btnEl, steps, onDone){
+  if(btnEl) btnEl.setAttribute("disabled","true");
+  let p = 0;
+  steps.forEach(s=>termLog(s));
+  const timer = setInterval(()=>{
+    p += Math.random()*18+8;
+    if(p>=100){ p=100; clearInterval(timer);
+      if(btnEl) btnEl.removeAttribute("disabled");
+      Sound.success();
+      termLog("Completed.");
+      if(onDone) onDone();
+    }
+    progEl.style.width = p+"%";
+  }, 260);
+}
+
+document.getElementById("btnFullOpt").addEventListener("click", function(){
+  runFakeProgress(document.getElementById("progFullOpt"), this,
+    ["Connecting to system core...","Scanning background processes...","Clearing cache & temp files...","Optimizing memory allocation..."],
+    ()=>toast("Tối ưu tổng thể hoàn tất","success","fa-bolt"));
+  updateFakeStats();
+});
+document.getElementById("btnBoostRun").addEventListener("click", function(){
+  runFakeProgress(document.getElementById("progBoost"), this,
+    ["Enabling performance mode...","Reallocating GPU priority...","Boosting frame pipeline..."],
+    ()=>toast("Đã tăng hiệu năng","success","fa-rocket"));
+});
+document.getElementById("btnRamClean").addEventListener("click", function(){
+  const val = Math.floor(Math.random()*30+15);
+  runFakeProgress(document.getElementById("progRam"), this,
+    ["Scanning memory usage...","Terminating idle processes...","Releasing unused RAM blocks..."],
+    ()=>{ document.getElementById("ramFreedVal").textContent = val+"%"; toast(`Đã giải phóng ${val}% RAM (mô phỏng)`,"success","fa-broom"); });
+});
+document.getElementById("btnTouchCal").addEventListener("click", function(){
+  runFakeProgress(document.getElementById("progTouch"), this,
+    ["Reading touch matrix...","Calibrating sensitivity curve...","Applying touch profile..."],
+    ()=>toast("Hiệu chỉnh cảm ứng hoàn tất","success","fa-hand-pointer"));
+});
+document.getElementById("touchSensitivity").addEventListener("input", function(){
+  document.getElementById("touchSenVal").textContent = this.value+"%";
+});
+document.getElementById("btnCool").addEventListener("click", function(){
+  runFakeProgress(document.getElementById("progCool"), this,
+    ["Reading thermal sensors...","Throttling background load...","Stabilizing temperature..."],
+    ()=>{
+      const t = Math.floor(Math.random()*6+28);
+      document.getElementById("tempVal").textContent = t+"°C";
+      toast("Đã giảm nhiệt độ (mô phỏng)","success","fa-snowflake");
+    });
+});
+document.getElementById("btnNetCheck").addEventListener("click", function(){
+  this.setAttribute("disabled","true");
+  termLog("Đang kiểm tra kết nối mạng...");
+  setTimeout(()=>{
+    document.getElementById("netDown").textContent = (Math.random()*80+20).toFixed(1)+" Mbps";
+    document.getElementById("netUp").textContent = (Math.random()*40+10).toFixed(1)+" Mbps";
+    document.getElementById("netPing").textContent = Math.floor(Math.random()*40+8)+" ms";
+    document.getElementById("netType").textContent = navigator.onLine ? "ONLINE" : "OFFLINE";
+    this.removeAttribute("disabled");
+    termLog("Kiểm tra mạng hoàn tất.");
+    toast("Đã cập nhật thông tin mạng","success","fa-wifi");
+  },1400);
+});
+
+function updateFakeStats(){
+  document.getElementById("statCPU").textContent = Math.floor(Math.random()*30+15)+"%";
+  document.getElementById("statRAM").textContent = Math.floor(Math.random()*40+30)+"%";
+  document.getElementById("statBattery").textContent = (navigator.getBattery ? "—" : Math.floor(Math.random()*50+40)+"%");
+  document.getElementById("statFPS").textContent = Math.floor(Math.random()*10+55)+" FPS";
+}
+updateFakeStats();
+if(navigator.getBattery){
+  navigator.getBattery().then(b=>{
+    document.getElementById("statBattery").textContent = Math.round(b.level*100)+"%";
+  }).catch(()=>{});
+}
+
+/* ============================================================
+   8. THÔNG TIN THIẾT BỊ / HỆ THỐNG
+============================================================ */
+function renderDeviceInfo(){
+  const ua = navigator.userAgent;
+  const rows = [
+    ["Trình duyệt / UA", ua.length>60? ua.slice(0,60)+"…" : ua],
+    ["Nền tảng", navigator.platform || "—"],
+    ["Ngôn ngữ", navigator.language],
+    ["Độ phân giải màn hình", screen.width+" × "+screen.height],
+    ["Tỉ lệ pixel", window.devicePixelRatio],
+    ["Số nhân CPU (logic)", navigator.hardwareConcurrency || "—"],
+    ["Bộ nhớ thiết bị (ước tính)", (navigator.deviceMemory ? navigator.deviceMemory+" GB" : "—")],
+    ["Trạng thái mạng", navigator.onLine ? "Đang kết nối" : "Mất kết nối"]
+  ];
+  document.getElementById("deviceInfoCard").innerHTML = rows.map(r=>
+    `<div class="card-row" style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span class="text-dim" style="font-size:11.5px;">${r[0]}</span><strong style="font-size:11.5px;text-align:right;">${r[1]}</strong></div>`
+  ).join("");
+}
+function renderSysInfo(){
+  const rows = [
+    ["Phiên bản Panel", "UCHIHA V3.0.0"],
+    ["Chế độ", state.isAdmin ? "Administrator" : "Member"],
+    ["Thời gian phiên bắt đầu", new Date().toLocaleString("vi-VN")],
+    ["Tổng số Key trong hệ thống", loadKeys().length],
+    ["Số thông báo đã lưu", loadNotifs().length]
+  ];
+  document.getElementById("sysInfoCard").innerHTML = rows.map(r=>
+    `<div class="card-row" style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span class="text-dim" style="font-size:11.5px;">${r[0]}</span><strong style="font-size:11.5px;text-align:right;">${r[1]}</strong></div>`
+  ).join("");
+}
+
+/* ============================================================
+   9. HỆ THỐNG THÔNG BÁO
+============================================================ */
+function renderNotifications(){
+  const list = loadNotifs();
+  const host = document.getElementById("notifList");
+  const empty = document.getElementById("notifEmpty");
+  if(list.length===0){ host.innerHTML=""; empty.style.display="block"; return; }
+  empty.style.display="none";
+  host.innerHTML = list.slice().reverse().map(n=>`
+    <div class="notif-item glass">
+      <div class="n-head"><span><i class="fa-solid fa-crown" style="color:var(--gold)"></i> ${n.admin}</span><span>${n.date} · ${n.time}</span></div>
+      <div class="n-body">${escapeHtml(n.content)}</div>
+    </div>`).join("");
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+document.getElementById("btnSendNotif").addEventListener("click", function(){
+  const content = document.getElementById("notifContent").value.trim();
+  if(!content){ toast("Vui lòng nhập nội dung thông báo","error","fa-triangle-exclamation"); return; }
+  const now = new Date();
+  const notif = {
+    admin: state.userName,
+    time: `${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`,
+    date: `${String(now.getDate()).padStart(2,"0")}/${String(now.getMonth()+1).padStart(2,"0")}/${now.getFullYear()}`,
+    content
+  };
+  const list = loadNotifs(); list.push(notif); saveNotifs(list);
+  document.getElementById("notifContent").value = "";
+  Sound.notify();
+  toast("Đã gửi thông báo","success","fa-paper-plane");
+  termLog(`[THÔNG BÁO] ${notif.admin} (${notif.date} ${notif.time}): ${content}`);
+  addLog(`Admin ${state.userName} đã gửi thông báo: "${content}"`);
+  renderNotifications();
+});
+
+/* ============================================================
+   10. ADMIN — QUẢN LÝ KEY
+============================================================ */
+function genKeyCode(){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  function seg(){ let s=""; for(let i=0;i<4;i++) s+=chars[Math.floor(Math.random()*chars.length)]; return s; }
+  return `UCHIHA-${seg()}-${seg()}`;
+}
+function statusOf(k){
+  if(k.status === "locked") return "locked";
+  if(k.expiresAt && new Date(k.expiresAt) < new Date()) return "expired";
+  return "active";
+}
+function renderKeyTable(){
+  const keys = loadKeys();
+  const search = (document.getElementById("keySearch").value||"").toLowerCase();
+  const filter = document.getElementById("keyFilter").value;
+  const filtered = keys.filter(k=>{
+    const st = statusOf(k);
+    const matchSearch = k.code.toLowerCase().includes(search) || (k.name||"").toLowerCase().includes(search);
+    const matchFilter = filter==="all" || st===filter;
+    return matchSearch && matchFilter;
+  });
+  const tbody = document.getElementById("keyTableBody");
+  if(filtered.length===0){
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:18px;">Không có Key phù hợp</td></tr>`;
+  } else {
+    tbody.innerHTML = filtered.map(k=>{
+      const st = statusOf(k);
+      const badge = st==="active" ? '<span class="badge active">Hoạt động</span>' : st==="locked" ? '<span class="badge locked">Đã khóa</span>' : '<span class="badge expired">Hết hạn</span>';
+      return `<tr>
+        <td><code>${k.code}</code></td>
+        <td>${escapeHtml(k.name||"—")}</td>
+        <td>${new Date(k.createdAt).toLocaleDateString("vi-VN")}</td>
+        <td>${k.expiresAt ? new Date(k.expiresAt).toLocaleDateString("vi-VN") : "—"}</td>
+        <td>${badge}</td>
+        <td>
+          <button class="icon-btn" data-act="copy" data-code="${k.code}" title="Sao chép"><i class="fa-solid fa-copy"></i></button>
+          <button class="icon-btn" data-act="extend" data-code="${k.code}" title="Gia hạn 30 ngày"><i class="fa-solid fa-calendar-plus"></i></button>
+          <button class="icon-btn" data-act="toggle" data-code="${k.code}" title="Khóa/Mở khóa"><i class="fa-solid ${st==='locked'?'fa-lock-open':'fa-lock'}"></i></button>
+          <button class="icon-btn" data-act="delete" data-code="${k.code}" title="Xóa"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>`;
+    }).join("");
+  }
+  document.getElementById("admStatTotal").textContent = keys.length;
+  document.getElementById("admStatActive").textContent = keys.filter(k=>statusOf(k)==="active").length;
+  document.getElementById("admStatLocked").textContent = keys.filter(k=>statusOf(k)==="locked").length;
+  document.getElementById("admStatExpired").textContent = keys.filter(k=>statusOf(k)==="expired").length;
+}
+function renderAdminLogs(){
+  const logs = loadLogs();
+  const host = document.getElementById("adminLogCard");
+  if(!host) return;
+  host.innerHTML = logs.length ? logs.map(l=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);"><span class="text-dim">${new Date(l.time).toLocaleString("vi-VN")}</span><br>${escapeHtml(l.msg)}</div>`).join("")
+    : `<span class="text-dim">Chưa có nhật ký.</span>`;
+}
+
+document.getElementById("btnCreateKey").addEventListener("click", ()=>{
+  const name = document.getElementById("newKeyName").value.trim() || "Không tên";
+  const days = parseInt(document.getElementById("newKeyDays").value) || 30;
+  const keys = loadKeys();
+  const code = genKeyCode();
+  const now = new Date();
+  const exp = new Date(now.getTime() + days*24*60*60*1000);
+  keys.push({code, name, createdAt: now.toISOString(), expiresAt: exp.toISOString(), status:"active", note:""});
+  saveKeys(keys);
+  document.getElementById("newKeyName").value = "";
+  toast(`Đã tạo Key: ${code}`,"success","fa-key");
+  addLog(`Admin tạo Key mới: ${code} (${name}, ${days} ngày).`);
+  renderKeyTable();
+  renderSysInfo();
+});
+
+document.getElementById("keyTableBody").addEventListener("click", function(e){
+  const btn = e.target.closest(".icon-btn");
+  if(!btn) return;
+  const act = btn.dataset.act, code = btn.dataset.code;
+  let keys = loadKeys();
+  const idx = keys.findIndex(k=>k.code===code);
+  if(idx===-1) return;
+  if(act==="copy"){
+    navigator.clipboard && navigator.clipboard.writeText(code).then(()=>toast("Đã sao chép: "+code,"success","fa-copy"));
+  } else if(act==="extend"){
+    const base = keys[idx].expiresAt && new Date(keys[idx].expiresAt) > new Date() ? new Date(keys[idx].expiresAt) : new Date();
+    keys[idx].expiresAt = new Date(base.getTime() + 30*24*60*60*1000).toISOString();
+    saveKeys(keys); toast("Đã gia hạn 30 ngày","success","fa-calendar-plus");
+    addLog(`Admin gia hạn Key ${code} thêm 30 ngày.`);
+    renderKeyTable();
+  } else if(act==="toggle"){
+    keys[idx].status = keys[idx].status==="locked" ? "active" : "locked";
+    saveKeys(keys);
+    toast(keys[idx].status==="locked" ? "Đã khóa Key" : "Đã mở khóa Key","info","fa-lock");
+    addLog(`Admin ${keys[idx].status==='locked'?'khóa':'mở khóa'} Key ${code}.`);
+    renderKeyTable();
+  } else if(act==="delete"){
+    keys.splice(idx,1); saveKeys(keys);
+    toast("Đã xóa Key: "+code,"error","fa-trash");
+    addLog(`Admin xóa Key ${code}.`);
+    renderKeyTable(); renderSysInfo();
+  }
+});
+
+document.getElementById("keySearch").addEventListener("input", renderKeyTable);
+document.getElementById("keyFilter").addEventListener("change", renderKeyTable);
+
+document.getElementById("btnExportKeys").addEventListener("click", ()=>{
+  const keys = loadKeys();
+  const header = "Mã Key,Tên,Ngày tạo,Hết hạn,Trạng thái\n";
+  const rows = keys.map(k=>`${k.code},${(k.name||"").replace(/,/g," ")},${new Date(k.createdAt).toLocaleDateString("vi-VN")},${k.expiresAt?new Date(k.expiresAt).toLocaleDateString("vi-VN"):""},${statusOf(k)}`).join("\n");
+  const blob = new Blob(["\uFEFF"+header+rows], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "uchiha-keys-export.csv"; a.click();
+  toast("Đã xuất danh sách Key","success","fa-file-export");
+  addLog("Admin xuất danh sách Key ra CSV.");
+});
+
+/* ============================================================
+   11. CÀI ĐẶT / TOGGLE SWITCHES
+============================================================ */
+document.querySelectorAll(".switch[data-toggle]").forEach(sw=>{
+  sw.addEventListener("click", function(){ this.classList.toggle("on"); });
+});
+document.getElementById("soundToggle").addEventListener("click", function(){
+  state.soundOn = !state.soundOn;
+  this.innerHTML = state.soundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+  document.getElementById("settingsSound").classList.toggle("on", state.soundOn);
+});
+document.getElementById("settingsSound").addEventListener("click", function(){
+  state.soundOn = this.classList.toggle("on");
+  document.getElementById("soundToggle").innerHTML = state.soundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+});
+document.getElementById("settingsParticles").addEventListener("click", function(){ state.particlesOn = this.classList.toggle("on"); });
+document.getElementById("settingsLightning").addEventListener("click", function(){ state.lightningOn = this.classList.toggle("on"); });
+
+document.getElementById("btnLogout").addEventListener("click", ()=>{
+  toast("Đang đăng xuất...","info","fa-right-from-bracket");
+  addLog(`${state.userName} đã đăng xuất.`);
+  setTimeout(()=>{ location.reload(); }, 700);
+});
+
+/* ============================================================
+   12. HIỆU ỨNG NỀN: PARTICLE LỬA (Canvas)
+============================================================ */
+const canvas = document.getElementById("fireCanvas");
+const cctx = canvas.getContext("2d");
+let particles = [];
+function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
 
-// giảm số hạt trên màn hình nhỏ để tối ưu hiệu năng (60FPS)
-const isMobile = window.innerWidth < 640;
-const PARTICLE_COUNT = isMobile ? 35 : 70;
-const FIRE_COUNT = isMobile ? 18 : 35;
-
-// hạt tro bay lên
-class AshParticle{
-  constructor(){ this.reset(); }
-  reset(){
-    this.x = Math.random()*W;
-    this.y = H + Math.random()*100;
-    this.size = Math.random()*2.2 + 0.6;
-    this.speedY = Math.random()*0.6 + 0.25;
-    this.speedX = (Math.random()-0.5)*0.4;
-    this.opacity = Math.random()*0.5 + 0.15;
-    this.flicker = Math.random()*0.02;
-    this.hueChoice = Math.random() > 0.5 ? 'purple' : 'red';
-  }
-  update(){
-    this.y -= this.speedY;
-    this.x += this.speedX + Math.sin(this.y*0.01)*0.3;
-    this.opacity -= this.flicker*0.05;
-    if(this.y < -10 || this.opacity <= 0) this.reset();
-  }
-  draw(){
-    const color = this.hueChoice === 'purple' ? `rgba(165,107,255,${this.opacity})` : `rgba(255,80,90,${this.opacity})`;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-    ctx.fillStyle = color;
-    ctx.fill();
-  }
+function spawnParticle(){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: canvas.height + 10,
+    r: Math.random()*2.4+0.8,
+    vy: Math.random()*1.2+0.4,
+    vx: (Math.random()-0.5)*0.6,
+    life: 1,
+    hue: Math.random()>0.5 ? "255,60,80" : "170,70,255"
+  });
 }
-
-// hạt lửa Amaterasu (bốc lên từ đáy màn hình, viền đen kiểu lửa đen huyền thoại)
-class FireParticle{
-  constructor(){ this.reset(); }
-  reset(){
-    this.x = Math.random()*W;
-    this.y = H + Math.random()*40;
-    this.size = Math.random()*18 + 6;
-    this.speedY = Math.random()*1.4 + 0.6;
-    this.speedX = (Math.random()-0.5)*0.6;
-    this.life = 1;
-    this.decay = Math.random()*0.012 + 0.006;
+function animateFire(){
+  cctx.clearRect(0,0,canvas.width,canvas.height);
+  if(state.particlesOn){
+    if(Math.random()<0.6) spawnParticle();
+    particles.forEach(p=>{
+      p.y -= p.vy; p.x += p.vx; p.life -= 0.006;
+      cctx.beginPath();
+      cctx.fillStyle = `rgba(${p.hue},${Math.max(p.life,0)*0.7})`;
+      cctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      cctx.fill();
+    });
+    particles = particles.filter(p=>p.life>0 && p.y > -10);
+    if(particles.length>260) particles.splice(0,particles.length-260);
   }
-  update(){
-    this.y -= this.speedY;
-    this.x += this.speedX;
-    this.life -= this.decay;
-    this.size *= 0.988;
-    if(this.life <= 0 || this.size < 1) this.reset();
-  }
-  draw(){
-    const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-    grad.addColorStop(0, `rgba(60,0,10,${this.life*0.9})`);
-    grad.addColorStop(0.4, `rgba(123,47,247,${this.life*0.55})`);
-    grad.addColorStop(0.75, `rgba(224,16,44,${this.life*0.35})`);
-    grad.addColorStop(1, `rgba(0,0,0,0)`);
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-    ctx.fillStyle = grad;
-    ctx.fill();
-  }
-   }
-   const ashParticles = Array.from({length:PARTICLE_COUNT}, ()=> new AshParticle());
-const fireParticles = Array.from({length:FIRE_COUNT}, ()=> new FireParticle());
-
-let lastFrameTime = 0;
-function animateBg(timestamp){
-  // giới hạn ~60fps
-  if(timestamp - lastFrameTime < 15){
-    requestAnimationFrame(animateBg);
-    return;
-  }
-  lastFrameTime = timestamp;
-
-  ctx.clearRect(0,0,W,H);
-  ctx.globalCompositeOperation = 'lighter';
-
-  fireParticles.forEach(p=>{ p.update(); p.draw(); });
-  ashParticles.forEach(p=>{ p.update(); p.draw(); });
-
-  ctx.globalCompositeOperation = 'source-over';
-  requestAnimationFrame(animateBg);
+  requestAnimationFrame(animateFire);
 }
-requestAnimationFrame(animateBg);
+animateFire();
 
-/* ---------------------------------------------------------------
-   16. KHỞI CHẠY ỨNG DỤNG
-   --------------------------------------------------------------- */
-(function boot(){
-  initKeys();
-  updateClock();
-  // nếu đã có phiên đăng nhập hợp lệ trong localStorage thì vào thẳng
-  const restored = checkExistingSession();
-  if(!restored){
-    // hiển thị màn hình đăng nhập bình thường
-    keyInput.focus();
+/* ============================================================
+   13. HIỆU ỨNG SÉT ĐỎ NGẪU NHIÊN
+============================================================ */
+function randomLightning(){
+  const el = document.getElementById("lightning");
+  if(state.lightningOn){
+    el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
   }
+  setTimeout(randomLightning, Math.random()*14000+9000);
+}
+setTimeout(randomLightning, 6000);
+
+/* ============================================================
+   14. CURSOR GLOW (desktop) + PARALLAX
+============================================================ */
+const glow = document.getElementById("cursorGlow");
+document.addEventListener("mousemove", (e)=>{
+  glow.style.left = e.clientX+"px";
+  glow.style.top = e.clientY+"px";
+  const px = (e.clientX/innerWidth - 0.5) * 14;
+  const py = (e.clientY/innerHeight - 0.5) * 14;
+  document.querySelector(".bg-sharingan").style.transform = `translate(${px}px,${py}px)`;
+  document.querySelector(".bg-mangekyou").style.transform = `translate(${-px}px,${-py}px)`;
+});
+
+/* ============================================================
+   15. KHỞI ĐỘNG ỨNG DỤNG
+============================================================ */
+window.addEventListener("load", ()=>{
+  runSplash();
+});
+
+/* Không cho phép mở trực tiếp Admin Panel qua URL hash / thao tác lạ */
+window.addEventListener("hashchange", ()=>{ location.hash = ""; });
+
 })();
-
 </script>
 </body>
 </html>
+   
