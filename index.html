@@ -1,0 +1,4351 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Cyberpunk VIP Menu - Bảng Điều Khiển Tối Ưu Hóa Gaming">
+    <meta name="theme-color" content="#070a12">
+    <title>CYBERPUNK VIP MENU | HỆ THỐNG TỐI ƯU GAMING</title>
+
+    <!-- ======================================================================================== -->
+    <!-- FONTAWESOME FREE SVG ICONS - PUBLIC CDN FOR PREMIUM SHARP ICONS                          -->
+    <!-- ======================================================================================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* ======================================================================================== */
+        /* CSS CUSTOM PROPERTIES - CYBERPUNK DARK THEME WITH DEEP GLOWING NEON VARIABLES            */
+        /* ======================================================================================== */
+        :root {
+            /* ---- CORE BACKGROUND PALETTE ---- */
+            --void-deep: #070a12;
+            --void-mid: #0a0f1a;
+            --void-surface: #0d1320;
+            --void-elevated: #111827;
+
+            /* ---- NEON ACCENT COLORS ---- */
+            --electric-azure: #3b82f6;
+            --electric-azure-glow: #3b82f680;
+            --electric-azure-bright: #60a5fa;
+            --admin-red: #ef4444;
+            --admin-red-glow: #ef444480;
+            --admin-red-bright: #f87171;
+            --neon-cyan: #06b6d4;
+            --neon-cyan-glow: #06b6d480;
+            --neon-purple: #a855f7;
+            --neon-purple-glow: #a855f780;
+            --neon-green: #10b981;
+            --neon-green-glow: #10b98180;
+            --neon-amber: #f59e0b;
+            --neon-amber-glow: #f59e0b80;
+            --neon-pink: #ec4899;
+            --neon-pink-glow: #ec489980;
+
+            /* ---- GLASSMORPHISM CARD COLORS ---- */
+            --card-frosted: #0f172ab3;
+            --card-frosted-lighter: #1e293bb3;
+            --card-border: #1e3a5f40;
+            --card-border-hover: #3b82f660;
+
+            /* ---- TEXT HIERARCHY ---- */
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-inverse: #0f172a;
+
+            /* ---- SHADOW & GLOW LAYERS ---- */
+            --shadow-card: 0 4px 24px #00000040, 0 1px 4px #00000060;
+            --shadow-card-hover: 0 8px 40px #00000060, 0 2px 8px #00000080;
+            --shadow-neon-azure: 0 0 16px #3b82f640, 0 0 32px #3b82f620, 0 0 64px #3b82f610;
+            --shadow-neon-red: 0 0 16px #ef444440, 0 0 32px #ef444420, 0 0 64px #ef444410;
+            --shadow-neon-cyan: 0 0 16px #06b6d440, 0 0 32px #06b6d420;
+            --shadow-neon-purple: 0 0 16px #a855f740, 0 0 32px #a855f720;
+            --shadow-neon-green: 0 0 16px #10b98140, 0 0 32px #10b98120;
+
+            /* ---- BORDER RADIUS SYSTEM ---- */
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+
+            /* ---- SPACING SYSTEM ---- */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+
+            /* ---- TYPOGRAPHY ---- */
+            --font-mono: 'Courier New', 'Consolas', 'Monaco', monospace;
+            --font-sans: 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            --font-display: 'Georgia', 'Times New Roman', serif;
+
+            /* ---- TRANSITION TIMING ---- */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+            --duration-fast: 150ms;
+            --duration-normal: 300ms;
+            --duration-slow: 500ms;
+            --duration-glacial: 800ms;
+
+            /* ---- Z-INDEX LAYERS ---- */
+            --z-base: 1;
+            --z-dropdown: 100;
+            --z-sticky: 200;
+            --z-overlay: 300;
+            --z-modal: 400;
+            --z-toast: 500;
+            --z-login: 1000;
+        }
+
+        /* ======================================================================================== */
+        /* GLOBAL RESET & BASE STYLES - FULLY EXPLICIT RULES FOR EVERY ELEMENT                      */
+        /* ======================================================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--void-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-width: 320px;
+            overflow-x: hidden;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, #3b82f608 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 60%, #a855f708 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, #06b6d406 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    #ffffff01 2px,
+                    #ffffff01 4px);
+            pointer-events: none;
+            z-index: 0;
+            animation: scanlineDrift 8s linear infinite;
+        }
+
+        /* ---- SCROLLBAR CUSTOMIZATION ---- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--void-mid);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--electric-azure-glow);
+            border-radius: 4px;
+            border: 2px solid var(--void-mid);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--electric-azure);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* ---- SELECTION STYLING ---- */
+        ::selection {
+            background: var(--electric-azure-glow);
+            color: var(--text-primary);
+            text-shadow: 0 0 8px var(--electric-azure);
+        }
+
+        ::-moz-selection {
+            background: var(--electric-azure-glow);
+            color: var(--text-primary);
+        }
+
+        /* ======================================================================================== */
+        /* TYPOGRAPHY SYSTEM - EXPLICIT HEADING & TEXT RULES                                        */
+        /* ======================================================================================== */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 24px var(--electric-azure-glow), 0 0 48px var(--electric-azure-glow);
+        }
+        h2 {
+            font-size: 2rem;
+            text-shadow: 0 0 16px var(--neon-cyan-glow);
+        }
+        h3 {
+            font-size: 1.5rem;
+            text-shadow: 0 0 12px var(--neon-purple-glow);
+        }
+        h4 {
+            font-size: 1.25rem;
+        }
+        h5 {
+            font-size: 1.1rem;
+        }
+        h6 {
+            font-size: 1rem;
+        }
+
+        p {
+            margin-bottom: var(--space-3);
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--electric-azure-bright);
+            text-decoration: none;
+            transition: color var(--duration-fast) var(--ease-out-expo);
+            position: relative;
+        }
+
+        a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 12px var(--neon-cyan-glow);
+        }
+
+        a:focus-visible {
+            outline: 2px solid var(--electric-azure);
+            outline-offset: 3px;
+            border-radius: var(--radius-xs);
+        }
+
+        /* ======================================================================================== */
+        /* 50 EXPLICIT KEYFRAME ANIMATIONS FOR BORDER GLOWING, PULSING, HOLOGRAPHIC SCANLINES       */
+        /* ======================================================================================== */
+
+        /* ANIMATION 1: Scanline drift for body overlay */
+        @keyframes scanlineDrift {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(4px);
+            }
+        }
+
+        /* ANIMATION 2: Neon border pulse - Azure */
+        @keyframes borderGlowAzure {
+            0%,
+            100% {
+                border-color: #3b82f640;
+                box-shadow: 0 0 8px #3b82f620, inset 0 0 8px #3b82f610;
+            }
+            50% {
+                border-color: #3b82f6;
+                box-shadow: 0 0 24px #3b82f640, inset 0 0 16px #3b82f620;
+            }
+        }
+
+        /* ANIMATION 3: Neon border pulse - Red */
+        @keyframes borderGlowRed {
+            0%,
+            100% {
+                border-color: #ef444440;
+                box-shadow: 0 0 8px #ef444420;
+            }
+            50% {
+                border-color: #ef4444;
+                box-shadow: 0 0 24px #ef444440;
+            }
+        }
+
+        /* ANIMATION 4: Neon border pulse - Cyan */
+        @keyframes borderGlowCyan {
+            0%,
+            100% {
+                border-color: #06b6d440;
+                box-shadow: 0 0 8px #06b6d420;
+            }
+            50% {
+                border-color: #06b6d4;
+                box-shadow: 0 0 24px #06b6d440;
+            }
+        }
+
+        /* ANIMATION 5: Neon border pulse - Purple */
+        @keyframes borderGlowPurple {
+            0%,
+            100% {
+                border-color: #a855f740;
+                box-shadow: 0 0 8px #a855f720;
+            }
+            50% {
+                border-color: #a855f7;
+                box-shadow: 0 0 24px #a855f740;
+            }
+        }
+
+        /* ANIMATION 6: Neon border pulse - Green */
+        @keyframes borderGlowGreen {
+            0%,
+            100% {
+                border-color: #10b98140;
+                box-shadow: 0 0 8px #10b98120;
+            }
+            50% {
+                border-color: #10b981;
+                box-shadow: 0 0 24px #10b98140;
+            }
+        }
+
+        /* ANIMATION 7: Pulsing indicator dot */
+        @keyframes pulseDot {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1.8);
+                opacity: 0.4;
+            }
+        }
+
+        /* ANIMATION 8: Slow breathing glow */
+        @keyframes breatheGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px var(--electric-azure-glow);
+            }
+            50% {
+                box-shadow: 0 0 32px var(--electric-azure), 0 0 64px var(--electric-azure-glow);
+            }
+        }
+
+        /* ANIMATION 9: Holographic shimmer */
+        @keyframes holographicShimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* ANIMATION 10: Fade in from below */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ANIMATION 11: Fade in from above */
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ANIMATION 12: Fade in from left */
+        @keyframes fadeInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ANIMATION 13: Fade in from right */
+        @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ANIMATION 14: Scale in bounce */
+        @keyframes scaleInBounce {
+            0% {
+                opacity: 0;
+                transform: scale(0.6);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ANIMATION 15: Rotate glow ring */
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ANIMATION 16: Text glow flicker */
+        @keyframes textGlowFlicker {
+            0%,
+            100% {
+                text-shadow: 0 0 8px var(--electric-azure-glow);
+            }
+            30% {
+                text-shadow: 0 0 24px var(--electric-azure), 0 0 48px var(--electric-azure-glow);
+            }
+            60% {
+                text-shadow: 0 0 4px var(--electric-azure-glow);
+            }
+        }
+
+        /* ANIMATION 17: Progress bar fill */
+        @keyframes progressFill {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* ANIMATION 18: Card hover lift */
+        @keyframes cardLift {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* ANIMATION 19: Electric spark */
+        @keyframes electricSpark {
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* ANIMATION 20: Data stream particles */
+        @keyframes dataStream {
+            0% {
+                transform: translateY(-100%) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 21: Glitch shake */
+        @keyframes glitchShake {
+            0%,
+            100% {
+                transform: translate(0);
+            }
+            10% {
+                transform: translate(-3px, 2px);
+            }
+            20% {
+                transform: translate(3px, -1px);
+            }
+            30% {
+                transform: translate(-1px, -3px);
+            }
+            40% {
+                transform: translate(2px, 3px);
+            }
+            50% {
+                transform: translate(-2px, 1px);
+            }
+            60% {
+                transform: translate(1px, -2px);
+            }
+            70% {
+                transform: translate(-3px, -1px);
+            }
+            80% {
+                transform: translate(2px, 2px);
+            }
+            90% {
+                transform: translate(-1px, 3px);
+            }
+        }
+
+        /* ANIMATION 22: Admin button urgent pulse */
+        @keyframes adminUrgentPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 12px var(--admin-red-glow), 0 0 24px var(--admin-red-glow);
+            }
+            25% {
+                box-shadow: 0 0 36px var(--admin-red), 0 0 72px var(--admin-red-glow), 0 0 108px var(--admin-red-glow);
+            }
+            50% {
+                box-shadow: 0 0 12px var(--admin-red-glow), 0 0 24px var(--admin-red-glow);
+            }
+            75% {
+                box-shadow: 0 0 36px var(--admin-red), 0 0 72px var(--admin-red-glow), 0 0 108px var(--admin-red-glow);
+            }
+        }
+
+        /* ANIMATION 23: Subtle float */
+        @keyframes subtleFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* ANIMATION 24: Ring expand */
+        @keyframes ringExpand {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 25: Gradient shift */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ANIMATION 26: Blink cursor */
+        @keyframes blinkCursor {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 27: Slide in from bottom */
+        @keyframes slideInBottom {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ANIMATION 28: Wobble warning */
+        @keyframes wobbleWarning {
+            0%,
+            100% {
+                transform: rotate(0);
+            }
+            15% {
+                transform: rotate(-3deg);
+            }
+            30% {
+                transform: rotate(3deg);
+            }
+            45% {
+                transform: rotate(-2deg);
+            }
+            60% {
+                transform: rotate(2deg);
+            }
+            75% {
+                transform: rotate(-1deg);
+            }
+        }
+
+        /* ANIMATION 29: Skeleton loading shimmer */
+        @keyframes skeletonShimmer {
+            0% {
+                background-position: -400px 0;
+            }
+            100% {
+                background-position: 400px 0;
+            }
+        }
+
+        /* ANIMATION 30: Countdown digit flip */
+        @keyframes digitFlip {
+            0% {
+                transform: rotateX(0);
+            }
+            100% {
+                transform: rotateX(360deg);
+            }
+        }
+
+        /* ANIMATION 31: Ripple effect */
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(0);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 32: Neon flicker fast */
+        @keyframes neonFlickerFast {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            41% {
+                opacity: 1;
+            }
+            42% {
+                opacity: 0.3;
+            }
+            43% {
+                opacity: 1;
+            }
+            45% {
+                opacity: 0.6;
+            }
+            46% {
+                opacity: 1;
+            }
+        }
+
+        /* ANIMATION 33: Scale pulse gentle */
+        @keyframes scalePulseGentle {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        /* ANIMATION 34: Border dash flow */
+        @keyframes borderDashFlow {
+            0% {
+                stroke-dashoffset: 0;
+            }
+            100% {
+                stroke-dashoffset: -200;
+            }
+        }
+
+        /* ANIMATION 35: Overlay flash */
+        @keyframes overlayFlash {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.15;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 36: Typewriter caret */
+        @keyframes typewriterCaret {
+            0%,
+            100% {
+                border-right-color: var(--electric-azure);
+            }
+            50% {
+                border-right-color: transparent;
+            }
+        }
+
+        /* ANIMATION 37: Particle orbit */
+        @keyframes particleOrbit {
+            0% {
+                transform: rotate(0deg) translateX(40px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(40px) rotate(-360deg);
+            }
+        }
+
+        /* ANIMATION 38: Shadow depth pulse */
+        @keyframes shadowDepthPulse {
+            0%,
+            100% {
+                box-shadow: 0 4px 16px #00000040;
+            }
+            50% {
+                box-shadow: 0 12px 48px #00000070;
+            }
+        }
+
+        /* ANIMATION 39: Color temperature shift */
+        @keyframes colorTempShift {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* ANIMATION 40: Elastic stretch */
+        @keyframes elasticStretch {
+            0% {
+                transform: scaleX(1);
+            }
+            25% {
+                transform: scaleX(0.9);
+            }
+            50% {
+                transform: scaleX(1.08);
+            }
+            75% {
+                transform: scaleX(0.95);
+            }
+            100% {
+                transform: scaleX(1);
+            }
+        }
+
+        /* ANIMATION 41: Radar sweep */
+        @keyframes radarSweep {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ANIMATION 42: Morph blob */
+        @keyframes morphBlob {
+            0% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+        }
+
+        /* ANIMATION 43: Staggered dots */
+        @keyframes staggeredDots {
+            0%,
+            20% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-8px);
+            }
+            80%,
+            100% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+        }
+
+        /* ANIMATION 44: Hexagon rotate */
+        @keyframes hexagonRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(60deg);
+            }
+        }
+
+        /* ANIMATION 45: Laser line sweep */
+        @keyframes laserLineSweep {
+            0% {
+                top: -100%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* ANIMATION 46: Pulse ring multiple */
+        @keyframes pulseRingMultiple {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 47: Vibration subtle */
+        @keyframes vibrationSubtle {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            10% {
+                transform: translate(-1px, 1px);
+            }
+            20% {
+                transform: translate(1px, -1px);
+            }
+            30% {
+                transform: translate(-1px, -1px);
+            }
+            40% {
+                transform: translate(1px, 1px);
+            }
+            50% {
+                transform: translate(0, 0);
+            }
+        }
+
+        /* ANIMATION 48: Echo expand */
+        @keyframes echoExpand {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* ANIMATION 49: Neon sign buzz */
+        @keyframes neonSignBuzz {
+            0%,
+            100% {
+                text-shadow: 0 0 4px var(--neon-cyan), 0 0 8px var(--neon-cyan-glow);
+            }
+            92% {
+                text-shadow: 0 0 4px var(--neon-cyan), 0 0 8px var(--neon-cyan-glow);
+            }
+            93% {
+                text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px var(--neon-cyan-glow);
+            }
+            94% {
+                text-shadow: 0 0 4px var(--neon-cyan), 0 0 8px var(--neon-cyan-glow);
+            }
+            96% {
+                text-shadow: 0 0 16px var(--neon-cyan), 0 0 32px var(--neon-cyan-glow);
+            }
+        }
+
+        /* ANIMATION 50: Terminal boot sequence */
+        @keyframes terminalBoot {
+            0% {
+                max-height: 0;
+                opacity: 0;
+            }
+            30% {
+                max-height: 200px;
+                opacity: 1;
+            }
+            100% {
+                max-height: 600px;
+                opacity: 1;
+            }
+        }
+
+        /* ======================================================================================== */
+        /* LOGIN OVERLAY - FULLSCREEN WITH CANVAS PARTICLE ENGINE BACKGROUND                        */
+        /* ======================================================================================== */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: var(--z-login);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--void-deep);
+            transition: opacity var(--duration-slow) var(--ease-out-expo),
+                visibility var(--duration-slow) var(--ease-out-expo);
+        }
+
+        #login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #login-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            padding: var(--space-10) var(--space-8);
+            background: var(--card-frosted);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-card), var(--shadow-neon-azure);
+            animation: fadeInUp 0.8s var(--ease-out-expo) forwards,
+                borderGlowAzure 4s ease-in-out infinite;
+            text-align: center;
+        }
+
+        #login-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: var(--radius-2xl);
+            background: linear-gradient(135deg,
+                    var(--electric-azure),
+                    var(--neon-purple),
+                    var(--neon-cyan),
+                    var(--electric-azure));
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: gradientShift 6s ease infinite;
+            opacity: 0.4;
+            filter: blur(8px);
+        }
+
+        #login-card .login-icon {
+            font-size: 3.5rem;
+            color: var(--electric-azure);
+            margin-bottom: var(--space-4);
+            text-shadow: 0 0 32px var(--electric-azure-glow);
+            animation: breatheGlow 3s ease-in-out infinite;
+        }
+
+        #login-card h2 {
+            font-size: 1.75rem;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+            text-shadow: 0 0 16px var(--electric-azure-glow);
+            letter-spacing: 0.04em;
+        }
+
+        #login-card .login-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-8);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        #login-card .input-group {
+            margin-bottom: var(--space-5);
+            text-align: left;
+            position: relative;
+        }
+
+        #login-card .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+            transition: color var(--duration-fast);
+        }
+
+        #login-card .input-group input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--void-surface);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.04em;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            outline: none;
+        }
+
+        #login-card .input-group input:focus {
+            border-color: var(--electric-azure);
+            box-shadow: 0 0 0 3px var(--electric-azure-glow), var(--shadow-neon-azure);
+            background: var(--void-elevated);
+        }
+
+        #login-card .input-group input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        #login-card .login-btn {
+            width: 100%;
+            padding: var(--space-4);
+            background: linear-gradient(135deg, var(--electric-azure), var(--neon-cyan));
+            border: none;
+            border-radius: var(--radius-md);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            box-shadow: var(--shadow-neon-azure);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #login-card .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 32px var(--electric-azure-glow), 0 0 64px var(--electric-azure-glow);
+            background: linear-gradient(135deg, var(--electric-azure-bright), var(--neon-cyan));
+        }
+
+        #login-card .login-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-neon-azure);
+            transition: all 50ms;
+        }
+
+        #login-card .login-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, #ffffff30 0%, transparent 60%);
+            animation: laserLineSweep 3s linear infinite;
+            pointer-events: none;
+        }
+
+        #login-card .login-error {
+            color: var(--admin-red-bright);
+            font-size: 0.85rem;
+            margin-top: var(--space-3);
+            min-height: 20px;
+            text-shadow: 0 0 8px var(--admin-red-glow);
+            animation: neonFlickerFast 2s ease-in-out;
+        }
+
+        #login-card .login-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: var(--space-4);
+            letter-spacing: 0.03em;
+        }
+
+        /* ======================================================================================== */
+        /* MAIN APPLICATION WRAPPER - FULL DASHBOARD LAYOUT                                          */
+        /* ======================================================================================== */
+        #app-wrapper {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: var(--z-base);
+            animation: fadeInUp 0.6s var(--ease-out-expo) forwards;
+        }
+
+        #app-wrapper.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---- TOP NAVIGATION BAR ---- */
+        #top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4) var(--space-6);
+            background: var(--card-frosted);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            box-shadow: 0 2px 16px #00000040;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+        }
+
+        #top-nav .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: 0.04em;
+            color: var(--text-primary);
+            text-shadow: 0 0 12px var(--electric-azure-glow);
+            white-space: nowrap;
+        }
+
+        #top-nav .nav-brand i {
+            font-size: 1.5rem;
+            color: var(--electric-azure);
+            animation: breatheGlow 3s ease-in-out infinite;
+        }
+
+        #top-nav .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        #top-nav .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--void-surface);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        #top-nav .user-badge i {
+            color: var(--neon-green);
+            animation: pulseDot 2s ease-in-out infinite;
+            font-size: 0.6rem;
+        }
+
+        #top-nav .btn-admin-entry {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-5);
+            background: transparent;
+            border: 2px solid var(--admin-red);
+            border-radius: 20px;
+            color: var(--admin-red-bright);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            animation: adminUrgentPulse 2.5s ease-in-out infinite;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        #top-nav .btn-admin-entry:hover {
+            background: var(--admin-red);
+            color: #ffffff;
+            box-shadow: 0 0 32px var(--admin-red-glow);
+            animation: none;
+        }
+
+        #top-nav .btn-admin-entry:active {
+            transform: scale(0.95);
+            transition: all 50ms;
+        }
+
+        #top-nav .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            white-space: nowrap;
+        }
+
+        #top-nav .btn-logout:hover {
+            border-color: var(--admin-red);
+            color: var(--admin-red-bright);
+            text-shadow: 0 0 8px var(--admin-red-glow);
+        }
+
+        #top-nav .btn-back-user {
+            display: none;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--electric-azure);
+            border: none;
+            border-radius: 20px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            white-space: nowrap;
+        }
+
+        #top-nav .btn-back-user.visible {
+            display: inline-flex;
+        }
+
+        #top-nav .btn-back-user:hover {
+            background: var(--electric-azure-bright);
+            box-shadow: var(--shadow-neon-azure);
+        }
+
+        /* ---- MAIN CONTENT AREA ---- */
+        #main-content {
+            flex: 1;
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            max-width: 1440px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ---- DASHBOARD GRID ---- */
+        #dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: var(--space-5);
+            width: 100%;
+        }
+
+        /* ---- ADMIN PANEL SECTION ---- */
+        #admin-panel {
+            display: none;
+            flex-direction: column;
+            gap: var(--space-6);
+            width: 100%;
+        }
+
+        #admin-panel.active {
+            display: flex;
+        }
+
+        /* ======================================================================================== */
+        /* OPTIMIZATION CORE CARD - UNIVERSAL GLASSMORPHISM CARD STYLES                             */
+        /* ======================================================================================== */
+        .core-card {
+            background: var(--card-frosted);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-card);
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s var(--ease-out-expo) forwards;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .core-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .core-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .core-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+        .core-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+        .core-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .core-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: var(--card-border-hover);
+        }
+
+        .core-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--electric-azure), transparent);
+            opacity: 0;
+            transition: opacity var(--duration-normal);
+        }
+
+        .core-card:hover::before {
+            opacity: 1;
+        }
+
+        .core-card .card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: var(--space-4);
+        }
+
+        .core-card .card-header .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .core-card .card-header .card-icon.azure {
+            background: #3b82f620;
+            color: var(--electric-azure);
+        }
+        .core-card .card-header .card-icon.cyan {
+            background: #06b6d420;
+            color: var(--neon-cyan);
+        }
+        .core-card .card-header .card-icon.purple {
+            background: #a855f720;
+            color: var(--neon-purple);
+        }
+        .core-card .card-header .card-icon.green {
+            background: #10b98120;
+            color: var(--neon-green);
+        }
+        .core-card .card-header .card-icon.amber {
+            background: #f59e0b20;
+            color: var(--neon-amber);
+        }
+
+        .core-card .card-header .card-title-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .core-card .card-header .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: var(--text-primary);
+        }
+
+        .core-card .card-header .card-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .core-card .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .core-card .card-body .param-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .core-card .card-body .param-row label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.03em;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .core-card .card-body .param-row input[type="range"] {
+            flex: 2;
+            min-width: 140px;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--void-surface);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .core-card .card-body .param-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--electric-azure);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 12px var(--electric-azure-glow);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+
+        .core-card .card-body .param-row input[type="range"]::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 24px var(--electric-azure);
+            transform: scale(1.1);
+        }
+
+        .core-card .card-body .param-row .param-value {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--electric-azure-bright);
+            min-width: 50px;
+            text-align: right;
+            text-shadow: 0 0 6px var(--electric-azure-glow);
+        }
+
+        .core-card .card-body .param-row select {
+            flex: 2;
+            min-width: 140px;
+            padding: var(--space-2) var(--space-3);
+            background: var(--void-surface);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            outline: none;
+            transition: border-color var(--duration-fast);
+        }
+
+        .core-card .card-body .param-row select:focus {
+            border-color: var(--electric-azure);
+            box-shadow: 0 0 0 2px var(--electric-azure-glow);
+        }
+
+        .core-card .card-body .param-row input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 44px;
+            height: 24px;
+            background: var(--void-surface);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--duration-normal);
+            flex-shrink: 0;
+        }
+
+        .core-card .card-body .param-row input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: all var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .core-card .card-body .param-row input[type="checkbox"]:checked {
+            background: var(--electric-azure);
+            border-color: var(--electric-azure);
+            box-shadow: 0 0 12px var(--electric-azure-glow);
+        }
+
+        .core-card .card-body .param-row input[type="checkbox"]:checked::before {
+            left: 22px;
+            background: #ffffff;
+        }
+
+        .core-card .card-body .param-row input[type="checkbox"]:focus-visible {
+            outline: 2px solid var(--electric-azure);
+            outline-offset: 2px;
+        }
+
+        /* ---- MINI CANVAS FOR SENSITIVITY VISUALIZATION ---- */
+        .mini-canvas-container {
+            width: 100%;
+            height: 160px;
+            background: var(--void-surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mini-canvas-container canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ---- PROGRESS BAR FOR SYSTEM CLEANING ---- */
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 14px;
+            background: var(--void-surface);
+            border-radius: 7px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--electric-azure), var(--neon-purple));
+            background-size: 200% 100%;
+            border-radius: 7px;
+            transition: width 0.3s linear;
+            animation: gradientShift 3s ease infinite;
+            box-shadow: 0 0 12px var(--electric-azure-glow);
+        }
+
+        .progress-bar-fill.complete {
+            background: var(--neon-green);
+            box-shadow: 0 0 16px var(--neon-green-glow);
+            animation: none;
+        }
+
+        /* ---- ACTION BUTTON INSIDE CARDS ---- */
+        .btn-card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            background: var(--void-elevated);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .btn-card-action:hover {
+            border-color: var(--electric-azure);
+            box-shadow: var(--shadow-neon-azure);
+            background: var(--void-surface);
+            color: var(--electric-azure-bright);
+        }
+
+        .btn-card-action:active {
+            transform: scale(0.96);
+            transition: all 50ms;
+        }
+
+        .btn-card-action.danger {
+            border-color: #ef444440;
+        }
+        .btn-card-action.danger:hover {
+            border-color: var(--admin-red);
+            box-shadow: var(--shadow-neon-red);
+            color: var(--admin-red-bright);
+        }
+
+        /* ---- STATUS BADGE ---- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-3);
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status-badge.active {
+            background: #10b98120;
+            color: var(--neon-green);
+            border: 1px solid #10b98140;
+            text-shadow: 0 0 6px var(--neon-green-glow);
+        }
+
+        .status-badge.inactive {
+            background: #ef444420;
+            color: var(--admin-red-bright);
+            border: 1px solid #ef444440;
+        }
+
+        .status-badge.warning {
+            background: #f59e0b20;
+            color: var(--neon-amber);
+            border: 1px solid #f59e0b40;
+        }
+
+        /* ---- LOG OUTPUT AREA ---- */
+        .log-output {
+            background: var(--void-deep);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--neon-cyan);
+            max-height: 120px;
+            overflow-y: auto;
+            line-height: 1.5;
+            letter-spacing: 0.03em;
+            text-shadow: 0 0 4px var(--neon-cyan-glow);
+        }
+
+        .log-output .log-line {
+            padding: 2px 0;
+            border-bottom: 1px solid #ffffff05;
+        }
+
+        .log-output .log-line.timestamp {
+            color: var(--text-muted);
+        }
+
+        /* ======================================================================================== */
+        /* ADMIN PANEL SPECIFIC STYLES                                                              */
+        /* ======================================================================================== */
+        #admin-panel .admin-card {
+            background: var(--card-frosted);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid #ef444430;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-card), var(--shadow-neon-red);
+            animation: borderGlowRed 5s ease-in-out infinite;
+        }
+
+        #admin-panel .admin-card h3 {
+            color: var(--admin-red-bright);
+            text-shadow: 0 0 16px var(--admin-red-glow);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        #admin-panel .admin-form {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin-bottom: var(--space-6);
+        }
+
+        #admin-panel .admin-form .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        #admin-panel .admin-form .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        #admin-panel .admin-form .form-group input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--void-surface);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            outline: none;
+            transition: border-color var(--duration-fast);
+        }
+
+        #admin-panel .admin-form .form-group input:focus {
+            border-color: var(--admin-red);
+            box-shadow: 0 0 0 3px var(--admin-red-glow);
+        }
+
+        #admin-panel .btn-add-key {
+            padding: var(--space-3) var(--space-6);
+            background: var(--admin-red);
+            border: none;
+            border-radius: var(--radius-md);
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all var(--duration-normal);
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        #admin-panel .btn-add-key:hover {
+            background: var(--admin-red-bright);
+            box-shadow: 0 0 24px var(--admin-red-glow);
+        }
+
+        #admin-panel .key-table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+        }
+
+        #admin-panel table.key-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 700px;
+        }
+
+        #admin-panel table.key-table thead {
+            background: var(--void-elevated);
+        }
+
+        #admin-panel table.key-table thead th {
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--card-border);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        #admin-panel table.key-table tbody td {
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid #ffffff08;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        #admin-panel table.key-table tbody tr {
+            transition: background var(--duration-fast);
+        }
+
+        #admin-panel table.key-table tbody tr:hover {
+            background: #ffffff04;
+        }
+
+        #admin-panel .btn-revoke {
+            padding: var(--space-1) var(--space-3);
+            background: transparent;
+            border: 1px solid var(--admin-red);
+            border-radius: var(--radius-xs);
+            color: var(--admin-red-bright);
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: all var(--duration-fast);
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        #admin-panel .btn-revoke:hover {
+            background: var(--admin-red);
+            color: #ffffff;
+            box-shadow: 0 0 12px var(--admin-red-glow);
+        }
+
+        /* ======================================================================================== */
+        /* CUSTOM MODAL DIALOG - BUILT MANUALLY IN DOM                                              */
+        /* ======================================================================================== */
+        #custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000cc;
+            z-index: var(--z-modal);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        #custom-modal-overlay.visible {
+            display: flex;
+            animation: fadeInUp 0.3s var(--ease-out-expo) forwards;
+        }
+
+        #custom-modal {
+            background: var(--card-frosted);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--shadow-card-hover), 0 0 64px #00000080;
+            text-align: center;
+            animation: scaleInBounce 0.4s var(--ease-out-expo) forwards;
+        }
+
+        #custom-modal .modal-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+
+        #custom-modal .modal-icon.warning {
+            color: var(--neon-amber);
+            text-shadow: 0 0 24px var(--neon-amber-glow);
+        }
+
+        #custom-modal .modal-icon.danger {
+            color: var(--admin-red);
+            text-shadow: 0 0 24px var(--admin-red-glow);
+        }
+
+        #custom-modal h4 {
+            margin-bottom: var(--space-3);
+            font-size: 1.3rem;
+        }
+
+        #custom-modal p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+            font-size: 0.9rem;
+        }
+
+        #custom-modal .modal-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #custom-modal .btn-modal {
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all var(--duration-normal);
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        #custom-modal .btn-modal.confirm-danger {
+            background: var(--admin-red);
+            color: #ffffff;
+        }
+        #custom-modal .btn-modal.confirm-danger:hover {
+            background: var(--admin-red-bright);
+            box-shadow: 0 0 24px var(--admin-red-glow);
+        }
+
+        #custom-modal .btn-modal.cancel {
+            background: var(--void-elevated);
+            color: var(--text-secondary);
+            border: 1px solid var(--card-border);
+        }
+        #custom-modal .btn-modal.cancel:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+
+        /* ======================================================================================== */
+        /* TOAST NOTIFICATION SYSTEM                                                                */
+        /* ======================================================================================== */
+        #toast-container {
+            position: fixed;
+            top: var(--space-6);
+            right: var(--space-6);
+            z-index: var(--z-toast);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            pointer-events: none;
+        }
+
+        .toast {
+            padding: var(--space-4) var(--space-5);
+            background: var(--card-frosted);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: var(--text-primary);
+            pointer-events: auto;
+            animation: slideInBottom 0.4s var(--ease-out-expo) forwards,
+                fadeInUp 0.4s var(--ease-out-expo) forwards;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 280px;
+            max-width: 420px;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--neon-green);
+        }
+        .toast.error {
+            border-left: 4px solid var(--admin-red);
+        }
+        .toast.info {
+            border-left: 4px solid var(--electric-azure);
+        }
+        .toast.warning {
+            border-left: 4px solid var(--neon-amber);
+        }
+
+        .toast.removing {
+            animation: fadeInDown 0.4s var(--ease-out-expo) reverse forwards;
+        }
+
+        /* ======================================================================================== */
+        /* RESPONSIVE UTILITY CLASSES - 12 EXPLICIT BREAKPOINTS                                     */
+        /* ======================================================================================== */
+
+        /* Breakpoint 1: 320px - Tiny phones */
+        @media (max-width: 320px) {
+            #login-card {
+                padding: var(--space-6) var(--space-4);
+                max-width: 290px;
+            }
+            #login-card h2 {
+                font-size: 1.3rem;
+            }
+            #top-nav {
+                padding: var(--space-2) var(--space-3);
+            }
+            #top-nav .nav-brand {
+                font-size: 0.9rem;
+            }
+            #dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+            .core-card {
+                padding: var(--space-4);
+            }
+            #main-content {
+                padding: var(--space-3);
+            }
+        }
+
+        /* Breakpoint 2: 375px - Small phones */
+        @media (min-width: 321px) and (max-width: 375px) {
+            #login-card {
+                max-width: 330px;
+                padding: var(--space-7) var(--space-5);
+            }
+            #dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .core-card {
+                padding: var(--space-5);
+            }
+        }
+
+        /* Breakpoint 3: 414px - Medium phones */
+        @media (min-width: 376px) and (max-width: 414px) {
+            #login-card {
+                max-width: 370px;
+            }
+            #dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Breakpoint 4: 480px - Large phones */
+        @media (min-width: 415px) and (max-width: 480px) {
+            #dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            #top-nav .nav-actions {
+                gap: var(--space-2);
+            }
+        }
+
+        /* Breakpoint 5: 600px - Small tablets */
+        @media (min-width: 481px) and (max-width: 600px) {
+            #dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            #main-content {
+                padding: var(--space-4);
+            }
+        }
+
+        /* Breakpoint 6: 768px - Tablets */
+        @media (min-width: 601px) and (max-width: 768px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            }
+            #main-content {
+                padding: var(--space-5);
+            }
+        }
+
+        /* Breakpoint 7: 900px - Small laptops */
+        @media (min-width: 769px) and (max-width: 900px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Breakpoint 8: 1024px - Standard laptops */
+        @media (min-width: 901px) and (max-width: 1024px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #main-content {
+                padding: var(--space-6);
+            }
+        }
+
+        /* Breakpoint 9: 1200px - Desktops */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Breakpoint 10: 1400px - Large desktops */
+        @media (min-width: 1201px) and (max-width: 1400px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Breakpoint 11: 1600px - Extra large */
+        @media (min-width: 1401px) and (max-width: 1600px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            #main-content {
+                max-width: 1400px;
+            }
+        }
+
+        /* Breakpoint 12: 1601px+ - Ultra wide */
+        @media (min-width: 1601px) {
+            #dashboard-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            #main-content {
+                max-width: 1600px;
+            }
+            .core-card {
+                padding: var(--space-8);
+            }
+        }
+
+        /* ---- REDUCED MOTION ---- */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ---- PRINT STYLES ---- */
+        @media print {
+            body {
+                background: #ffffff;
+                color: #000000;
+            }
+            #login-overlay,
+            #top-nav,
+            #toast-container,
+            #custom-modal-overlay {
+                display: none !important;
+            }
+            #app-wrapper {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================================================================================== -->
+    <!-- LOGIN OVERLAY - FULLSCREEN WITH MATRIX CANVAS PARTICLE ENGINE                            -->
+    <!-- ======================================================================================== -->
+    <div id="login-overlay">
+        <!-- Matrix rain canvas rendered by JavaScript particle engine -->
+        <canvas id="matrix-canvas"></canvas>
+
+        <!-- Login card with glassmorphism effects -->
+        <div id="login-card">
+            <div class="login-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2>CYBERPUNK VIP</h2>
+            <p class="login-subtitle">Hệ Thống Tối Ưu Gaming</p>
+
+            <div class="input-group">
+                <label for="login-username">
+                    <i class="fa-solid fa-user"></i> Tên Đăng Nhập
+                </label>
+                <input type="text" id="login-username" placeholder="Nhập mã người dùng..." autocomplete="off" />
+            </div>
+
+            <div class="input-group">
+                <label for="login-password">
+                    <i class="fa-solid fa-key"></i> Mã Kích Hoạt
+                </label>
+                <input type="password" id="login-password" placeholder="Nhập mã key..." autocomplete="off" />
+            </div>
+
+            <button class="login-btn" id="login-submit-btn">
+                <i class="fa-solid fa-right-to-bracket"></i> ĐĂNG NHẬP HỆ THỐNG
+            </button>
+
+            <p class="login-error" id="login-error-msg"></p>
+            <p class="login-hint">
+                <i class="fa-solid fa-circle-info"></i> Admin: <strong>Nguyen Hoang</strong> | User: <strong>Vip Passwork</strong> / <strong>KEY</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- ======================================================================================== -->
+    <!-- MAIN APPLICATION WRAPPER                                                                  -->
+    <!-- ======================================================================================== -->
+    <div id="app-wrapper">
+        <!-- Top navigation bar -->
+        <nav id="top-nav">
+            <div class="nav-brand">
+                <i class="fa-solid fa-bolt"></i>
+                <span>CYBERPUNK VIP MENU</span>
+            </div>
+            <div class="nav-actions">
+                <span class="user-badge" id="user-badge-display">
+                    <i class="fa-solid fa-circle"></i>
+                    <span id="user-badge-text">MÃ USER</span>
+                </span>
+                <button class="btn-admin-entry" id="btn-admin-entry" title="VÀO TRANG QUẢN LÝ KEY">
+                    <i class="fa-solid fa-skull"></i> VÀO TRANG QUẢN LÝ KEY
+                </button>
+                <button class="btn-back-user" id="btn-back-user" title="Quay lại bảng điều khiển">
+                    <i class="fa-solid fa-arrow-left"></i> QUAY LẠI
+                </button>
+                <button class="btn-logout" id="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Thoát
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main content area -->
+        <div id="main-content">
+            <!-- Dashboard grid with 5 optimization core cards -->
+            <div id="dashboard-grid">
+                <!-- ================================================================================ -->
+                <!-- CORE MODULE 1: AIMLOCK SUB-ROUTINE SYSTEM                                        -->
+                <!-- ================================================================================ -->
+                <div class="core-card" id="core-card-aimlock">
+                    <div class="card-header">
+                        <div class="card-icon azure">
+                            <i class="fa-solid fa-crosshairs"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <div class="card-title">🎯 AIMLOCK SUB-ROUTINE</div>
+                            <div class="card-subtitle">Hệ Thống Khóa Mục Tiêu Tự Động</div>
+                        </div>
+                        <span class="status-badge active" id="aimlock-status">ACTIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="param-row">
+                            <label for="aimlock-auto-target">
+                                <i class="fa-solid fa-bullseye"></i> Tự Động Khóa Mục Tiêu
+                            </label>
+                            <input type="checkbox" id="aimlock-auto-target" checked />
+                        </div>
+                        <div class="param-row">
+                            <label for="aimlock-smoothing">
+                                <i class="fa-solid fa-wave-square"></i> Hệ Số Làm Mượn
+                            </label>
+                            <input type="range" id="aimlock-smoothing" min="1" max="100" value="65" step="1" />
+                            <span class="param-value" id="aimlock-smoothing-val">65%</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="aimlock-fov">
+                                <i class="fa-solid fa-eye"></i> Góc Quét FOV (Radian)
+                            </label>
+                            <input type="range" id="aimlock-fov" min="10" max="180" value="90" step="1" />
+                            <span class="param-value" id="aimlock-fov-val">90°</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="aimlock-speed">
+                                <i class="fa-solid fa-gauge-high"></i> Tốc Độ Khóa
+                            </label>
+                            <input type="range" id="aimlock-speed" min="1" max="50" value="25" step="1" />
+                            <span class="param-value" id="aimlock-speed-val">25 ms</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="aimlock-priority">
+                                <i class="fa-solid fa-sort"></i> Ưu Tiên Mục Tiêu
+                            </label>
+                            <select id="aimlock-priority">
+                                <option value="nearest">Gần Nhất</option>
+                                <option value="headshot" selected>Đầu (Headshot)</option>
+                                <option value="chest">Ngực</option>
+                                <option value="threat">Đe Dọa Cao</option>
+                            </select>
+                        </div>
+                        <div class="log-output" id="aimlock-log">
+                            <div class="log-line timestamp">[HỆ THỐNG] Khởi tạo Aimlock Sub-Routine...</div>
+                            <div class="log-line">[OK] Ma trận làm mượn đã sẵn sàng.</div>
+                            <div class="log-line">[OK] Cảm biến FOV đang hoạt động.</div>
+                        </div>
+                        <button class="btn-card-action" id="btn-aimlock-calibrate">
+                            <i class="fa-solid fa-rotate"></i> Hiệu Chỉnh Lại Aimlock
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ================================================================================ -->
+                <!-- CORE MODULE 2: SCREEN SENSITIVITY BOOSTER ENGINE                                  -->
+                <!-- ================================================================================ -->
+                <div class="core-card" id="core-card-sensitivity">
+                    <div class="card-header">
+                        <div class="card-icon cyan">
+                            <i class="fa-solid fa-computer-mouse"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <div class="card-title">⚡ SCREEN SENSITIVITY BOOSTER</div>
+                            <div class="card-subtitle">Tăng Cường Độ Nhạy Màn Hình</div>
+                        </div>
+                        <span class="status-badge active" id="sensitivity-status">ACTIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="param-row">
+                            <label for="sensitivity-touch-rate">
+                                <i class="fa-solid fa-hand-pointer"></i> Tần Số Lấy Mẫu Cảm Ứng
+                            </label>
+                            <input type="range" id="sensitivity-touch-rate" min="60" max="1000" value="500" step="10" />
+                            <span class="param-value" id="sensitivity-touch-rate-val">500 Hz</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="sensitivity-polling">
+                                <i class="fa-solid fa-clock"></i> Hệ Số Nhân Polling
+                            </label>
+                            <input type="range" id="sensitivity-polling" min="1" max="8" value="4" step="1" />
+                            <span class="param-value" id="sensitivity-polling-val">4x</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="sensitivity-stabilization">
+                                <i class="fa-solid fa-balance-scale"></i> Ổn Định Điểm Ảnh
+                            </label>
+                            <input type="checkbox" id="sensitivity-stabilization" checked />
+                        </div>
+                        <div class="mini-canvas-container" id="sensitivity-canvas-container">
+                            <canvas id="sensitivity-mini-canvas"></canvas>
+                        </div>
+                        <div class="log-output" id="sensitivity-log">
+                            <div class="log-line timestamp">[HỆ THỐNG] Khởi tạo Sensitivity Booster...</div>
+                            <div class="log-line">[OK] Cảm biến gia tốc đã đồng bộ.</div>
+                        </div>
+                        <button class="btn-card-action" id="btn-sensitivity-reset">
+                            <i class="fa-solid fa-arrows-rotate"></i> Đặt Lại Đường Cong
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ================================================================================ -->
+                <!-- CORE MODULE 3: DPI LEGENDARY EMULATION MATRIX                                     -->
+                <!-- ================================================================================ -->
+                <div class="core-card" id="core-card-dpi">
+                    <div class="card-header">
+                        <div class="card-icon purple">
+                            <i class="fa-solid fa-expand"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <div class="card-title">💎 DPI LEGENDARY EMULATION</div>
+                            <div class="card-subtitle">Ma Trận Giả Lập DPI Huyền Thoại</div>
+                        </div>
+                        <span class="status-badge active" id="dpi-status">ACTIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="param-row">
+                            <label for="dpi-resolution-sync">
+                                <i class="fa-solid fa-desktop"></i> Đồng Bộ Tỉ Lệ Màn Hình
+                            </label>
+                            <select id="dpi-resolution-sync">
+                                <option value="16:9" selected>16:9 (Wide)</option>
+                                <option value="16:10">16:10</option>
+                                <option value="21:9">21:9 (Ultra Wide)</option>
+                                <option value="4:3">4:3 (Classic)</option>
+                                <option value="32:9">32:9 (Super Ultra)</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-texture-scaling">
+                                <i class="fa-solid fa-image"></i> Tỉ Lệ Texture
+                            </label>
+                            <select id="dpi-texture-scaling">
+                                <option value="native">Native (Gốc)</option>
+                                <option value="2x" selected>2x (Siêu Nét)</option>
+                                <option value="4x">4x (Cực Đại)</option>
+                                <option value="auto">Tự Động AI</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-anti-alias">
+                                <i class="fa-solid fa-brush"></i> Chống Răng Cưa
+                            </label>
+                            <select id="dpi-anti-alias">
+                                <option value="fxaa">FXAA (Nhanh)</option>
+                                <option value="smaa">SMAA (Cân Bằng)</option>
+                                <option value="msaa4x" selected>MSAA 4x</option>
+                                <option value="msaa8x">MSAA 8x (Cao Cấp)</option>
+                                <option value="taa">TAA (Thời Gian)</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-multiplier">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Hệ Số Nhân DPI
+                            </label>
+                            <input type="range" id="dpi-multiplier" min="400" max="6400" value="3200" step="100" />
+                            <span class="param-value" id="dpi-multiplier-val">3200 DPI</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-sharpness">
+                                <i class="fa-solid fa-sliders"></i> Độ Sắc Nét
+                            </label>
+                            <input type="range" id="dpi-sharpness" min="0" max="100" value="70" step="1" />
+                            <span class="param-value" id="dpi-sharpness-val">70%</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-color-depth">
+                                <i class="fa-solid fa-palette"></i> Độ Sâu Màu
+                            </label>
+                            <select id="dpi-color-depth">
+                                <option value="8bit">8-bit</option>
+                                <option value="10bit" selected>10-bit (HDR)</option>
+                                <option value="12bit">12-bit (Dolby)</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-vsync">
+                                <i class="fa-solid fa-film"></i> VSync Thông Minh
+                            </label>
+                            <input type="checkbox" id="dpi-vsync" checked />
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-gamma">
+                                <i class="fa-solid fa-sun"></i> Gamma Correction
+                            </label>
+                            <input type="range" id="dpi-gamma" min="80" max="220" value="140" step="1" />
+                            <span class="param-value" id="dpi-gamma-val">1.40</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="dpi-preset">
+                                <i class="fa-solid fa-floppy-disk"></i> Cấu Hình Preset
+                            </label>
+                            <select id="dpi-preset">
+                                <option value="custom">Tùy Chỉnh</option>
+                                <option value="performance" selected>Hiệu Suất Cao</option>
+                                <option value="quality">Chất Lượng Cao</option>
+                                <option value="balanced">Cân Bằng</option>
+                                <option value="ultra">Ultra Extreme</option>
+                            </select>
+                        </div>
+                        <div class="log-output" id="dpi-log">
+                            <div class="log-line timestamp">[HỆ THỐNG] Khởi tạo DPI Emulation Matrix...</div>
+                            <div class="log-line">[OK] Bộ nhớ texture đã cấp phát.</div>
+                        </div>
+                        <button class="btn-card-action" id="btn-dpi-apply">
+                            <i class="fa-solid fa-check"></i> Áp Dụng Cấu Hình DPI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ================================================================================ -->
+                <!-- CORE MODULE 4: ANTI-LAG & FRAME SPEED OPTIMIZER                                   -->
+                <!-- ================================================================================ -->
+                <div class="core-card" id="core-card-antilag">
+                    <div class="card-header">
+                        <div class="card-icon green">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <div class="card-title">🛠️ ANTI-LAG & FRAME OPTIMIZER</div>
+                            <div class="card-subtitle">Tối Ưu Khung Hình & Chống Giật</div>
+                        </div>
+                        <span class="status-badge active" id="antilag-status">ACTIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="param-row">
+                            <label for="antilag-ram-purge">
+                                <i class="fa-solid fa-memory"></i> Dọn RAM Tự Động
+                            </label>
+                            <input type="checkbox" id="antilag-ram-purge" checked />
+                        </div>
+                        <div class="param-row">
+                            <label for="antilag-cpu-threads">
+                                <i class="fa-solid fa-microchip"></i> Luồng CPU Tối Ưu
+                            </label>
+                            <select id="antilag-cpu-threads">
+                                <option value="auto">Tự Động</option>
+                                <option value="4">4 Luồng</option>
+                                <option value="6">6 Luồng</option>
+                                <option value="8" selected>8 Luồng</option>
+                                <option value="12">12 Luồng</option>
+                                <option value="16">16 Luồng (Tối Đa)</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="antilag-background">
+                                <i class="fa-solid fa-filter"></i> Lọc Tiến Trình Nền
+                            </label>
+                            <input type="checkbox" id="antilag-background" checked />
+                        </div>
+                        <div class="param-row">
+                            <label for="antilag-thermal">
+                                <i class="fa-solid fa-temperature-low"></i> Làm Mát Chủ Động
+                            </label>
+                            <input type="checkbox" id="antilag-thermal" checked />
+                        </div>
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar-fill" id="antilag-progress-bar"></div>
+                        </div>
+                        <div class="log-output" id="antilag-log">
+                            <div class="log-line timestamp">[HỆ THỐNG] Sẵn sàng dọn dẹp hệ thống...</div>
+                        </div>
+                        <button class="btn-card-action" id="btn-antilag-clean">
+                            <i class="fa-solid fa-broom"></i> Dọn Dẹp & Tối Ưu Hệ Thống
+                        </button>
+                        <button class="btn-card-action danger" id="btn-antilag-deep-clean">
+                            <i class="fa-solid fa-skull-crossbones"></i> Dọn Sâu (Deep Clean)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ================================================================================ -->
+                <!-- CORE MODULE 5: ACCESSIBILITY ASSISTIVE OVERLAY                                    -->
+                <!-- ================================================================================ -->
+                <div class="core-card" id="core-card-accessibility">
+                    <div class="card-header">
+                        <div class="card-icon amber">
+                            <i class="fa-solid fa-universal-access"></i>
+                        </div>
+                        <div class="card-title-group">
+                            <div class="card-title">♿ ACCESSIBILITY ASSISTIVE</div>
+                            <div class="card-subtitle">Lớp Phủ Trợ Năng & Hỗ Trợ</div>
+                        </div>
+                        <span class="status-badge active" id="accessibility-status">ACTIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="param-row">
+                            <label for="accessibility-color-blind">
+                                <i class="fa-solid fa-eye-dropper"></i> Hiệu Chỉnh Mù Màu
+                            </label>
+                            <select id="accessibility-color-blind">
+                                <option value="none" selected>Không</option>
+                                <option value="protanopia">Protanopia (Đỏ-Lục)</option>
+                                <option value="deuteranopia">Deuteranopia (Lục-Đỏ)</option>
+                                <option value="tritanopia">Tritanopia (Xanh-Vàng)</option>
+                                <option value="grayscale">Thang Xám</option>
+                            </select>
+                        </div>
+                        <div class="param-row">
+                            <label for="accessibility-audio-click">
+                                <i class="fa-solid fa-volume-high"></i> Âm Thanh Click
+                            </label>
+                            <input type="checkbox" id="accessibility-audio-click" />
+                        </div>
+                        <div class="param-row">
+                            <label for="accessibility-logger">
+                                <i class="fa-solid fa-file-lines"></i> Ghi Nhật Ký Trợ Năng
+                            </label>
+                            <input type="checkbox" id="accessibility-logger" checked />
+                        </div>
+                        <div class="param-row">
+                            <label for="accessibility-brightness">
+                                <i class="fa-solid fa-brightness"></i> Độ Sáng Màn Hình
+                            </label>
+                            <input type="range" id="accessibility-brightness" min="30" max="100" value="80" step="1" />
+                            <span class="param-value" id="accessibility-brightness-val">80%</span>
+                        </div>
+                        <div class="param-row">
+                            <label for="accessibility-contrast">
+                                <i class="fa-solid fa-circle-half-stroke"></i> Tương Phản
+                            </label>
+                            <input type="range" id="accessibility-contrast" min="50" max="150" value="100" step="1" />
+                            <span class="param-value" id="accessibility-contrast-val">100%</span>
+                        </div>
+                        <div class="log-output" id="accessibility-log">
+                            <div class="log-line timestamp">[HỆ THỐNG] Trợ năng đã sẵn sàng...</div>
+                        </div>
+                        <button class="btn-card-action" id="btn-accessibility-apply">
+                            <i class="fa-solid fa-check-double"></i> Áp Dụng Trợ Năng
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================================ -->
+            <!-- ADMIN PANEL - ISOLATED MASTER KEY DATABASE CONTROLLER                             -->
+            <!-- ================================================================================ -->
+            <div id="admin-panel">
+                <div class="admin-card">
+                    <h3>
+                        <i class="fa-solid fa-database"></i> QUẢN LÝ KEY NGƯỜI DÙNG
+                    </h3>
+                    <div class="admin-form" id="admin-key-form">
+                        <div class="form-group">
+                            <label for="admin-new-username">Tên Người Dùng Mới</label>
+                            <input type="text" id="admin-new-username" placeholder="Nhập username..." />
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-new-key">Key Kích Hoạt Mới</label>
+                            <input type="text" id="admin-new-key" placeholder="Nhập key..." />
+                        </div>
+                        <button class="btn-add-key" id="btn-add-key">
+                            <i class="fa-solid fa-plus"></i> THÊM KEY MỚI
+                        </button>
+                    </div>
+                    <div class="key-table-wrapper">
+                        <table class="key-table" id="key-table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên Người Dùng</th>
+                                    <th>Key Kích Hoạt</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Hết Hạn</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="key-table-body">
+                                <!-- Dynamically rendered rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:12px;font-size:0.75rem;color:var(--text-muted);">
+                        <i class="fa-solid fa-circle-info"></i> Tổng số key đang quản lý: <strong id="total-key-count">0</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================================== -->
+    <!-- CUSTOM MODAL DIALOG - BUILT MANUALLY WITHOUT NATIVE BROWSER POPUPS                        -->
+    <!-- ======================================================================================== -->
+    <div id="custom-modal-overlay">
+        <div id="custom-modal">
+            <div class="modal-icon warning" id="modal-icon-container">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h4 id="modal-title">Xác Nhận Hành Động</h4>
+            <p id="modal-message">Bạn có chắc chắn muốn thực hiện hành động này không?</p>
+            <div class="modal-actions">
+                <button class="btn-modal cancel" id="modal-btn-cancel">
+                    <i class="fa-solid fa-xmark"></i> Hủy Bỏ
+                </button>
+                <button class="btn-modal confirm-danger" id="modal-btn-confirm">
+                    <i class="fa-solid fa-check"></i> Xác Nhận
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================================== -->
+    <!-- TOAST NOTIFICATION CONTAINER                                                              -->
+    <!-- ======================================================================================== -->
+    <div id="toast-container"></div>
+
+    <!-- ======================================================================================== -->
+    <!-- MAIN JAVASCRIPT APPLICATION ENGINE - FULLY EXPANDED, VERBOSE, NO SHORTCUTS                -->
+    <!-- ======================================================================================== -->
+    <script>
+        (function() {
+            // ====================================================================================
+            // GLOBAL CONSTANTS & HARDCODED MASTER ADMIN KEY
+            // ====================================================================================
+            var MASTER_ADMIN_KEY = "nhoang123";
+            var STORAGE_KEYS_LIST = "cyberpunk_vip_keys_list";
+            var STORAGE_CURRENT_SESSION = "cyberpunk_vip_current_session";
+            var STORAGE_USER_ROLE = "cyberpunk_vip_user_role";
+
+            // Default dummy user credentials seeded into localStorage
+            var DEFAULT_USERS = [
+                { username: "user123", key: "keyfree99", createdAt: new Date().toISOString(), status: "active",
+                    expiry: "permanent" }
+            ];
+
+            // ====================================================================================
+            // DOM ELEMENT REFERENCES - EXPLICITLY CACHED ONE BY ONE
+            // ====================================================================================
+            var loginOverlay = document.getElementById("login-overlay");
+            var matrixCanvas = document.getElementById("matrix-canvas");
+            var loginUsernameInput = document.getElementById("login-username");
+            var loginPasswordInput = document.getElementById("login-password");
+            var loginSubmitBtn = document.getElementById("login-submit-btn");
+            var loginErrorMsg = document.getElementById("login-error-msg");
+
+            var appWrapper = document.getElementById("app-wrapper");
+            var userBadgeText = document.getElementById("user-badge-text");
+            var btnAdminEntry = document.getElementById("btn-admin-entry");
+            var btnBackUser = document.getElementById("btn-back-user");
+            var btnLogout = document.getElementById("btn-logout");
+
+            var dashboardGrid = document.getElementById("dashboard-grid");
+            var adminPanel = document.getElementById("admin-panel");
+
+            // Custom modal elements
+            var customModalOverlay = document.getElementById("custom-modal-overlay");
+            var modalIconContainer = document.getElementById("modal-icon-container");
+            var modalTitle = document.getElementById("modal-title");
+            var modalMessage = document.getElementById("modal-message");
+            var modalBtnCancel = document.getElementById("modal-btn-cancel");
+            var modalBtnConfirm = document.getElementById("modal-btn-confirm");
+
+            // Toast container
+            var toastContainer = document.getElementById("toast-container");
+
+            // Module card elements - Aimlock
+            var aimlockAutoTarget = document.getElementById("aimlock-auto-target");
+            var aimlockSmoothing = document.getElementById("aimlock-smoothing");
+            var aimlockSmoothingVal = document.getElementById("aimlock-smoothing-val");
+            var aimlockFov = document.getElementById("aimlock-fov");
+            var aimlockFovVal = document.getElementById("aimlock-fov-val");
+            var aimlockSpeed = document.getElementById("aimlock-speed");
+            var aimlockSpeedVal = document.getElementById("aimlock-speed-val");
+            var aimlockPriority = document.getElementById("aimlock-priority");
+            var aimlockLog = document.getElementById("aimlock-log");
+            var aimlockStatus = document.getElementById("aimlock-status");
+            var btnAimlockCalibrate = document.getElementById("btn-aimlock-calibrate");
+
+            // Module card elements - Sensitivity
+            var sensitivityTouchRate = document.getElementById("sensitivity-touch-rate");
+            var sensitivityTouchRateVal = document.getElementById("sensitivity-touch-rate-val");
+            var sensitivityPolling = document.getElementById("sensitivity-polling");
+            var sensitivityPollingVal = document.getElementById("sensitivity-polling-val");
+            var sensitivityStabilization = document.getElementById("sensitivity-stabilization");
+            var sensitivityMiniCanvas = document.getElementById("sensitivity-mini-canvas");
+            var sensitivityLog = document.getElementById("sensitivity-log");
+            var sensitivityStatus = document.getElementById("sensitivity-status");
+            var btnSensitivityReset = document.getElementById("btn-sensitivity-reset");
+
+            // Module card elements - DPI
+            var dpiResolutionSync = document.getElementById("dpi-resolution-sync");
+            var dpiTextureScaling = document.getElementById("dpi-texture-scaling");
+            var dpiAntiAlias = document.getElementById("dpi-anti-alias");
+            var dpiMultiplier = document.getElementById("dpi-multiplier");
+            var dpiMultiplierVal = document.getElementById("dpi-multiplier-val");
+            var dpiSharpness = document.getElementById("dpi-sharpness");
+            var dpiSharpnessVal = document.getElementById("dpi-sharpness-val");
+            var dpiColorDepth = document.getElementById("dpi-color-depth");
+            var dpiVsync = document.getElementById("dpi-vsync");
+            var dpiGamma = document.getElementById("dpi-gamma");
+            var dpiGammaVal = document.getElementById("dpi-gamma-val");
+            var dpiPreset = document.getElementById("dpi-preset");
+            var dpiLog = document.getElementById("dpi-log");
+            var dpiStatus = document.getElementById("dpi-status");
+            var btnDpiApply = document.getElementById("btn-dpi-apply");
+
+            // Module card elements - Anti-Lag
+            var antilagRamPurge = document.getElementById("antilag-ram-purge");
+            var antilagCpuThreads = document.getElementById("antilag-cpu-threads");
+            var antilagBackground = document.getElementById("antilag-background");
+            var antilagThermal = document.getElementById("antilag-thermal");
+            var antilagProgressBar = document.getElementById("antilag-progress-bar");
+            var antilagLog = document.getElementById("antilag-log");
+            var antilagStatus = document.getElementById("antilag-status");
+            var btnAntilagClean = document.getElementById("btn-antilag-clean");
+            var btnAntilagDeepClean = document.getElementById("btn-antilag-deep-clean");
+
+            // Module card elements - Accessibility
+            var accessibilityColorBlind = document.getElementById("accessibility-color-blind");
+            var accessibilityAudioClick = document.getElementById("accessibility-audio-click");
+            var accessibilityLogger = document.getElementById("accessibility-logger");
+            var accessibilityBrightness = document.getElementById("accessibility-brightness");
+            var accessibilityBrightnessVal = document.getElementById("accessibility-brightness-val");
+            var accessibilityContrast = document.getElementById("accessibility-contrast");
+            var accessibilityContrastVal = document.getElementById("accessibility-contrast-val");
+            var accessibilityLog = document.getElementById("accessibility-log");
+            var accessibilityStatus = document.getElementById("accessibility-status");
+            var btnAccessibilityApply = document.getElementById("btn-accessibility-apply");
+
+            // Admin panel elements
+            var adminNewUsername = document.getElementById("admin-new-username");
+            var adminNewKey = document.getElementById("admin-new-key");
+            var btnAddKey = document.getElementById("btn-add-key");
+            var keyTableBody = document.getElementById("key-table-body");
+            var totalKeyCount = document.getElementById("total-key-count");
+
+            // ====================================================================================
+            // PERSISTENT STORAGE INITIALIZATION ROUTINE
+            // Seeds default dummy user credentials if localStorage is empty
+            // ====================================================================================
+            function initializeStorage() {
+                var existingKeys = localStorage.getItem(STORAGE_KEYS_LIST);
+                if (existingKeys === null || existingKeys === undefined) {
+                    var defaultData = JSON.stringify(DEFAULT_USERS);
+                    localStorage.setItem(STORAGE_KEYS_LIST, defaultData);
+                    appendToLog(aimlockLog,
+                        "[KHỞI TẠO] Đã nạp dữ liệu key mặc định vào bộ nhớ cục bộ.");
+                }
+            }
+
+            // ====================================================================================
+            // UTILITY FUNCTION: RETRIEVE ALL STORED KEYS FROM LOCAL STORAGE
+            // ====================================================================================
+            function getAllStoredKeys() {
+                var rawData = localStorage.getItem(STORAGE_KEYS_LIST);
+                if (rawData === null || rawData === undefined) {
+                    return [];
+                }
+                try {
+                    var parsedData = JSON.parse(rawData);
+                    if (Array.isArray(parsedData)) {
+                        return parsedData;
+                    }
+                    return [];
+                } catch (parseError) {
+                    return [];
+                }
+            }
+
+            // ====================================================================================
+            // UTILITY FUNCTION: SAVE KEYS ARRAY TO LOCAL STORAGE
+            // ====================================================================================
+            function saveAllStoredKeys(keysArray) {
+                var serializedData = JSON.stringify(keysArray);
+                localStorage.setItem(STORAGE_KEYS_LIST, serializedData);
+            }
+
+            // ====================================================================================
+            // UTILITY FUNCTION: APPEND A LINE TO A LOG OUTPUT CONTAINER
+            // ====================================================================================
+            function appendToLog(logElement, message) {
+                if (!logElement) {
+                    return;
+                }
+                var now = new Date();
+                var hours = String(now.getHours()).padStart(2, '0');
+                var minutes = String(now.getMinutes()).padStart(2, '0');
+                var seconds = String(now.getSeconds()).padStart(2, '0');
+                var timestamp = hours + ':' + minutes + ':' + seconds;
+                var logLine = document.createElement('div');
+                logLine.className = 'log-line';
+                logLine.textContent = '[' + timestamp + '] ' + message;
+                logElement.appendChild(logLine);
+                // Auto-scroll to bottom
+                logElement.scrollTop = logElement.scrollHeight;
+                // Trim old lines if too many
+                while (logElement.children.length > 40) {
+                    logElement.removeChild(logElement.firstChild);
+                }
+            }
+
+            // ====================================================================================
+            // UTILITY FUNCTION: DISPLAY A TOAST NOTIFICATION
+            // ====================================================================================
+            function showToast(message, type) {
+                if (!toastContainer) {
+                    return;
+                }
+                var toastType = type || 'info';
+                var toastElement = document.createElement('div');
+                toastElement.className = 'toast ' + toastType;
+                var iconMap = {
+                    'success': 'fa-circle-check',
+                    'error': 'fa-circle-exclamation',
+                    'info': 'fa-circle-info',
+                    'warning': 'fa-triangle-exclamation'
+                };
+                var iconClass = iconMap[toastType] || 'fa-circle-info';
+                toastElement.innerHTML = '<i class="fa-solid ' + iconClass + '"></i> ' + message;
+                toastContainer.appendChild(toastElement);
+                // Auto-remove after 3.5 seconds
+                setTimeout(function() {
+                    if (toastElement.parentNode) {
+                        toastElement.classList.add('removing');
+                        setTimeout(function() {
+                            if (toastElement.parentNode) {
+                                toastElement.parentNode.removeChild(toastElement);
+                            }
+                        }, 400);
+                    }
+                }, 3500);
+            }
+
+            // ====================================================================================
+            // CUSTOM MODAL DIALOG CONTROLLER - FULLY MANUAL, NO NATIVE ALERTS
+            // ====================================================================================
+            var modalCallbackConfirm = null;
+
+            function showCustomModal(title, message, iconType, confirmLabel, onConfirm) {
+                if (!customModalOverlay || !modalTitle || !modalMessage) {
+                    return;
+                }
+                modalTitle.textContent = title || 'Xác Nhận';
+                modalMessage.textContent = message || 'Bạn có chắc chắn không?';
+                // Set icon
+                if (modalIconContainer) {
+                    var iconHtml = '';
+                    if (iconType === 'danger') {
+                        iconHtml = '<i class="fa-solid fa-skull"></i>';
+                        modalIconContainer.className = 'modal-icon danger';
+                    } else if (iconType === 'warning') {
+                        iconHtml = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                        modalIconContainer.className = 'modal-icon warning';
+                    } else {
+                        iconHtml = '<i class="fa-solid fa-circle-question"></i>';
+                        modalIconContainer.className = 'modal-icon warning';
+                    }
+                    modalIconContainer.innerHTML = iconHtml;
+                }
+                // Set confirm button text
+                if (modalBtnConfirm) {
+                    modalBtnConfirm.textContent = confirmLabel || 'Xác Nhận';
+                }
+                // Store callback
+                modalCallbackConfirm = onConfirm || null;
+                // Show overlay
+                customModalOverlay.classList.add('visible');
+            }
+
+            function hideCustomModal() {
+                if (!customModalOverlay) {
+                    return;
+                }
+                customModalOverlay.classList.remove('visible');
+                modalCallbackConfirm = null;
+            }
+
+            // ====================================================================================
+            // BIND MODAL BUTTON EVENTS
+            // ====================================================================================
+            if (modalBtnCancel) {
+                modalBtnCancel.addEventListener('click', function() {
+                    hideCustomModal();
+                });
+            }
+            if (modalBtnConfirm) {
+                modalBtnConfirm.addEventListener('click', function() {
+                    if (typeof modalCallbackConfirm === 'function') {
+                        modalCallbackConfirm();
+                    }
+                    hideCustomModal();
+                });
+            }
+            if (customModalOverlay) {
+                customModalOverlay.addEventListener('click', function(event) {
+                    if (event.target === customModalOverlay) {
+                        hideCustomModal();
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // VERBOSE CRYPTOGRAPHIC SIMULATION ALGORITHM FOR STRING SCANNING
+            // Scans input strings to detect potential injection or tampering patterns
+            // ====================================================================================
+            function cryptographicStringScan(inputString) {
+                if (typeof inputString !== 'string') {
+                    return { valid: false, reason: 'Đầu vào không phải chuỗi ký tự hợp lệ.' };
+                }
+                if (inputString.length === 0) {
+                    return { valid: false, reason: 'Chuỗi rỗng không được phép.' };
+                }
+                if (inputString.length > 128) {
+                    return { valid: false, reason: 'Chuỗi vượt quá độ dài cho phép (tối đa 128 ký tự).' };
+                }
+                // Scan for suspicious character sequences
+                var suspiciousPatterns = [
+                    { pattern: /<script/gi, name: 'thẻ script' },
+                    { pattern: /javascript:/gi, name: 'URI javascript' },
+                    { pattern: /on\w+\s*=/gi, name: 'trình xử lý sự kiện nội tuyến' },
+                    { pattern: /<\/?[a-z]+/gi, name: 'thẻ HTML' },
+                    { pattern: /(\bOR\b|\bAND\b)\s+\d+\s*=\s*\d+/gi, name: 'SQL injection cơ bản' },
+                    { pattern: /(\bunion\b|\bselect\b)\s+/gi, name: 'truy vấn SQL' },
+                ];
+                for (var i = 0; i < suspiciousPatterns.length; i++) {
+                    var check = suspiciousPatterns[i];
+                    if (check.pattern.test(inputString)) {
+                        return { valid: false, reason: 'Phát hiện mẫu đáng ngờ: ' + check.name };
+                    }
+                }
+                // Simulate hash computation (non-cryptographic but demonstrates algorithmic steps)
+                var simulatedHash = 0;
+                for (var j = 0; j < inputString.length; j++) {
+                    var charCode = inputString.charCodeAt(j);
+                    simulatedHash = ((simulatedHash << 5) - simulatedHash) + charCode;
+                    simulatedHash = simulatedHash & 0xFFFFFFFF;
+                }
+                var hashHex = (simulatedHash >>> 0).toString(16).toUpperCase();
+                return {
+                    valid: true,
+                    reason: 'Quét thành công.',
+                    simulatedHash: hashHex,
+                    length: inputString.length
+                };
+            }
+
+            // ====================================================================================
+            // AUTHENTICATION ROUTINE - VALIDATES CREDENTIALS AGAINST LOCAL STORAGE
+            // ====================================================================================
+            function authenticateUser(username, password) {
+                // First, scan both inputs cryptographically
+                var usernameScan = cryptographicStringScan(username);
+                var passwordScan = cryptographicStringScan(password);
+                if (!usernameScan.valid) {
+                    return { success: false, message: 'Lỗi quét tên đăng nhập: ' + usernameScan.reason };
+                }
+                if (!passwordScan.valid) {
+                    return { success: false, message: 'Lỗi quét mã key: ' + passwordScan.reason };
+                }
+                // Check if this is the master admin
+                if (password === MASTER_ADMIN_KEY) {
+                    var adminSession = {
+                        username: username || 'Admin',
+                        role: 'admin',
+                        loginTime: new Date().toISOString(),
+                        sessionToken: 'ADMIN_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15)
+                    };
+                    localStorage.setItem(STORAGE_CURRENT_SESSION, JSON.stringify(adminSession));
+                    localStorage.setItem(STORAGE_USER_ROLE, 'admin');
+                    return { success: true, role: 'admin', message: 'Đăng nhập Admin thành công.' };
+                }
+                // Check against stored user keys
+                var allKeys = getAllStoredKeys();
+                for (var i = 0; i < allKeys.length; i++) {
+                    var storedUser = allKeys[i];
+                    if (storedUser.username === username && storedUser.key === password) {
+                        if (storedUser.status === 'revoked') {
+                            return { success: false, message: 'Key này đã bị thu hồi. Vui lòng liên hệ Admin.' };
+                        }
+                        var userSession = {
+                            username: username,
+                            role: 'user',
+                            loginTime: new Date().toISOString(),
+                            sessionToken: 'USER_' + Date.now() + '_' + Math.random().toString(36).substring(2,
+                                15)
+                        };
+                        localStorage.setItem(STORAGE_CURRENT_SESSION, JSON.stringify(userSession));
+                        localStorage.setItem(STORAGE_USER_ROLE, 'user');
+                        return { success: true, role: 'user', message: 'Đăng nhập User thành công.' };
+                    }
+                }
+                return { success: false, message: 'Sai tên đăng nhập hoặc mã key. Vui lòng thử lại.' };
+            }
+
+            // ====================================================================================
+            // SESSION VALIDATION - CHECK IF A VALID SESSION EXISTS
+            // ====================================================================================
+            function getCurrentSession() {
+                var rawSession = localStorage.getItem(STORAGE_CURRENT_SESSION);
+                if (rawSession === null || rawSession === undefined) {
+                    return null;
+                }
+                try {
+                    var sessionData = JSON.parse(rawSession);
+                    return sessionData;
+                } catch (parseError) {
+                    return null;
+                }
+            }
+
+            // ====================================================================================
+            // LOGOUT ROUTINE - WIPES ACTIVE ACCESS TOKENS AND RETURNS TO LOGIN SCREEN
+            // ====================================================================================
+            function performLogout() {
+                localStorage.removeItem(STORAGE_CURRENT_SESSION);
+                localStorage.removeItem(STORAGE_USER_ROLE);
+                // Reset UI state
+                if (appWrapper) {
+                    appWrapper.classList.remove('active');
+                }
+                if (dashboardGrid) {
+                    dashboardGrid.style.display = '';
+                }
+                if (adminPanel) {
+                    adminPanel.classList.remove('active');
+                }
+                if (btnBackUser) {
+                    btnBackUser.classList.remove('visible');
+                }
+                if (btnAdminEntry) {
+                    btnAdminEntry.style.display = '';
+                }
+                if (loginOverlay) {
+                    loginOverlay.classList.remove('hidden');
+                }
+                if (loginUsernameInput) {
+                    loginUsernameInput.value = '';
+                }
+                if (loginPasswordInput) {
+                    loginPasswordInput.value = '';
+                }
+                if (loginErrorMsg) {
+                    loginErrorMsg.textContent = '';
+                }
+                // Restart matrix animation
+                startMatrixEngine();
+                showToast('Đã đăng xuất khỏi hệ thống.', 'info');
+            }
+
+            // ====================================================================================
+            // ROLE-BASED UI RENDERING
+            // ====================================================================================
+            function applyRoleBasedUI(role, username) {
+                if (!appWrapper) {
+                    return;
+                }
+                appWrapper.classList.add('active');
+                if (loginOverlay) {
+                    loginOverlay.classList.add('hidden');
+                }
+                // Stop matrix animation to save resources
+                stopMatrixEngine();
+
+                if (role === 'admin') {
+                    // Admin role: show admin entry button prominently
+                    if (btnAdminEntry) {
+                        btnAdminEntry.style.display = 'inline-flex';
+                    }
+                    if (userBadgeText) {
+                        userBadgeText.textContent = 'ADMIN: ' + (username || 'Admin');
+                    }
+                    if (dashboardGrid) {
+                        dashboardGrid.style.display = '';
+                    }
+                    if (adminPanel) {
+                        adminPanel.classList.remove('active');
+                    }
+                    if (btnBackUser) {
+                        btnBackUser.classList.remove('visible');
+                    }
+                    showToast('Chào mừng Admin! Bạn có toàn quyền quản lý hệ thống.', 'success');
+                } else if (role === 'user') {
+                    // User role: hide admin button, show user badge
+                    if (btnAdminEntry) {
+                        btnAdminEntry.style.display = 'none';
+                    }
+                    if (userBadgeText) {
+                        userBadgeText.textContent = 'MÃ USER: ' + (username || 'User');
+                    }
+                    if (dashboardGrid) {
+                        dashboardGrid.style.display = '';
+                    }
+                    if (adminPanel) {
+                        adminPanel.classList.remove('active');
+                    }
+                    if (btnBackUser) {
+                        btnBackUser.classList.remove('visible');
+                    }
+                    showToast('Chào mừng! Hệ thống tối ưu đã sẵn sàng.', 'success');
+                }
+                // Refresh admin key table if admin
+                if (role === 'admin') {
+                    renderKeyTable();
+                }
+            }
+
+            // ====================================================================================
+            // MATRIX CANVAS PARTICLE ENGINE - STREAMING NEON DIGITAL MATRIX RAIN
+            // ====================================================================================
+            var matrixCtx = null;
+            var matrixAnimationId = null;
+            var matrixColumns = [];
+            var matrixDrops = [];
+            var matrixFontSize = 14;
+            var matrixCanvasWidth = 0;
+            var matrixCanvasHeight = 0;
+
+            function initializeMatrixEngine() {
+                if (!matrixCanvas) {
+                    return;
+                }
+                matrixCtx = matrixCanvas.getContext('2d');
+                resizeMatrixCanvas();
+                window.addEventListener('resize', resizeMatrixCanvas);
+            }
+
+            function resizeMatrixCanvas() {
+                if (!matrixCanvas || !matrixCtx) {
+                    return;
+                }
+                matrixCanvasWidth = window.innerWidth;
+                matrixCanvasHeight = window.innerHeight;
+                matrixCanvas.width = matrixCanvasWidth;
+                matrixCanvas.height = matrixCanvasHeight;
+                // Recalculate columns
+                matrixFontSize = Math.max(12, Math.floor(matrixCanvasWidth / 60));
+                var columnCount = Math.floor(matrixCanvasWidth / matrixFontSize);
+                matrixDrops = [];
+                for (var i = 0; i < columnCount; i++) {
+                    matrixDrops.push(Math.floor(Math.random() * matrixCanvasHeight / matrixFontSize) * -1);
+                }
+                // Generate character set
+                matrixColumns = [];
+                var chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+                for (var j = 0; j < columnCount; j++) {
+                    var columnChars = [];
+                    for (var k = 0; k < 60; k++) {
+                        columnChars.push(chars.charAt(Math.floor(Math.random() * chars.length)));
+                    }
+                    matrixColumns.push(columnChars);
+                }
+            }
+
+            function drawMatrixFrame() {
+                if (!matrixCtx || !matrixCanvas) {
+                    return;
+                }
+                // Semi-transparent black overlay for trail effect
+                matrixCtx.fillStyle = 'rgba(7, 10, 18, 0.08)';
+                matrixCtx.fillRect(0, 0, matrixCanvasWidth, matrixCanvasHeight);
+
+                for (var i = 0; i < matrixDrops.length; i++) {
+                    // Pick a random character from this column's set
+                    var charSet = matrixColumns[i];
+                    if (!charSet) {
+                        continue;
+                    }
+                    var randomChar = charSet[Math.floor(Math.random() * charSet.length)];
+
+                    // Calculate position
+                    var xPos = i * matrixFontSize;
+                    var yPos = matrixDrops[i] * matrixFontSize;
+
+                    // Draw leading character brighter
+                    matrixCtx.fillStyle = '#ffffff';
+                    matrixCtx.font = 'bold ' + matrixFontSize + 'px "Courier New", monospace';
+                    matrixCtx.fillText(randomChar, xPos, yPos);
+
+                    // Draw trailing characters with neon azure glow
+                    matrixCtx.fillStyle = '#3b82f6';
+                    matrixCtx.font = matrixFontSize + 'px "Courier New", monospace';
+                    matrixCtx.fillText(randomChar, xPos, yPos - matrixFontSize);
+
+                    matrixCtx.fillStyle = '#3b82f640';
+                    matrixCtx.fillText(
+                        charSet[Math.floor(Math.random() * charSet.length)],
+                        xPos,
+                        yPos - matrixFontSize * 2
+                    );
+
+                    matrixCtx.fillStyle = '#3b82f620';
+                    matrixCtx.fillText(
+                        charSet[Math.floor(Math.random() * charSet.length)],
+                        xPos,
+                        yPos - matrixFontSize * 3
+                    );
+
+                    // Move drop down
+                    matrixDrops[i] = matrixDrops[i] + 1;
+
+                    // Reset drop if it goes off screen or randomly
+                    if (matrixDrops[i] * matrixFontSize > matrixCanvasHeight && Math.random() > 0.975) {
+                        matrixDrops[i] = 0;
+                    }
+                    if (matrixDrops[i] * matrixFontSize > matrixCanvasHeight + matrixFontSize * 4) {
+                        matrixDrops[i] = Math.floor(Math.random() * 20) * -1;
+                    }
+                }
+                matrixAnimationId = requestAnimationFrame(drawMatrixFrame);
+            }
+
+            function startMatrixEngine() {
+                if (!matrixCanvas) {
+                    return;
+                }
+                initializeMatrixEngine();
+                if (matrixAnimationId === null) {
+                    drawMatrixFrame();
+                }
+            }
+
+            function stopMatrixEngine() {
+                if (matrixAnimationId !== null) {
+                    cancelAnimationFrame(matrixAnimationId);
+                    matrixAnimationId = null;
+                }
+                if (matrixCtx && matrixCanvas) {
+                    matrixCtx.clearRect(0, 0, matrixCanvasWidth, matrixCanvasHeight);
+                }
+            }
+
+            // ====================================================================================
+            // SENSITIVITY MINI CANVAS - LIVE PARABOLIC MOUSE/TOUCH TRACKING CURVES
+            // ====================================================================================
+            var sensitivityCtx = null;
+            var sensitivityAnimationId = null;
+            var sensitivityDataPoints = [];
+            var sensitivityMaxPoints = 200;
+
+            function initializeSensitivityCanvas() {
+                if (!sensitivityMiniCanvas) {
+                    return;
+                }
+                sensitivityCtx = sensitivityMiniCanvas.getContext('2d');
+                resizeSensitivityCanvas();
+                window.addEventListener('resize', resizeSensitivityCanvas);
+                // Seed initial data points
+                sensitivityDataPoints = [];
+                for (var i = 0; i < sensitivityMaxPoints; i++) {
+                    sensitivityDataPoints.push(50 + Math.sin(i * 0.1) * 30 + Math.random() * 20);
+                }
+                drawSensitivityFrame();
+            }
+
+            function resizeSensitivityCanvas() {
+                if (!sensitivityMiniCanvas || !sensitivityCtx) {
+                    return;
+                }
+                var container = sensitivityMiniCanvas.parentElement;
+                if (container) {
+                    var rect = container.getBoundingClientRect();
+                    sensitivityMiniCanvas.width = rect.width;
+                    sensitivityMiniCanvas.height = 160;
+                }
+            }
+
+            function drawSensitivityFrame() {
+                if (!sensitivityCtx || !sensitivityMiniCanvas) {
+                    return;
+                }
+                var canvasWidth = sensitivityMiniCanvas.width;
+                var canvasHeight = sensitivityMiniCanvas.height;
+                sensitivityCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                // Draw grid lines
+                sensitivityCtx.strokeStyle = '#1e3a5f30';
+                sensitivityCtx.lineWidth = 1;
+                for (var gy = 0; gy < canvasHeight; gy += 32) {
+                    sensitivityCtx.beginPath();
+                    sensitivityCtx.moveTo(0, gy);
+                    sensitivityCtx.lineTo(canvasWidth, gy);
+                    sensitivityCtx.stroke();
+                }
+                for (var gx = 0; gx < canvasWidth; gx += 40) {
+                    sensitivityCtx.beginPath();
+                    sensitivityCtx.moveTo(gx, 0);
+                    sensitivityCtx.lineTo(gx, canvasHeight);
+                    sensitivityCtx.stroke();
+                }
+
+                // Draw the tracking curve
+                if (sensitivityDataPoints.length > 1) {
+                    sensitivityCtx.beginPath();
+                    sensitivityCtx.strokeStyle = '#06b6d4';
+                    sensitivityCtx.lineWidth = 2;
+                    sensitivityCtx.shadowColor = '#06b6d480';
+                    sensitivityCtx.shadowBlur = 8;
+                    var stepX = canvasWidth / (sensitivityDataPoints.length - 1);
+                    for (var i = 0; i < sensitivityDataPoints.length; i++) {
+                        var xPos = i * stepX;
+                        var yPos = canvasHeight - (sensitivityDataPoints[i] / 100) * canvasHeight;
+                        if (i === 0) {
+                            sensitivityCtx.moveTo(xPos, yPos);
+                        } else {
+                            sensitivityCtx.lineTo(xPos, yPos);
+                        }
+                    }
+                    sensitivityCtx.stroke();
+                    sensitivityCtx.shadowBlur = 0;
+
+                    // Draw glow dots at peaks
+                    for (var j = 1; j < sensitivityDataPoints.length - 1; j++) {
+                        if (sensitivityDataPoints[j] > sensitivityDataPoints[j - 1] &&
+                            sensitivityDataPoints[j] > sensitivityDataPoints[j + 1]) {
+                            var px = j * stepX;
+                            var py = canvasHeight - (sensitivityDataPoints[j] / 100) * canvasHeight;
+                            sensitivityCtx.beginPath();
+                            sensitivityCtx.arc(px, py, 4, 0, Math.PI * 2);
+                            sensitivityCtx.fillStyle = '#06b6d4';
+                            sensitivityCtx.shadowColor = '#06b6d4';
+                            sensitivityCtx.shadowBlur = 12;
+                            sensitivityCtx.fill();
+                            sensitivityCtx.shadowBlur = 0;
+                        }
+                    }
+                }
+
+                sensitivityAnimationId = requestAnimationFrame(drawSensitivityFrame);
+            }
+
+            function updateSensitivityData(newValue) {
+                sensitivityDataPoints.push(newValue);
+                if (sensitivityDataPoints.length > sensitivityMaxPoints) {
+                    sensitivityDataPoints.shift();
+                }
+            }
+
+            // ====================================================================================
+            // ANTI-LAG SYSTEM CLEANING SIMULATION WITH PROGRESS BAR
+            // ====================================================================================
+            var cleaningIntervalId = null;
+            var cleaningProgress = 0;
+
+            function simulateSystemCleaning(durationMs, logElement, progressBarElement, statusElement, isDeepClean) {
+                // Clear any existing cleaning interval
+                if (cleaningIntervalId !== null) {
+                    clearInterval(cleaningIntervalId);
+                    cleaningIntervalId = null;
+                }
+                cleaningProgress = 0;
+                if (progressBarElement) {
+                    progressBarElement.style.width = '0%';
+                    progressBarElement.classList.remove('complete');
+                }
+                if (statusElement) {
+                    statusElement.textContent = 'ĐANG DỌN...';
+                    statusElement.className = 'status-badge warning';
+                }
+                var cleanType = isDeepClean ? 'SÂU' : 'THƯỜNG';
+                appendToLog(logElement, '[BẮT ĐẦU] Quy trình dọn dẹp ' + cleanType + ' được khởi động...');
+
+                var totalSteps = 20;
+                var stepDuration = durationMs / totalSteps;
+                var currentStep = 0;
+
+                var stepMessages = [
+                    'Đang quét bộ nhớ RAM...',
+                    'Phân tích tiến trình nền...',
+                    'Giải phóng bộ nhớ đệm...',
+                    'Tối ưu hóa luồng CPU...',
+                    'Dọn dẹp file tạm...',
+                    'Đồng bộ hóa khung hình...',
+                    'Kiểm tra nhiệt độ GPU...',
+                    'Tinh chỉnh tốc độ quạt...',
+                    'Giảm độ trễ mạng...',
+                    'Tối ưu bộ đệm texture...',
+                    'Xóa bộ nhớ shader cache...',
+                    'Điều chỉnh mức ưu tiên tiến trình...',
+                    'Giải phóng socket không dùng...',
+                    'Tối ưu hóa bảng phân trang...',
+                    'Dọn dẹp registry ảo...',
+                    'Đồng bộ hóa timer hệ thống...',
+                    'Kiểm tra tính toàn vẹn dữ liệu...',
+                    'Áp dụng cấu hình hiệu suất...',
+                    'Xác nhận trạng thái ổn định...',
+                    'Hoàn tất quy trình dọn dẹp.'
+                ];
+
+                cleaningIntervalId = setInterval(function() {
+                    if (currentStep >= totalSteps) {
+                        clearInterval(cleaningIntervalId);
+                        cleaningIntervalId = null;
+                        cleaningProgress = 100;
+                        if (progressBarElement) {
+                            progressBarElement.style.width = '100%';
+                            progressBarElement.classList.add('complete');
+                        }
+                        if (statusElement) {
+                            statusElement.textContent = 'ACTIVE';
+                            statusElement.className = 'status-badge active';
+                        }
+                        appendToLog(logElement, '[HOÀN TẤT] Dọn dẹp ' + cleanType + ' thành công! Hệ thống đã được tối ưu.');
+                        showToast('Dọn dẹp ' + cleanType + ' hoàn tất! Hệ thống đã được tối ưu hóa.', 'success');
+                        return;
+                    }
+                    cleaningProgress = Math.round(((currentStep + 1) / totalSteps) * 100);
+                    if (progressBarElement) {
+                        progressBarElement.style.width = cleaningProgress + '%';
+                    }
+                    appendToLog(logElement, '[' + (currentStep + 1) + '/' + totalSteps + '] ' + stepMessages[
+                        currentStep]);
+                    currentStep = currentStep + 1;
+                }, stepDuration);
+            }
+
+            // ====================================================================================
+            // ADMIN KEY MANAGEMENT - RENDER KEY TABLE
+            // ====================================================================================
+            function renderKeyTable() {
+                if (!keyTableBody || !totalKeyCount) {
+                    return;
+                }
+                var allKeys = getAllStoredKeys();
+                // Clear existing rows
+                while (keyTableBody.firstChild) {
+                    keyTableBody.removeChild(keyTableBody.firstChild);
+                }
+                // Render each key row
+                for (var i = 0; i < allKeys.length; i++) {
+                    var keyData = allKeys[i];
+                    var rowIndex = i;
+                    var tr = document.createElement('tr');
+
+                    // STT column
+                    var tdIndex = document.createElement('td');
+                    tdIndex.textContent = (i + 1);
+                    tr.appendChild(tdIndex);
+
+                    // Username column
+                    var tdUsername = document.createElement('td');
+                    tdUsername.textContent = keyData.username || 'N/A';
+                    tr.appendChild(tdUsername);
+
+                    // Key column
+                    var tdKey = document.createElement('td');
+                    tdKey.textContent = keyData.key || 'N/A';
+                    tdKey.style.color = '#f59e0b';
+                    tr.appendChild(tdKey);
+
+                    // Created At column
+                    var tdCreated = document.createElement('td');
+                    try {
+                        var createdDate = new Date(keyData.createdAt);
+                        tdCreated.textContent = createdDate.toLocaleString('vi-VN');
+                    } catch (dateError) {
+                        tdCreated.textContent = keyData.createdAt || 'Không rõ';
+                    }
+                    tr.appendChild(tdCreated);
+
+                    // Status column
+                    var tdStatus = document.createElement('td');
+                    var statusSpan = document.createElement('span');
+                    if (keyData.status === 'revoked') {
+                        statusSpan.className = 'status-badge inactive';
+                        statusSpan.textContent = 'ĐÃ THU HỒI';
+                    } else {
+                        statusSpan.className = 'status-badge active';
+                        statusSpan.textContent = 'HOẠT ĐỘNG';
+                    }
+                    tdStatus.appendChild(statusSpan);
+                    tr.appendChild(tdStatus);
+
+                    // Expiry column
+                    var tdExpiry = document.createElement('td');
+                    tdExpiry.textContent = keyData.expiry || 'Vĩnh viễn';
+                    tr.appendChild(tdExpiry);
+
+                    // Action column
+                    var tdAction = document.createElement('td');
+                    var btnRevoke = document.createElement('button');
+                    btnRevoke.className = 'btn-revoke';
+                    if (keyData.status === 'revoked') {
+                        btnRevoke.textContent = 'ĐÃ KHÓA';
+                        btnRevoke.disabled = true;
+                        btnRevoke.style.opacity = '0.5';
+                        btnRevoke.style.cursor = 'not-allowed';
+                    } else {
+                        btnRevoke.textContent = 'THU HỒI';
+                        // Bind revoke event uniquely for this row
+                        btnRevoke.addEventListener('click', (function(index, username) {
+                            return function() {
+                                showCustomModal(
+                                    'Xác Nhận Thu Hồi Key',
+                                    'Bạn có chắc chắn muốn thu hồi key của người dùng "' +
+                                    username + '" không? Hành động này không thể hoàn tác.',
+                                    'danger',
+                                    'THU HỒI',
+                                    function() {
+                                        revokeKeyByIndex(index);
+                                    }
+                                );
+                            };
+                        })(rowIndex, keyData.username));
+                    }
+                    tdAction.appendChild(btnRevoke);
+                    tr.appendChild(tdAction);
+
+                    keyTableBody.appendChild(tr);
+                }
+                // Update total count
+                totalKeyCount.textContent = allKeys.length;
+            }
+
+            // ====================================================================================
+            // ADMIN KEY MANAGEMENT - ADD NEW KEY
+            // ====================================================================================
+            function addNewKey(username, key) {
+                if (!username || !key) {
+                    showToast('Vui lòng nhập đầy đủ Tên Người Dùng và Key.', 'warning');
+                    return false;
+                }
+                var usernameScan = cryptographicStringScan(username);
+                var keyScan = cryptographicStringScan(key);
+                if (!usernameScan.valid) {
+                    showToast('Tên người dùng không hợp lệ: ' + usernameScan.reason, 'error');
+                    return false;
+                }
+                if (!keyScan.valid) {
+                    showToast('Key không hợp lệ: ' + keyScan.reason, 'error');
+                    return false;
+                }
+                // Check for duplicate username
+                var allKeys = getAllStoredKeys();
+                for (var i = 0; i < allKeys.length; i++) {
+                    if (allKeys[i].username === username) {
+                        showToast('Tên người dùng "' + username + '" đã tồn tại trong hệ thống.', 'warning');
+                        return false;
+                    }
+                }
+                // Create new key entry
+                var newKeyEntry = {
+                    username: username,
+                    key: key,
+                    createdAt: new Date().toISOString(),
+                    status: 'active',
+                    expiry: 'permanent'
+                };
+                allKeys.push(newKeyEntry);
+                saveAllStoredKeys(allKeys);
+                renderKeyTable();
+                showToast('Đã thêm key mới cho người dùng "' + username + '" thành công!', 'success');
+                appendToLog(aimlockLog, '[ADMIN] Đã thêm key mới cho user: ' + username);
+                return true;
+            }
+
+            // ====================================================================================
+            // ADMIN KEY MANAGEMENT - REVOKE KEY BY INDEX
+            // ====================================================================================
+            function revokeKeyByIndex(index) {
+                var allKeys = getAllStoredKeys();
+                if (index < 0 || index >= allKeys.length) {
+                    showToast('Không tìm thấy key để thu hồi.', 'error');
+                    return;
+                }
+                var targetKey = allKeys[index];
+                targetKey.status = 'revoked';
+                targetKey.revokedAt = new Date().toISOString();
+                allKeys[index] = targetKey;
+                saveAllStoredKeys(allKeys);
+                renderKeyTable();
+                showToast('Đã thu hồi key của người dùng "' + targetKey.username + '".', 'success');
+                appendToLog(aimlockLog, '[ADMIN] Đã thu hồi key của user: ' + targetKey.username);
+                // If the revoked user is currently logged in, force logout
+                var currentSession = getCurrentSession();
+                if (currentSession && currentSession.username === targetKey.username && currentSession.role === 'user') {
+                    appendToLog(aimlockLog, '[BẢO MẬT] Buộc đăng xuất user bị thu hồi: ' + targetKey.username);
+                    setTimeout(function() {
+                        performLogout();
+                        showToast('Phiên của bạn đã bị chấm dứt do key bị thu hồi.', 'error');
+                    }, 1500);
+                }
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: LOGIN SUBMIT BUTTON
+            // ====================================================================================
+            if (loginSubmitBtn) {
+                loginSubmitBtn.addEventListener('click', function() {
+                    var username = loginUsernameInput ? loginUsernameInput.value.trim() : '';
+                    var password = loginPasswordInput ? loginPasswordInput.value.trim() : '';
+                    if (!username || !password) {
+                        if (loginErrorMsg) {
+                            loginErrorMsg.textContent = 'Vui lòng nhập đầy đủ Tên Đăng Nhập và Mã Kích Hoạt.';
+                        }
+                        return;
+                    }
+                    var authResult = authenticateUser(username, password);
+                    if (authResult.success) {
+                        if (loginErrorMsg) {
+                            loginErrorMsg.textContent = '';
+                        }
+                        applyRoleBasedUI(authResult.role, username);
+                    } else {
+                        if (loginErrorMsg) {
+                            loginErrorMsg.textContent = authResult.message;
+                        }
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: LOGIN ENTER KEY PRESS
+            // ====================================================================================
+            if (loginPasswordInput) {
+                loginPasswordInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        if (loginSubmitBtn) {
+                            loginSubmitBtn.click();
+                        }
+                    }
+                });
+            }
+            if (loginUsernameInput) {
+                loginUsernameInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        if (loginPasswordInput) {
+                            loginPasswordInput.focus();
+                        }
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: LOGOUT BUTTON
+            // ====================================================================================
+            if (btnLogout) {
+                btnLogout.addEventListener('click', function() {
+                    showCustomModal(
+                        'Xác Nhận Đăng Xuất',
+                        'Bạn có chắc chắn muốn đăng xuất khỏi hệ thống không?',
+                        'warning',
+                        'ĐĂNG XUẤT',
+                        function() {
+                            performLogout();
+                        }
+                    );
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ADMIN ENTRY BUTTON - TOGGLES TO ADMIN PANEL
+            // ====================================================================================
+            if (btnAdminEntry) {
+                btnAdminEntry.addEventListener('click', function() {
+                    var currentSession = getCurrentSession();
+                    if (!currentSession || currentSession.role !== 'admin') {
+                        showToast('Bạn không có quyền truy cập trang quản lý key.', 'error');
+                        return;
+                    }
+                    // Hide dashboard, show admin panel
+                    if (dashboardGrid) {
+                        dashboardGrid.style.display = 'none';
+                    }
+                    if (adminPanel) {
+                        adminPanel.classList.add('active');
+                    }
+                    if (btnAdminEntry) {
+                        btnAdminEntry.style.display = 'none';
+                    }
+                    if (btnBackUser) {
+                        btnBackUser.classList.add('visible');
+                    }
+                    renderKeyTable();
+                    showToast('Đã chuyển sang trang Quản Lý Key.', 'info');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: BACK TO USER DASHBOARD BUTTON
+            // ====================================================================================
+            if (btnBackUser) {
+                btnBackUser.addEventListener('click', function() {
+                    if (dashboardGrid) {
+                        dashboardGrid.style.display = '';
+                    }
+                    if (adminPanel) {
+                        adminPanel.classList.remove('active');
+                    }
+                    if (btnAdminEntry) {
+                        btnAdminEntry.style.display = 'inline-flex';
+                    }
+                    if (btnBackUser) {
+                        btnBackUser.classList.remove('visible');
+                    }
+                    showToast('Đã quay lại bảng điều khiển.', 'info');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ADMIN ADD KEY BUTTON
+            // ====================================================================================
+            if (btnAddKey) {
+                btnAddKey.addEventListener('click', function() {
+                    var newUsername = adminNewUsername ? adminNewUsername.value.trim() : '';
+                    var newKey = adminNewKey ? adminNewKey.value.trim() : '';
+                    if (addNewKey(newUsername, newKey)) {
+                        // Clear input fields on success
+                        if (adminNewUsername) {
+                            adminNewUsername.value = '';
+                        }
+                        if (adminNewKey) {
+                            adminNewKey.value = '';
+                        }
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK CALIBRATE BUTTON
+            // ====================================================================================
+            if (btnAimlockCalibrate) {
+                btnAimlockCalibrate.addEventListener('click', function() {
+                    appendToLog(aimlockLog, '[HIỆU CHỈNH] Bắt đầu hiệu chỉnh lại Aimlock...');
+                    appendToLog(aimlockLog, '[HIỆU CHỈNH] Đang đo đạc lại ma trận làm mượn...');
+                    appendToLog(aimlockLog,
+                        '[HIỆU CHỈNH] FOV: ' + (aimlockFov ? aimlockFov.value : '90') + '°, Tốc độ: ' + (
+                            aimlockSpeed ? aimlockSpeed.value : '25') + 'ms');
+                    appendToLog(aimlockLog, '[HIỆU CHỈNH] Hoàn tất! Hệ thống Aimlock đã được hiệu chỉnh.');
+                    if (aimlockStatus) {
+                        aimlockStatus.textContent = 'ACTIVE';
+                        aimlockStatus.className = 'status-badge active';
+                    }
+                    showToast('Aimlock đã được hiệu chỉnh thành công!', 'success');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: SENSITIVITY RESET BUTTON
+            // ====================================================================================
+            if (btnSensitivityReset) {
+                btnSensitivityReset.addEventListener('click', function() {
+                    // Reset all sensitivity data points
+                    sensitivityDataPoints = [];
+                    for (var i = 0; i < sensitivityMaxPoints; i++) {
+                        sensitivityDataPoints.push(50 + Math.sin(i * 0.08) * 25 + Math.random() * 15);
+                    }
+                    appendToLog(sensitivityLog, '[ĐẶT LẠI] Đường cong theo dõi đã được đặt lại về mặc định.');
+                    if (sensitivityStatus) {
+                        sensitivityStatus.textContent = 'ACTIVE';
+                        sensitivityStatus.className = 'status-badge active';
+                    }
+                    showToast('Đường cong cảm biến đã được đặt lại.', 'info');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI APPLY BUTTON
+            // ====================================================================================
+            if (btnDpiApply) {
+                btnDpiApply.addEventListener('click', function() {
+                    appendToLog(dpiLog, '[ÁP DỤNG] Đang áp dụng cấu hình DPI...');
+                    appendToLog(dpiLog, '[ÁP DỤNG] DPI: ' + (dpiMultiplier ? dpiMultiplier.value : '3200') +
+                        ', Tỉ lệ: ' + (dpiResolutionSync ? dpiResolutionSync.value : '16:9'));
+                    appendToLog(dpiLog, '[ÁP DỤNG] Chống răng cưa: ' + (dpiAntiAlias ? dpiAntiAlias.value :
+                        'MSAA 4x'));
+                    appendToLog(dpiLog, '[ÁP DỤNG] Cấu hình DPI đã được áp dụng thành công!');
+                    if (dpiStatus) {
+                        dpiStatus.textContent = 'ACTIVE';
+                        dpiStatus.className = 'status-badge active';
+                    }
+                    showToast('Cấu hình DPI đã được áp dụng!', 'success');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG CLEAN BUTTON
+            // ====================================================================================
+            if (btnAntilagClean) {
+                btnAntilagClean.addEventListener('click', function() {
+                    if (cleaningIntervalId !== null) {
+                        showToast('Đang có quy trình dọn dẹp đang chạy. Vui lòng chờ.', 'warning');
+                        return;
+                    }
+                    simulateSystemCleaning(4000, antilagLog, antilagProgressBar, antilagStatus, false);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG DEEP CLEAN BUTTON
+            // ====================================================================================
+            if (btnAntilagDeepClean) {
+                btnAntilagDeepClean.addEventListener('click', function() {
+                    if (cleaningIntervalId !== null) {
+                        showToast('Đang có quy trình dọn dẹp đang chạy. Vui lòng chờ.', 'warning');
+                        return;
+                    }
+                    showCustomModal(
+                        'Xác Nhận Dọn Sâu',
+                        'Dọn sâu sẽ tạm thời đóng các tiến trình không cần thiết và có thể gây gián đoạn trong vài giây. Bạn có chắc chắn muốn tiếp tục?',
+                        'warning',
+                        'DỌN SÂU',
+                        function() {
+                            simulateSystemCleaning(7000, antilagLog, antilagProgressBar, antilagStatus, true);
+                        }
+                    );
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY APPLY BUTTON - REAL-TIME COLOR SHIFTS
+            // ====================================================================================
+            if (btnAccessibilityApply) {
+                btnAccessibilityApply.addEventListener('click', function() {
+                    var colorBlindMode = accessibilityColorBlind ? accessibilityColorBlind.value : 'none';
+                    var brightness = accessibilityBrightness ? accessibilityBrightness.value : '80';
+                    var contrast = accessibilityContrast ? accessibilityContrast.value : '100';
+                    appendToLog(accessibilityLog, '[TRỢ NĂNG] Áp dụng chế độ: ' + colorBlindMode);
+                    appendToLog(accessibilityLog, '[TRỢ NĂNG] Độ sáng: ' + brightness + '%, Tương phản: ' +
+                        contrast + '%');
+
+                    // Apply real-time color shifts to the dashboard wrapper
+                    if (appWrapper) {
+                        var filterString = '';
+                        // Brightness adjustment
+                        var brightnessValue = parseFloat(brightness) / 100;
+                        filterString += 'brightness(' + brightnessValue + ') ';
+                        // Contrast adjustment
+                        var contrastValue = parseFloat(contrast) / 100;
+                        filterString += 'contrast(' + contrastValue + ') ';
+                        // Color blind simulation filters
+                        if (colorBlindMode === 'protanopia') {
+                            filterString +=
+                                'sepia(0.3) hue-rotate(-30deg) saturate(1.5) ';
+                        } else if (colorBlindMode === 'deuteranopia') {
+                            filterString +=
+                                'sepia(0.3) hue-rotate(20deg) saturate(1.3) ';
+                        } else if (colorBlindMode === 'tritanopia') {
+                            filterString +=
+                                'sepia(0.2) hue-rotate(180deg) saturate(0.8) ';
+                        } else if (colorBlindMode === 'grayscale') {
+                            filterString += 'grayscale(1) ';
+                        }
+                        appWrapper.style.filter = filterString.trim();
+                    }
+                    if (accessibilityStatus) {
+                        accessibilityStatus.textContent = 'ACTIVE';
+                        accessibilityStatus.className = 'status-badge active';
+                    }
+                    showToast('Cài đặt trợ năng đã được áp dụng!', 'success');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK SLIDER - SMOOTHING MATRIX FACTOR (VERBOSE PIXEL ADJUSTMENT)
+            // ====================================================================================
+            if (aimlockSmoothing && aimlockSmoothingVal) {
+                aimlockSmoothing.addEventListener('input', function() {
+                    var rawValue = parseInt(aimlockSmoothing.value, 10);
+                    var displayValue = rawValue;
+                    aimlockSmoothingVal.textContent = displayValue + '%';
+                    // Calculate pixel adjustment vector based on smoothing factor
+                    var baseVectorX = 1920;
+                    var baseVectorY = 1080;
+                    var smoothingFactor = rawValue / 100;
+                    var adjustedVectorX = Math.round(baseVectorX * smoothingFactor);
+                    var adjustedVectorY = Math.round(baseVectorY * smoothingFactor);
+                    appendToLog(aimlockLog, '[ĐIỀU CHỈNH] Hệ số làm mượn: ' + displayValue +
+                        '% → Vector điều chỉnh pixel: (' + adjustedVectorX + ', ' + adjustedVectorY + ')');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK FOV SLIDER
+            // ====================================================================================
+            if (aimlockFov && aimlockFovVal) {
+                aimlockFov.addEventListener('input', function() {
+                    var rawValue = parseInt(aimlockFov.value, 10);
+                    aimlockFovVal.textContent = rawValue + '°';
+                    var radians = (rawValue * Math.PI) / 180;
+                    appendToLog(aimlockLog, '[ĐIỀU CHỈNH] Góc quét FOV: ' + rawValue + '° (' + radians.toFixed(
+                        4) + ' radian)');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK SPEED SLIDER
+            // ====================================================================================
+            if (aimlockSpeed && aimlockSpeedVal) {
+                aimlockSpeed.addEventListener('input', function() {
+                    var rawValue = parseInt(aimlockSpeed.value, 10);
+                    aimlockSpeedVal.textContent = rawValue + ' ms';
+                    appendToLog(aimlockLog, '[ĐIỀU CHỈNH] Tốc độ khóa: ' + rawValue + 'ms');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK PRIORITY SELECT
+            // ====================================================================================
+            if (aimlockPriority) {
+                aimlockPriority.addEventListener('change', function() {
+                    var selectedValue = aimlockPriority.value;
+                    var priorityLabels = {
+                        'nearest': 'Gần Nhất',
+                        'headshot': 'Đầu (Headshot)',
+                        'chest': 'Ngực',
+                        'threat': 'Đe Dọa Cao'
+                    };
+                    appendToLog(aimlockLog, '[ĐIỀU CHỈNH] Ưu tiên mục tiêu: ' + (priorityLabels[
+                        selectedValue] || selectedValue));
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: SENSITIVITY TOUCH RATE SLIDER
+            // ====================================================================================
+            if (sensitivityTouchRate && sensitivityTouchRateVal) {
+                sensitivityTouchRate.addEventListener('input', function() {
+                    var rawValue = parseInt(sensitivityTouchRate.value, 10);
+                    sensitivityTouchRateVal.textContent = rawValue + ' Hz';
+                    appendToLog(sensitivityLog, '[ĐIỀU CHỈNH] Tần số lấy mẫu: ' + rawValue + ' Hz');
+                    // Update sensitivity canvas with new data point
+                    var normalizedValue = (rawValue / 1000) * 100;
+                    updateSensitivityData(normalizedValue);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: SENSITIVITY POLLING SLIDER
+            // ====================================================================================
+            if (sensitivityPolling && sensitivityPollingVal) {
+                sensitivityPolling.addEventListener('input', function() {
+                    var rawValue = parseInt(sensitivityPolling.value, 10);
+                    sensitivityPollingVal.textContent = rawValue + 'x';
+                    appendToLog(sensitivityLog, '[ĐIỀU CHỈNH] Hệ số nhân Polling: ' + rawValue + 'x');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI MULTIPLIER SLIDER
+            // ====================================================================================
+            if (dpiMultiplier && dpiMultiplierVal) {
+                dpiMultiplier.addEventListener('input', function() {
+                    var rawValue = parseInt(dpiMultiplier.value, 10);
+                    dpiMultiplierVal.textContent = rawValue + ' DPI';
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Hệ số DPI: ' + rawValue);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI SHARPNESS SLIDER
+            // ====================================================================================
+            if (dpiSharpness && dpiSharpnessVal) {
+                dpiSharpness.addEventListener('input', function() {
+                    var rawValue = parseInt(dpiSharpness.value, 10);
+                    dpiSharpnessVal.textContent = rawValue + '%';
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Độ sắc nét: ' + rawValue + '%');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI GAMMA SLIDER
+            // ====================================================================================
+            if (dpiGamma && dpiGammaVal) {
+                dpiGamma.addEventListener('input', function() {
+                    var rawValue = parseInt(dpiGamma.value, 10);
+                    var gammaDisplay = (rawValue / 100).toFixed(2);
+                    dpiGammaVal.textContent = gammaDisplay;
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Gamma: ' + gammaDisplay);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY BRIGHTNESS SLIDER
+            // ====================================================================================
+            if (accessibilityBrightness && accessibilityBrightnessVal) {
+                accessibilityBrightness.addEventListener('input', function() {
+                    var rawValue = parseInt(accessibilityBrightness.value, 10);
+                    accessibilityBrightnessVal.textContent = rawValue + '%';
+                    appendToLog(accessibilityLog, '[ĐIỀU CHỈNH] Độ sáng: ' + rawValue + '%');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY CONTRAST SLIDER
+            // ====================================================================================
+            if (accessibilityContrast && accessibilityContrastVal) {
+                accessibilityContrast.addEventListener('input', function() {
+                    var rawValue = parseInt(accessibilityContrast.value, 10);
+                    accessibilityContrastVal.textContent = rawValue + '%';
+                    appendToLog(accessibilityLog, '[ĐIỀU CHỈNH] Tương phản: ' + rawValue + '%');
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: AIMLOCK AUTO TARGET CHECKBOX
+            // ====================================================================================
+            if (aimlockAutoTarget) {
+                aimlockAutoTarget.addEventListener('change', function() {
+                    if (aimlockAutoTarget.checked) {
+                        appendToLog(aimlockLog, '[BẬT] Tự động khóa mục tiêu đã được kích hoạt.');
+                        if (aimlockStatus) {
+                            aimlockStatus.textContent = 'ACTIVE';
+                            aimlockStatus.className = 'status-badge active';
+                        }
+                    } else {
+                        appendToLog(aimlockLog, '[TẮT] Tự động khóa mục tiêu đã bị vô hiệu hóa.');
+                        if (aimlockStatus) {
+                            aimlockStatus.textContent = 'INACTIVE';
+                            aimlockStatus.className = 'status-badge inactive';
+                        }
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: SENSITIVITY STABILIZATION CHECKBOX
+            // ====================================================================================
+            if (sensitivityStabilization) {
+                sensitivityStabilization.addEventListener('change', function() {
+                    if (sensitivityStabilization.checked) {
+                        appendToLog(sensitivityLog, '[BẬT] Ổn định điểm ảnh đã được kích hoạt.');
+                    } else {
+                        appendToLog(sensitivityLog, '[TẮT] Ổn định điểm ảnh đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG RAM PURGE CHECKBOX
+            // ====================================================================================
+            if (antilagRamPurge) {
+                antilagRamPurge.addEventListener('change', function() {
+                    if (antilagRamPurge.checked) {
+                        appendToLog(antilagLog, '[BẬT] Dọn RAM tự động đã được kích hoạt.');
+                    } else {
+                        appendToLog(antilagLog, '[TẮT] Dọn RAM tự động đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG BACKGROUND FILTER CHECKBOX
+            // ====================================================================================
+            if (antilagBackground) {
+                antilagBackground.addEventListener('change', function() {
+                    if (antilagBackground.checked) {
+                        appendToLog(antilagLog, '[BẬT] Lọc tiến trình nền đã được kích hoạt.');
+                    } else {
+                        appendToLog(antilagLog, '[TẮT] Lọc tiến trình nền đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG THERMAL CHECKBOX
+            // ====================================================================================
+            if (antilagThermal) {
+                antilagThermal.addEventListener('change', function() {
+                    if (antilagThermal.checked) {
+                        appendToLog(antilagLog, '[BẬT] Làm mát chủ động đã được kích hoạt.');
+                    } else {
+                        appendToLog(antilagLog, '[TẮT] Làm mát chủ động đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY AUDIO CLICK CHECKBOX
+            // ====================================================================================
+            if (accessibilityAudioClick) {
+                accessibilityAudioClick.addEventListener('change', function() {
+                    if (accessibilityAudioClick.checked) {
+                        appendToLog(accessibilityLog, '[BẬT] Âm thanh click đã được kích hoạt.');
+                        // Simulate audio click feedback using Web Audio API if available
+                        try {
+                            var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                            var oscillator = audioCtx.createOscillator();
+                            var gainNode = audioCtx.createGain();
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioCtx.destination);
+                            oscillator.frequency.value = 800;
+                            oscillator.type = 'sine';
+                            gainNode.gain.value = 0.05;
+                            oscillator.start();
+                            oscillator.stop(audioCtx.currentTime + 0.05);
+                        } catch (audioError) {
+                            // Silently fail if audio not supported
+                        }
+                    } else {
+                        appendToLog(accessibilityLog, '[TẮT] Âm thanh click đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY LOGGER CHECKBOX
+            // ====================================================================================
+            if (accessibilityLogger) {
+                accessibilityLogger.addEventListener('change', function() {
+                    if (accessibilityLogger.checked) {
+                        appendToLog(accessibilityLog, '[BẬT] Ghi nhật ký trợ năng đã được kích hoạt.');
+                    } else {
+                        appendToLog(accessibilityLog, '[TẮT] Ghi nhật ký trợ năng đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ACCESSIBILITY COLOR BLIND SELECT
+            // ====================================================================================
+            if (accessibilityColorBlind) {
+                accessibilityColorBlind.addEventListener('change', function() {
+                    var modeLabels = {
+                        'none': 'Không',
+                        'protanopia': 'Protanopia (Đỏ-Lục)',
+                        'deuteranopia': 'Deuteranopia (Lục-Đỏ)',
+                        'tritanopia': 'Tritanopia (Xanh-Vàng)',
+                        'grayscale': 'Thang Xám'
+                    };
+                    appendToLog(accessibilityLog, '[ĐIỀU CHỈNH] Chế độ mù màu: ' + (modeLabels[accessibilityColorBlind
+                        .value] || accessibilityColorBlind.value));
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI RESOLUTION SYNC SELECT
+            // ====================================================================================
+            if (dpiResolutionSync) {
+                dpiResolutionSync.addEventListener('change', function() {
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Tỉ lệ màn hình: ' + dpiResolutionSync.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI TEXTURE SCALING SELECT
+            // ====================================================================================
+            if (dpiTextureScaling) {
+                dpiTextureScaling.addEventListener('change', function() {
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Tỉ lệ Texture: ' + dpiTextureScaling.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI ANTI-ALIAS SELECT
+            // ====================================================================================
+            if (dpiAntiAlias) {
+                dpiAntiAlias.addEventListener('change', function() {
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Chống răng cưa: ' + dpiAntiAlias.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI COLOR DEPTH SELECT
+            // ====================================================================================
+            if (dpiColorDepth) {
+                dpiColorDepth.addEventListener('change', function() {
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Độ sâu màu: ' + dpiColorDepth.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI PRESET SELECT
+            // ====================================================================================
+            if (dpiPreset) {
+                dpiPreset.addEventListener('change', function() {
+                    appendToLog(dpiLog, '[ĐIỀU CHỈNH] Preset cấu hình: ' + dpiPreset.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: ANTI-LAG CPU THREADS SELECT
+            // ====================================================================================
+            if (antilagCpuThreads) {
+                antilagCpuThreads.addEventListener('change', function() {
+                    appendToLog(antilagLog, '[ĐIỀU CHỈNH] Luồng CPU: ' + antilagCpuThreads.value);
+                });
+            }
+
+            // ====================================================================================
+            // EVENT BINDING: DPI VSYNC CHECKBOX
+            // ====================================================================================
+            if (dpiVsync) {
+                dpiVsync.addEventListener('change', function() {
+                    if (dpiVsync.checked) {
+                        appendToLog(dpiLog, '[BẬT] VSync thông minh đã được kích hoạt.');
+                    } else {
+                        appendToLog(dpiLog, '[TẮT] VSync thông minh đã bị vô hiệu hóa.');
+                    }
+                });
+            }
+
+            // ====================================================================================
+            // INITIALIZATION ROUTINE - EXECUTED ON DOM READY
+            // ====================================================================================
+            function initializeApplication() {
+                // Seed localStorage with default data
+                initializeStorage();
+
+                // Start the matrix rain particle engine
+                startMatrixEngine();
+
+                // Initialize sensitivity mini canvas
+                initializeSensitivityCanvas();
+
+                // Check for existing session
+                var existingSession = getCurrentSession();
+                if (existingSession) {
+                    // Auto-login with existing session
+                    if (loginOverlay) {
+                        loginOverlay.classList.add('hidden');
+                    }
+                    if (appWrapper) {
+                        appWrapper.classList.add('active');
+                    }
+                    stopMatrixEngine();
+                    if (existingSession.role === 'admin') {
+                        if (btnAdminEntry) {
+                            btnAdminEntry.style.display = 'inline-flex';
+                        }
+                        if (userBadgeText) {
+                            userBadgeText.textContent = 'ADMIN: ' + (existingSession.username || 'Admin');
+                        }
+                        renderKeyTable();
+                    } else {
+                        if (btnAdminEntry) {
+                            btnAdminEntry.style.display = 'none';
+                        }
+                        if (userBadgeText) {
+                            userBadgeText.textContent = 'MÃ USER: ' + (existingSession.username || 'User');
+                        }
+                    }
+                    showToast('Tự động đăng nhập. Chào mừng trở lại!', 'info');
+                }
+
+                // Log initialization
+                appendToLog(aimlockLog, '[HỆ THỐNG] Khởi tạo Aimlock Sub-Routine hoàn tất.');
+                appendToLog(sensitivityLog, '[HỆ THỐNG] Sensitivity Booster đã sẵn sàng.');
+                appendToLog(dpiLog, '[HỆ THỐNG] DPI Emulation Matrix đã nạp.');
+                appendToLog(antilagLog, '[HỆ THỐNG] Anti-Lag Optimizer đã sẵn sàng.');
+                appendToLog(accessibilityLog, '[HỆ THỐNG] Accessibility Overlay đã tải.');
+            }
+
+            // ====================================================================================
+            // SECURITY LISTENER: DETECT TAMPERING WITH LOCAL STORAGE SESSION
+            // ====================================================================================
+            window.addEventListener('storage', function(storageEvent) {
+                if (storageEvent.key === STORAGE_CURRENT_SESSION) {
+                    if (storageEvent.newValue === null) {
+                        // Session was removed externally
+                        performLogout();
+                        showToast('Phiên đăng nhập đã bị chấm dứt từ bên ngoài.', 'error');
+                    }
+                }
+            });
+
+            // ====================================================================================
+            // KEYBOARD SHORTCUT: ESC TO CLOSE MODALS
+            // ====================================================================================
+            document.addEventListener('keydown', function(keyboardEvent) {
+                if (keyboardEvent.key === 'Escape') {
+                    if (customModalOverlay && customModalOverlay.classList.contains('visible')) {
+                        hideCustomModal();
+                    }
+                }
+            });
+
+            // ====================================================================================
+            // START THE APPLICATION
+            // ====================================================================================
+            initializeApplication();
+
+            // ====================================================================================
+            // EXPORT KEY FUNCTIONS TO GLOBAL SCOPE FOR DEBUGGING (OPTIONAL)
+            // ====================================================================================
+            window.__cyberpunkVIP = {
+                performLogout: performLogout,
+                getCurrentSession: getCurrentSession,
+                getAllStoredKeys: getAllStoredKeys,
+                renderKeyTable: renderKeyTable,
+                addNewKey: addNewKey,
+                revokeKeyByIndex: revokeKeyByIndex,
+                showToast: showToast,
+                showCustomModal: showCustomModal,
+                cryptographicStringScan: cryptographicStringScan,
+                MASTER_ADMIN_KEY: MASTER_ADMIN_KEY
+            };
+
+        })();
+    </script>
+
+</body>
+</html>
