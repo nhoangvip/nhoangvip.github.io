@@ -1,0 +1,910 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>UCHIHA PANEL - Headshot Sensitivity Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0c;--bg2:#0f0f14;--card:#12121a;--card2:#18182a;
+  --red:#ff1e42;--red2:#ff3a5c;--purple:#8b00ff;--purple2:#a855f7;
+  --cyan:#00e5ff;--gold:#ffd700;--green:#00ff88;
+  --text:#e0e0e0;--text2:#888;--text3:#555;
+  --glass:rgba(18,18,26,0.75);--glass2:rgba(30,30,50,0.6);
+  --glow-red:0 0 15px rgba(255,30,66,0.4),0 0 40px rgba(255,30,66,0.15);
+  --glow-purple:0 0 15px rgba(139,0,255,0.4),0 0 40px rgba(139,0,255,0.15);
+  --glow-cyan:0 0 15px rgba(0,229,255,0.3);
+  --radius:12px;--radius2:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.5}
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.app{position:relative;z-index:1}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px}
+.header{position:sticky;top:0;z-index:100;background:rgba(10,10,12,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,30,66,0.2);padding:10px 0}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:40px;height:40px;border-radius:50%;background:conic-gradient(var(--red),var(--purple),var(--red));display:flex;align-items:center;justify-content:center;animation:spin 8s linear infinite;position:relative}
+.logo-icon::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--bg)}
+.logo-icon i{position:relative;z-index:1;color:var(--red);width:20px;height:20px}
+.logo-text{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--red),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+@media(min-width:640px){.logo-text{font-size:18px}}
+.header-controls{display:flex;align-items:center;gap:8px}
+.ctrl-btn{background:var(--glass2);border:1px solid rgba(255,255,255,0.08);color:var(--text);padding:6px 12px;border-radius:20px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;transition:all .3s}
+.ctrl-btn:hover{border-color:var(--red);box-shadow:var(--glow-red)}
+.ctrl-btn.active{background:rgba(255,30,66,0.15);border-color:var(--red);color:var(--red)}
+.ctrl-btn i{width:16px;height:16px}
+.nav{background:rgba(15,15,20,0.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05);position:sticky;top:60px;z-index:99}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{flex-shrink:0;padding:12px 16px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;transition:all .3s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+@media(min-width:640px){.nav-tab{font-size:12px;padding:14px 20px}}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.nav-tab i{width:16px;height:16px}
+.main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+.section{display:none;animation:fadeUp .5s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius2);padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),var(--purple),transparent);opacity:0.5}
+.card-title{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.card-title i{color:var(--red);width:22px;height:22px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.form-select,.form-input{width:100%;padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;outline:none;transition:all .3s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-select:focus,.form-input:focus{border-color:var(--red);box-shadow:var(--glow-red)}
+.form-select option{background:var(--card);color:var(--text)}
+.range-group{margin-bottom:16px}
+.range-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.range-value{font-family:'Share Tech Mono',monospace;color:var(--red);font-size:14px}
+input[type="range"]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--red);cursor:pointer;box-shadow:0 0 10px rgba(255,30,66,0.5)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:var(--radius);font-family:'Orbitron',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .3s;text-transform:uppercase;letter-spacing:1px}
+.btn i{width:18px;height:18px}
+.btn-primary{background:linear-gradient(135deg,var(--red),var(--purple));color:#fff;box-shadow:0 4px 20px rgba(255,30,66,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(255,30,66,0.5)}
+.btn-secondary{background:var(--glass2);color:var(--text);border:1px solid rgba(255,255,255,0.1)}
+.btn-secondary:hover{border-color:var(--red);color:var(--red)}
+.btn-sm{padding:8px 16px;font-size:11px}
+.btn-group{display:flex;gap:10px;flex-wrap:wrap}
+.option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.option-card{padding:12px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);cursor:pointer;text-align:center;transition:all .3s}
+.option-card:hover{border-color:rgba(255,30,66,0.4)}
+.option-card.selected{border-color:var(--red);background:rgba(255,30,66,0.1);box-shadow:var(--glow-red)}
+.option-card .opt-icon{font-size:24px;margin-bottom:4px}
+.option-card .opt-label{font-size:12px;font-weight:600;color:var(--text2)}
+.option-card.selected .opt-label{color:var(--red)}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.result-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:14px;text-align:center}
+.result-item .ri-label{font-size:11px;color:var(--text2);text-transform:uppercase;margin-bottom:4px;letter-spacing:0.5px}
+.result-item .ri-value{font-family:'Share Tech Mono',monospace;font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--red),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.result-item .ri-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.game-container{position:relative;width:100%;aspect-ratio:9/16;max-height:70vh;margin:0 auto;border-radius:var(--radius2);overflow:hidden;border:1px solid rgba(255,30,66,0.3);background:#080810}
+@media(min-width:640px){.game-container{aspect-ratio:16/9;max-height:60vh}}
+#aimCanvas{width:100%;height:100%;display:block;touch-action:none}
+.game-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none;flex-wrap:wrap;gap:6px}
+.hud-item{background:rgba(10,10,12,0.85);backdrop-filter:blur(10px);padding:6px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text)}
+.hud-item .hl{color:var(--red)}
+.game-feedback{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',sans-serif;font-size:20px;font-weight:800;text-align:center;pointer-events:none;opacity:0;transition:opacity .3s;text-shadow:0 0 20px currentColor}
+@media(min-width:640px){.game-feedback{font-size:28px}}
+.game-feedback.show{opacity:1}
+.game-feedback.perfect{color:var(--red)}
+.game-feedback.good{color:var(--gold)}
+.game-feedback.miss{color:var(--text2)}
+.crosshair-preview{width:100%;aspect-ratio:1;max-width:300px;margin:0 auto 20px;background:#1a1a24;border-radius:var(--radius2);border:1px solid rgba(255,255,255,0.08);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#crosshairCanvas{width:100%;height:100%}
+.color-picker-wrapper{display:flex;align-items:center;gap:10px}
+.color-picker-wrapper input[type="color"]{-webkit-appearance:none;border:2px solid rgba(255,255,255,0.1);border-radius:8px;width:40px;height:40px;cursor:pointer;background:none;padding:2px}
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch{border:none;border-radius:6px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all .3s}
+.tab-btn.active{background:rgba(255,30,66,0.15);border-color:var(--red);color:var(--red)}
+.accordion-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+.accordion-header{padding:14px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .3s}
+.accordion-header:hover{background:rgba(255,255,255,0.03)}
+.accordion-header .ah-left{display:flex;align-items:center;gap:10px}
+.accordion-header .ah-icon{color:var(--red);width:20px;height:20px}
+.accordion-header .ah-title{font-weight:600;font-size:14px}
+.accordion-header .ah-arrow{color:var(--text3);transition:transform .3s;width:18px;height:18px}
+.accordion-item.open .ah-arrow{transform:rotate(180deg)}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.accordion-body-inner{padding:0 16px 16px;font-size:14px;color:var(--text2);line-height:1.7}
+.accordion-body-inner p{margin-bottom:8px}
+.accordion-body-inner strong{color:var(--red)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card2);border:1px solid var(--red);border-radius:var(--radius);padding:12px 24px;color:var(--text);font-size:14px;z-index:9999;box-shadow:var(--glow-red);transition:transform .4s ease;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast i{color:var(--red);width:18px;height:18px}
+.text-red{color:var(--red)}.text-purple{color:var(--purple2)}.text-cyan{color:var(--cyan)}.text-green{color:var(--green)}.text-gold{color:var(--gold)}
+.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.gap-8{gap:8px}.gap-12{gap:12px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,30,66,0.3),transparent);margin:20px 0}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(255,30,66,0.3)}50%{box-shadow:0 0 20px rgba(255,30,66,0.6)}}
+.animate-glow{animation:glow 2s infinite}
+@media(max-width:480px){.option-grid{grid-template-columns:repeat(2,1fr)}.result-grid{grid-template-columns:repeat(2,1fr)}.header-inner{padding:0 10px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="app">  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon"><i data-lucide="target"></i></div>
+        <span class="logo-text">UCHIHA PANEL</span>
+      </div>
+      <div class="header-controls">
+        <button class="ctrl-btn" id="langBtn" onclick="toggleLang()">
+          <i data-lucide="globe"></i><span id="langLabel">EN</span>
+        </button>
+        <button class="ctrl-btn" id="soundBtn" onclick="toggleSound()">
+          <i data-lucide="volume-2" id="soundIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-tab active" onclick="switchTab(0)">
+        <i data-lucide="sliders-horizontal"></i><span data-i18n="nav_sens">Sensitivity</span>
+      </div>
+      <div class="nav-tab" onclick="switchTab(1)">
+        <i data-lucide="crosshair"></i><span data-i18n="nav_aim">Aim Practice</span>
+      </div>
+      <div class="nav-tab" onclick="switchTab(2)">
+        <i data-lucide="focus"></i><span data-i18n="nav_cross">Crosshair</span>
+      </div>
+      <div class="nav-tab" onclick="switchTab(3)">
+        <i data-lucide="zap"></i><span data-i18n="nav_tips">Tips & Tricks</span>
+      </div>
+    </div>
+  </nav>
+  <main class="main">
+    <section class="section active" id="sec-sens">
+      <div class="card">
+        <div class="card-title"><i data-lucide="smartphone"></i> <span data-i18n="s1_title">Device & Display</span></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="s1_device">Device / Platform</label>
+          <div class="option-grid" id="deviceGrid">
+            <div class="option-card selected" data-val="iphone" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">iPhone/iPad</div>
+            </div>
+            <div class="option-card" data-val="samsung" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">Samsung</div>
+            </div>
+            <div class="option-card" data-val="xiaomi" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">Xiaomi</div>
+            </div>
+            <div class="option-card" data-val="oppo" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">Oppo</div>
+            </div>
+            <div class="option-card" data-val="realme" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">Realme</div>
+            </div>
+            <div class="option-card" data-val="vivo" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128241;</div><div class="opt-label">Vivo</div>
+            </div>
+            <div class="option-card" data-val="emulator" onclick="selectOption(this,'device')">
+              <div class="opt-icon">&#128187;</div><div class="opt-label">Emulator PC</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="s1_refresh">Refresh Rate</label>
+          <div class="option-grid" id="refreshGrid">
+            <div class="option-card selected" data-val="60" onclick="selectOption(this,'refresh')">
+              <div class="opt-icon">60</div><div class="opt-label">60 Hz</div>
+            </div>
+            <div class="option-card" data-val="90" onclick="selectOption(this,'refresh')">
+              <div class="opt-icon">90</div><div class="opt-label">90 Hz</div>
+            </div>
+            <div class="option-card" data-val="120" onclick="selectOption(this,'refresh')">
+              <div class="opt-icon">120</div><div class="opt-label">120 Hz</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i data-lucide="crosshair"></i> <span data-i18n="s2_title">Playstyle & Weapon</span></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="s2_style">Playstyle</label>
+          <div class="option-grid" id="styleGrid">
+            <div class="option-card selected" data-val="onetap" onclick="selectOption(this,'style')">
+              <div class="opt-icon">&#127919;</div><div class="opt-label">One-Tap</div>
+            </div>
+            <div class="option-card" data-val="shotgun" onclick="selectOption(this,'style')">
+              <div class="opt-icon">&#128299;</div><div class="opt-label">Shotgun</div>
+            </div>
+            <div class="option-card" data-val="smg" onclick="selectOption(this,'style')">
+              <div class="opt-icon">&#9889;</div><div class="opt-label">SMG Spray</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="s2_weapon">Weapon</label>
+          <select class="form-select" id="weaponSelect">
+            <option value="deagle">Desert Eagle</option>
+            <option value="woodpecker">Woodpecker</option>
+            <option value="m1887">M1887</option>
+            <option value="mp40">MP40</option>
+            <option value="ump">UMP</option>
+            <option value="ak47">AK-47</option>
+            <option value="m4a1">M4A1</option>
+            <option value="awm">AWM (Sniper)</option>
+          </select>
+        </div>
+        <div class="btn-group mt-16">
+          <button class="btn btn-primary" onclick="calculateSens()"><i data-lucide="zap"></i><span data-i18n="btn_calc">Generate Config</span></button>
+          <button class="btn btn-secondary" onclick="saveConfig()"><i data-lucide="save"></i><span data-i18n="btn_save">Save Config</span></button>
+        </div>
+      </div>
+      <div class="card" id="resultCard" style="display:none">
+        <div class="card-title"><i data-lucide="sparkles"></i> <span data-i18n="r_title">Optimized Settings</span></div>
+        <div class="result-grid" id="resultGrid"></div>
+        <div class="divider"></div>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-secondary" onclick="copyConfig()"><i data-lucide="copy"></i><span data-i18n="btn_copy">Copy Config</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="sec-aim">
+      <div class="card">
+        <div class="card-title"><i data-lucide="crosshair"></i> <span data-i18n="aim_title">Aim Drag Practice Arena</span></div>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:16px" data-i18n="aim_desc">Swipe from the fire button upward toward the target's head. Measure your drag speed, accuracy, and headshot rate.</p>
+        <div class="game-container" id="gameContainer">
+          <canvas id="aimCanvas"></canvas>
+          <div class="game-hud">
+            <div class="hud-item"><span class="hl" data-i18n="aim_score">Score:</span> <span id="hudScore">0</span></div>
+            <div class="hud-item"><span class="hl" data-i18n="aim_combo">Combo:</span> <span id="hudCombo">0</span></div>
+            <div class="hud-item"><span class="hl" data-i18n="aim_speed">Speed:</span> <span id="hudSpeed">0</span> px/s</div>
+          </div>
+          <div class="game-feedback" id="gameFeedback"></div>
+        </div>
+        <div class="btn-group mt-16">
+          <button class="btn btn-primary" onclick="startAimGame()"><i data-lucide="play"></i><span data-i18n="btn_start">Start Game</span></button>
+          <button class="btn btn-secondary" onclick="resetAimGame()"><i data-lucide="rotate-ccw"></i><span data-i18n="btn_reset">Reset</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="sec-cross">
+      <div class="card">
+        <div class="card-title"><i data-lucide="focus"></i> <span data-i18n="cross_title">Custom Crosshair Generator</span></div>
+        <div class="crosshair-preview"><canvas id="crosshairCanvas"></canvas></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="cross_type">Crosshair Type</label>
+          <div class="tabs" id="crossTypeTabs">
+            <button class="tab-btn active" onclick="setCrossType('dot',this)">Dot</button>
+            <button class="tab-btn" onclick="setCrossType('cross',this)">Cross</button>
+            <button class="tab-btn" onclick="setCrossType('circle',this)">Circle</button>
+            <button class="tab-btn" onclick="setCrossType('sharingan',this)">Sharingan</button>
+          </div>
+        </div>
+        <div class="range-group">
+          <div class="range-header"><label class="form-label" data-i18n="cross_size">Size</label><span class="range-value" id="chSizeVal">10</span></div>
+          <input type="range" min="2" max="50" value="10" id="chSize" oninput="updateCrosshair()">
+        </div>
+        <div class="range-group">
+          <div class="range-header"><label class="form-label" data-i18n="cross_opacity">Opacity</label><span class="range-value" id="chOpacityVal">100%</span></div>
+          <input type="range" min="10" max="100" value="100" id="chOpacity" oninput="updateCrosshair()">
+        </div>
+        <div class="range-group">
+          <div class="range-header"><label class="form-label" data-i18n="cross_outline">Outline Width</label><span class="range-value" id="chOutlineVal">2</span></div>
+          <input type="range" min="0" max="6" value="2" id="chOutline" oninput="updateCrosshair()">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="cross_color">Color</label>
+          <div class="color-picker-wrapper">
+            <input type="color" value="#ff1e42" id="chColor" oninput="updateCrosshair()">
+            <span style="color:var(--text2);font-size:13px" id="chColorLabel">#ff1e42</span>
+          </div>
+        </div>
+        <div class="btn-group mt-16">
+          <button class="btn btn-primary btn-sm" onclick="exportCrosshair('png')"><i data-lucide="download"></i> PNG</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportCrosshair('svg')"><i data-lucide="download"></i> SVG</button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="sec-tips">
+      <div class="card">
+        <div class="card-title"><i data-lucide="zap"></i> <span data-i18n="tips_title">Drag Techniques & Device Tweaks</span></div>
+        <div class="tabs mb-16">
+          <button class="tab-btn active" onclick="setTipsTab('techniques',this)" data-i18n="tips_tab1">Drag Techniques</button>
+          <button class="tab-btn" onclick="setTipsTab('device',this)" data-i18n="tips_tab2">Device Settings</button>
+        </div>
+        <div id="tipsTechniques">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="move-vertical" class="ah-icon"></i><span class="ah-title">J-Drag (Kéo chữ J)</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong data-i18n="tips_j_when">When to use:</strong> <span data-i18n="tips_j_when_text">Close range (0-15m), enemies standing still or moving slowly.</span></p>
+              <p><strong data-i18n="tips_j_how">How:</strong> <span data-i18n="tips_j_how_text">Start your swipe slightly to the left or right, then curve upward in a J-shape toward the head. The curved path helps lock onto the head hitbox naturally.</span></p>
+              <p><strong data-i18n="tips_j_tip">Tip:</strong> <span data-i18n="tips_j_tip_text">Use higher general sensitivity (100-100) for fast horizontal movement, lower scope sensitivity for precision.</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="arrow-up" class="ah-icon"></i><span class="ah-title">Straight Drag (Kéo thẳng)</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong data-i18n="tips_s_when">When to use:</strong> <span data-i18n="tips_s_when_text">Medium range (15-30m), enemy in front of you.</span></p>
+              <p><strong data-i18n="tips_s_how">How:</strong> <span data-i18n="tips_s_how_text">Swipe straight upward from the fire button. Keep your thumb perpendicular to the screen. Consistent speed is key.</span></p>
+              <p><strong data-i18n="tips_s_tip">Tip:</strong> <span data-i18n="tips_s_tip_text">Practice with Desert Eagle at training ground. Aim for the chest first, then adjust drag distance for head.</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="rotate-cw" class="ah-icon"></i><span class="ah-title">C-Drag (Kéo chữ C)</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong data-i18n="tips_c_when">When to use:</strong> <span data-i18n="tips_c_when_text">Long range (30m+), sniper shots, or moving targets.</span></p>
+              <p><strong data-i18n="tips_c_how">How:</strong> <span data-i18n="tips_c_how_text">Swipe in a C-shaped arc. Start from one side, curve up and over to the head. This accounts for enemy movement and bullet drop.</span></p>
+              <p><strong data-i18n="tips_c_tip">Tip:</strong> <span data-i18n="tips_c_tip_text">Reduce DPI to 400-600 for long range. Use 4x scope with lower sensitivity (60-70) for stability.</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="zap" class="ah-icon"></i><span class="ah-title">Quick Switch Technique</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong data-i18n="tips_qs_when">When to use:</strong> <span data-i18n="tips_qs_when_text">When switching between targets rapidly in close combat.</span></p>
+              <p><strong data-i18n="tips_qs_how">How:</strong> <span data-i18n="tips_qs_how_text">After each drag-headshot, quickly switch weapon, then drag again. This resets recoil and maintains accuracy.</span></p>
+              <p><strong data-i18n="tips_qs_tip">Tip:</strong> <span data-i18n="tips_qs_tip_text">Map weapon switch to an easily accessible button. Practice the rhythm: Drag-Switch-Drag-Switch.</span></p>
+            </div></div>
+          </div>
+        </div>
+        <div id="tipsDevice" style="display:none">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="smartphone" class="ah-icon"></i><span class="ah-title" data-i18n="tips_d_ios">iOS - AssistiveTouch Setup</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong>1.</strong> <span data-i18n="tips_ios_1">Settings > Accessibility > Touch > AssistiveTouch > ON</span></p>
+              <p><strong>2.</strong> <span data-i18n="tips_ios_2">Customize Top Level Menu: Remove all icons, set to single action</span></p>
+              <p><strong>3.</strong> <span data-i18n="tips_ios_3">Set Tracking Speed to Maximum (Fast)</span></p>
+              <p><strong>4.</strong> <span data-i18n="tips_ios_4">Disable "Hold and Drag" under Pointer Devices if using</span></p>
+              <p><strong data-i18n="tips_ios_note">Note:</strong> <span data-i18n="tips_ios_note_text">AssistiveTouch helps reduce input delay on some iOS devices by bypassing touch sampling rate limitations.</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="smartphone" class="ah-icon"></i><span class="ah-title" data-i18n="tips_d_android">Android - Touch Optimization</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong>1.</strong> <span data-i18n="tips_and_1">Enable Developer Options: Tap Build Number 7 times</span></p>
+              <p><strong>2.</strong> <span data-i18n="tips_and_2">Set Touch Sensitivity: Settings > Display > Touch Sensitivity > ON</span></p>
+              <p><strong>3.</strong> <span data-i18n="tips_and_3">Reduce animation scale to 0.5x in Developer Options</span></p>
+              <p><strong>4.</strong> <span data-i18n="tips_and_4">Enable "Show Touches" in Developer Options for practice</span></p>
+              <p><strong>5.</strong> <span data-i18n="tips_and_5">Set GPU rendering to "Force GPU rendering" for smoother frames</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="monitor" class="ah-icon"></i><span class="ah-title" data-i18n="tips_d_emulator">Emulator (Bluestacks/MSI) Settings</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong>1.</strong> <span data-i18n="tips_emu_1">Set DPI: 400-600 in emulator settings for precise aiming</span></p>
+              <p><strong>2.</strong> <span data-i18n="tips_emu_2">Enable Raw Input in mouse settings</span></p>
+              <p><strong>3.</strong> <span data-i18n="tips_emu_3">Set mouse polling rate to 1000Hz if available</span></p>
+              <p><strong>4.</strong> <span data-i18n="tips_emu_4">Allocate at least 4 CPU cores and 4GB RAM to emulator</span></p>
+              <p><strong>5.</strong> <span data-i18n="tips_emu_5">Enable V-Sync OFF for lowest input lag</span></p>
+            </div></div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <div class="ah-left"><i data-lucide="settings" class="ah-icon"></i><span class="ah-title" data-i18n="tips_d_display">Display Response Time Tips</span></div>
+              <i data-lucide="chevron-down" class="ah-arrow"></i>
+            </div>
+            <div class="accordion-body"><div class="accordion-body-inner">
+              <p><strong>1.</strong> <span data-i18n="tips_disp_1">Use Game Mode on your device for maximum refresh rate</span></p>
+              <p><strong>2.</strong> <span data-i18n="tips_disp_2">Close all background apps before playing</span></p>
+              <p><strong>3.</strong> <span data-i18n="tips_disp_3">Lower in-game graphics to "Smooth" for stable FPS</span></p>
+              <p><strong>4.</strong> <span data-i18n="tips_disp_4">Enable "High FPS" mode in Free Fire settings</span></p>
+              <p><strong>5.</strong> <span data-i18n="tips_disp_5">For emulator: Enable "High Frame Rate" in emulator display settings</span></p>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"><i data-lucide="check-circle"></i><span id="toastMsg"></span></div><script>
+const I18N = {
+  vi: {
+    nav_sens:"Do Nhạy",nav_aim:"Tập Kéo Tâm",nav_cross:"Tâm Ảo",nav_tips:"Mẹo & Thủ Thuật",
+    s1_title:"Thiết Bị & Màn Hình",s1_device:"Thiết Bị / Nền Tảng",s1_refresh:"Tần Số Quét",
+    s2_title:"Lối Chơi & Vũ Khí",s2_style:"Phong Cách",s2_weapon:"Vũ Khí",
+    btn_calc:"Tạo Cấu Hình",btn_save:"Lưu Cấu Hình",btn_copy:"Sao Chép Cấu Hình",btn_start:"Bắt Đầu",btn_reset:"Đặt Lại",
+    r_title:"Cấu Hình Tối Ưu",
+    aim_title:"Khu Tập Kéo Tâm",aim_desc:"Vuốt từ nút bắn lên phía đầu mục tiêu. Đo vận tốc, độ chính xác và tỷ lệ headshot.",
+    aim_score:"Điểm:",aim_combo:"Combo:",aim_speed:"Tốc:",
+    cross_title:"Tạo Tâm Ảo Tùy Chỉnh",cross_type:"Loại Tâm",cross_size:"Kích Thước",cross_opacity:"Độ Trong Suốt",cross_outline:"Viền Ngoài",cross_color:"Màu Sắc",
+    tips_title:"Kỹ Thuật Kéo Tâm & Mẹo Thiết Bị",tips_tab1:"Kỹ Thuật Kéo Tâm",tips_tab2:"Cài Đặt Thiết Bị",
+    tips_j_when:"Khi nào dùng:",tips_j_when_text:"Gần (0-15m), kẻ địch đứng yên hoặc di chuyển chậm.",
+    tips_j_how:"Cách thực hiện:",tips_j_how_text:"Bắt đầu vuốt lệch sang trái hoặc phải, sau đó cong lên hình chữ J về phía đầu. Đường cong giúp tự động khoá vào vùng đầu.",
+    tips_j_tip:"Mẹo:",tips_j_tip_text:"Dùng general sensitivity cao (100-100) cho chuyển động ngang nhanh, scope sensitivity thấp cho độ chính xác.",
+    tips_s_when:"Khi nào dùng:",tips_s_when_text:"Trung bình (15-30m), kẻ địch ở phía trước.",
+    tips_s_how:"Cách thực hiện:",tips_s_how_text:"Vuốt thẳng lên từ nút bắn. Giữ ngón tay vuông góc với màn hình. Tốc độ đều là chìa khóa.",
+    tips_s_tip:"Mẹo:",tips_s_tip_text:"Luyện tập với Desert Eagle tại bãi tập. Nhắm ngực trước, sau đó điều chỉnh lực kéo lên đầu.",
+    tips_c_when:"Khi nào dùng:",tips_c_when_text:"Xa (30m+), bắn sniper hoặc mục tiêu di chuyển.",
+    tips_c_how:"Cách thực hiện:",tips_c_how_text:"Vuốt theo hình cung chữ C. Bắt đầu từ một phía, cong lên và qua đầu. Điều này tính toán chuyển động kẻ địch.",
+    tips_c_tip:"Mẹo:",tips_c_tip_text:"Giảm DPI xuống 400-600 cho bắn xa. Dùng 4x scope với sensitivity thấp (60-70) cho độ ổn định.",
+    tips_qs_when:"Khi nào dùng:",tips_qs_when_text:"Khi chuyển mục tiêu nhanh trong combat gần.",
+    tips_qs_how:"Cách thực hiện:",tips_qs_how_text:"Sau mỗi lần kéo headshot, nhanh chóng đổi vũ khí, rồi kéo lại. Điều này đặt lại recoil và giữ accuracy.",
+    tips_qs_tip:"Mẹo:",tips_qs_tip_text:"Gán nút đổi vũ khí ở vị trí dễ bấm. Luyện nhịp: Kéo-Đổi-Kéo-Đổi.",
+    tips_d_ios:"iOS - Thiết Lập AssistiveTouch",
+    tips_ios_1:"Cài Đạt > Truy Cập > Cảm Ứng > AssistiveTouch > BẬT",
+    tips_ios_2:"Tùy Chỉnh Menu Cấp Trên: Xóa hết icon, đặt hành động đơn",
+    tips_ios_3:"Đặt Tốc Độ Theo Dõi ở mức tối đa (Nhanh)",
+    tips_ios_4:"Tắt 'Nhấn và Kéo' trong Pointer Devices nếu có dùng",
+    tips_ios_note:"Lưu ý:",tips_ios_note_text:"AssistiveTouch giúp giảm độ trễ đầu vào trên một số thiết bị iOS.",
+    tips_d_android:"Android - Tối Ưu Cảm Ứng",
+    tips_and_1:"Bật Tùy Chọn Phát Triển: Nhấn Số Build 7 lần",
+    tips_and_2:"Độ Nhạy Cảm Ứng: Cài Đặt > Màn Hình > Độ Nhạy Cảm Ứng > BẬT",
+    tips_and_3:"Giảm quy mô hoạt ảnh xuống 0.5x trong Tùy Chọn Phát Triển",
+    tips_and_4:"Bật 'Hiển Thị Cảm Ứng' trong Tùy Chọn Phát Triển để luyện tập",
+    tips_and_5:"Bật 'Ép GPU Rendering' cho khung hình mượt hơn",
+    tips_d_emulator:"Giả Lập (Bluestacks/MSI) Settings",
+    tips_emu_1:"Đặt DPI: 400-600 trong cài đặt giả lập để nhắm chính xác",
+    tips_emu_2:"Bật Raw Input trong cài đặt chuột",
+    tips_emu_3:"Đặt tần suất polling chuột 1000Hz nếu có",
+    tips_emu_4:"Phân bổ ít nhất 4 CPU cores và 4GB RAM cho giả lập",
+    tips_emu_5:"Tắt V-Sync để có độ trễ thấp nhất",
+    tips_d_display:"Mẹo Tốc Độ Phản Hồi Màn Hình",
+    tips_disp_1:"Dùng Chế Độ Trò Chơi để có tần số quét tối đa",
+    tips_disp_2:"Đóng tất cả ứng dụng nền trước khi chơi",
+    tips_disp_3:"Giảm đồ hoạ trong game xuống 'Mượt' cho FPS ổn định",
+    tips_disp_4:"Bật chế độ 'FPS Cao' trong cài đặt Free Fire",
+    tips_disp_5:"Với giả lập: Bật 'Tỷ Lệ Khung Hình Cao' trong cài đặt hiển thị",
+    toast_saved:"Đã lưu cấu hình!",toast_copied:"Đã sao chép!",toast_calc:"Đã tạo cấu hình!",
+    fire:"BẮN",head:"HEAD",body:"BODY",
+    fb_perfect:"PERFECT HEADSHOT!",fb_head:"HEADSHOT!",fb_body:"BODY SHOT",fb_over:"KEO QUA TAM!",fb_miss:"HUT DAU!"
+  },
+  en: {
+    nav_sens:"Sensitivity",nav_aim:"Aim Practice",nav_cross:"Crosshair",nav_tips:"Tips & Tricks",
+    s1_title:"Device & Display",s1_device:"Device / Platform",s1_refresh:"Refresh Rate",
+    s2_title:"Playstyle & Weapon",s2_style:"Playstyle",s2_weapon:"Weapon",
+    btn_calc:"Generate Config",btn_save:"Save Config",btn_copy:"Copy Config",btn_start:"Start Game",btn_reset:"Reset",
+    r_title:"Optimized Settings",
+    aim_title:"Aim Drag Practice Arena",aim_desc:"Swipe from the fire button upward toward the target head. Measure drag speed, accuracy and headshot rate.",
+    aim_score:"Score:",aim_combo:"Combo:",aim_speed:"Speed:",
+    cross_title:"Custom Crosshair Generator",cross_type:"Crosshair Type",cross_size:"Size",cross_opacity:"Opacity",cross_outline:"Outline",cross_color:"Color",
+    tips_title:"Drag Techniques & Device Tweaks",tips_tab1:"Drag Techniques",tips_tab2:"Device Settings",
+    tips_j_when:"When to use:",tips_j_when_text:"Close range (0-15m), enemies standing still or moving slowly.",
+    tips_j_how:"How:",tips_j_how_text:"Start your swipe slightly to the left or right, then curve upward in a J-shape toward the head. The curved path helps lock onto the head hitbox naturally.",
+    tips_j_tip:"Tip:",tips_j_tip_text:"Use higher general sensitivity (100-100) for fast horizontal movement, lower scope sensitivity for precision.",
+    tips_s_when:"When to use:",tips_s_when_text:"Medium range (15-30m), enemy in front of you.",
+    tips_s_how:"How:",tips_s_how_text:"Swipe straight upward from the fire button. Keep your thumb perpendicular to the screen. Consistent speed is key.",
+    tips_s_tip:"Tip:",tips_s_tip_text:"Practice with Desert Eagle at training ground. Aim for the chest first, then adjust drag distance for head.",
+    tips_c_when:"When to use:",tips_c_when_text:"Long range (30m+), sniper shots, or moving targets.",
+    tips_c_how:"How:",tips_c_how_text:"Swipe in a C-shaped arc. Start from one side, curve up and over to the head. This accounts for enemy movement.",
+    tips_c_tip:"Tip:",tips_c_tip_text:"Reduce DPI to 400-600 for long range. Use 4x scope with lower sensitivity (60-70) for stability.",
+    tips_qs_when:"When to use:",tips_qs_when_text:"Switching between targets rapidly in close combat.",
+    tips_qs_how:"How:",tips_qs_how_text:"After each drag-headshot, quickly switch weapon, then drag again. This resets recoil and maintains accuracy.",
+    tips_qs_tip:"Tip:",tips_qs_tip_text:"Map weapon switch to an easily accessible button. Practice the rhythm: Drag-Switch-Drag-Switch.",
+    tips_d_ios:"iOS - AssistiveTouch Setup",
+    tips_ios_1:"Settings > Accessibility > Touch > AssistiveTouch > ON",
+    tips_ios_2:"Customize Top Level Menu: Remove all icons, set to single action",
+    tips_ios_3:"Set Tracking Speed to Maximum (Fast)",
+    tips_ios_4:"Disable Hold and Drag under Pointer Devices if using",
+    tips_ios_note:"Note:",tips_ios_note_text:"AssistiveTouch helps reduce input delay on some iOS devices.",
+    tips_d_android:"Android - Touch Optimization",
+    tips_and_1:"Enable Developer Options: Tap Build Number 7 times",
+    tips_and_2:"Touch Sensitivity: Settings > Display > Touch Sensitivity > ON",
+    tips_and_3:"Reduce animation scale to 0.5x in Developer Options",
+    tips_and_4:"Enable Show Touches in Developer Options for practice",
+    tips_and_5:"Enable Force GPU Rendering for smoother frames",
+    tips_d_emulator:"Emulator (Bluestacks/MSI) Settings",
+    tips_emu_1:"Set DPI: 400-600 in emulator settings for precise aiming",
+    tips_emu_2:"Enable Raw Input in mouse settings",
+    tips_emu_3:"Set mouse polling rate to 1000Hz if available",
+    tips_emu_4:"Allocate at least 4 CPU cores and 4GB RAM to emulator",
+    tips_emu_5:"Enable V-Sync OFF for lowest input lag",
+    tips_d_display:"Display Response Time Tips",
+    tips_disp_1:"Use Game Mode for maximum refresh rate",
+    tips_disp_2:"Close all background apps before playing",
+    tips_disp_3:"Lower in-game graphics to Smooth for stable FPS",
+    tips_disp_4:"Enable High FPS mode in Free Fire settings",
+    tips_disp_5:"For emulator: Enable High Frame Rate in display settings",
+    toast_saved:"Config saved!",toast_copied:"Copied!",toast_calc:"Config generated!",
+    fire:"FIRE",head:"HEAD",body:"BODY",
+    fb_perfect:"PERFECT HEADSHOT!",fb_head:"HEADSHOT!",fb_body:"BODY SHOT",fb_over:"DRAGGED TOO FAR!",fb_miss:"MISSED HEAD!"
+  }
+};
+let currentLang = localStorage.getItem('uchLang') || 'vi';
+let soundOn = localStorage.getItem('uchSound') !== 'false';
+let audioCtx = null;function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
+function playClick(freq,dur,type){
+  if(!soundOn)return;
+  try{const ctx=getAudioCtx(),o=ctx.createOscillator(),g=ctx.createGain();
+  o.type=type||'sine';o.frequency.value=freq||800;
+  g.gain.setValueAtTime(0.15,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(dur||0.1));
+  o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+(dur||0.1))}catch(e){}
+}
+function playHeadshotSound(){playClick(1200,0.05,'square');setTimeout(()=>playClick(1600,0.08,'sine'),50)}
+function playMissSound(){playClick(200,0.15,'sawtooth')}
+
+function t(key){return(I18N[currentLang]&&I18N[currentLang][key])||I18N.en[key]||key}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent=t(el.dataset.i18n);
+  });
+  document.getElementById('langLabel').textContent=currentLang==='vi'?'EN':'VI';
+}
+function toggleLang(){currentLang=currentLang==='vi'?'en':'vi';localStorage.setItem('uchLang',currentLang);applyLang();playClick(600)}
+function toggleSound(){soundOn=!soundOn;localStorage.setItem('uchSound',soundOn);playClick(800);
+  const icon=document.getElementById('soundIcon');
+  icon.setAttribute('data-lucide',soundOn?'volume-2':'volume-x');lucide.createIcons();
+}
+
+let currentTab=0;
+function switchTab(idx){
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===idx));
+  currentTab=idx;playClick(500);
+  if(idx===1)initAimCanvas();if(idx===2)updateCrosshair();
+}
+function selectOption(el,group){
+  const grid=el.parentElement;grid.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');playClick(700);
+}
+function getSel(group){
+  const grid=document.getElementById(group+'Grid');
+  const sel=grid?grid.querySelector('.selected'):null;
+  return sel?sel.dataset.val:null;
+}
+
+function showToast(msg){
+  const toast=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2500);
+}
+
+let lastConfig=null;
+function calculateSens(){
+  playClick(900,0.15);
+  const device=getSel('device')||'iphone';
+  const refresh=parseInt(getSel('refresh')||'60');
+  const style=getSel('style')||'onetap';
+  const weapon=document.getElementById('weaponSelect').value;
+  const isEmulator=device==='emulator';
+  let base={general:85,reddot:75,x2:65,x4:55,sniper:40};
+  if(style==='smg')base={general:95,reddot:85,x2:75,x4:60,sniper:45};
+  if(style==='shotgun')base={general:90,reddot:80,x2:70,x4:50,sniper:35};
+  if(refresh===90){base.general+=3;base.reddot+=2}
+  if(refresh===120){base.general+=5;base.reddot+=4;base.x2+=2}
+  if(isEmulator){base.general-=15;base.reddot-=10;base.x2-=8;base.x4-=5;base.sniper-=5}
+  const weaponMod={deagle:0,woodpecker:-2,m1887:5,mp40:8,ump:6,ak47:-3,m4a1:-1,awm:-10};
+  const wm=weaponMod[weapon]||0;
+  Object.keys(base).forEach(k=>{base[k]=Math.max(1,Math.min(100,base[k]+wm))});
+  const dpi=isEmulator?500:(refresh>=120?450:400);
+  const pointerSpeed=isEmulator?'5/11':(device==='iphone'?'Max':'8/11');
+  const fireBtnSize=isEmulator?'Large':(style==='smg'?'Medium':'Large');
+  const fireBtnPos=isEmulator?'Bottom-Right':(device==='iphone'?'Bottom-Right':'Bottom-Left');
+  lastConfig={device,refresh,style,weapon,...base,dpi:pointerSpeed?dpi:400,pointerSpeed,fireBtnSize,fireBtnPos};
+  const grid=document.getElementById('resultGrid');
+  grid.innerHTML=[
+    {l:'General',v:base.general},{l:'Red Dot',v:base.reddot},{l:'2x Scope',v:base.x2},
+    {l:'4x Scope',v:base.x4},{l:'Sniper',v:base.sniper},{l:'DPI',v:dpi},
+    {l:'Pointer Speed',v:pointerSpeed,sub:''},{l:'Fire Button',v:fireBtnSize,sub:fireBtnPos}
+  ].map(r=>`<div class="result-item"><div class="ri-label">${r.l}</div><div class="ri-value">${r.v}</div>${r.sub!==undefined?`<div class="ri-sub">${r.sub}</div>`:''}</div>`).join('');
+  document.getElementById('resultCard').style.display='block';
+  document.getElementById('resultCard').scrollIntoView({behavior:'smooth'});
+  showToast(t('toast_calc'));
+}function saveConfig(){
+  if(!lastConfig){showToast('Generate config first!');return}
+  const configs=JSON.parse(localStorage.getItem('uchConfigs')||'[]');
+  configs.push({...lastConfig,savedAt:Date.now()});
+  localStorage.setItem('uchConfigs',JSON.stringify(configs));
+  playClick(1000,0.2);showToast(t('toast_saved'));
+}
+function copyConfig(){
+  if(!lastConfig)return;
+  const txt=`[UCHIHA PANEL CONFIG]\nGeneral: ${lastConfig.general}\nRed Dot: ${lastConfig.reddot}\n2x: ${lastConfig.x2}\n4x: ${lastConfig.x4}\nSniper: ${lastConfig.sniper}\nDPI: ${lastConfig.dpi}\nPointer: ${lastConfig.pointerSpeed}\nFire Btn: ${lastConfig.fireBtnSize} (${lastConfig.fireBtnPos})`;
+  navigator.clipboard.writeText(txt).then(()=>{showToast(t('toast_copied'));playClick(800)}).catch(()=>{});
+}
+
+let aimState={running:false,targets:[],score:0,combo:0,maxCombo:0,swipes:[],dragStart:null,dragStartPos:null,raf:null};
+function initAimCanvas(){
+  const c=document.getElementById('aimCanvas');
+  const container=document.getElementById('gameContainer');
+  c.width=container.clientWidth*2;c.height=container.clientHeight*2;
+  if(!aimState.running)drawAimIdle();
+}
+function drawAimIdle(){
+  const c=document.getElementById('aimCanvas');if(!c)return;
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle='#080810';ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle='rgba(255,30,66,0.1)';ctx.font=`${Math.min(c.width,c.height)*0.05}px Orbitron`;
+  ctx.textAlign='center';ctx.fillText(t('btn_start'),c.width/2,c.height/2);
+  const cx=c.width/2,cy=c.height/2,r=Math.min(c.width,c.height)*0.15;
+  ctx.strokeStyle='rgba(255,30,66,0.2)';ctx.lineWidth=2;
+  for(let i=0;i<3;i++){ctx.beginPath();ctx.arc(cx,cy,r*(1-i*0.25),0,Math.PI*2);ctx.stroke()}
+  for(let i=0;i<3;i++){const a=i*Math.PI*2/3-Math.PI/2;
+    ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*0.375,cy+Math.sin(a)*r*0.375,r*0.08,0,Math.PI*2);ctx.fillStyle='rgba(255,30,66,0.15)';ctx.fill()}
+}
+
+function spawnTarget(){
+  const c=document.getElementById('aimCanvas');if(!c)return;
+  const margin=c.width*0.15;
+  const x=margin+Math.random()*(c.width-margin*2);
+  const y=margin+Math.random()*(c.height*0.6-margin);
+  const size=c.width*0.04+Math.random()*c.width*0.03;
+  const target={x,y,size,hitbox:'body',alive:true,age:0,maxAge:3000+Math.random()*2000};
+  aimState.targets.push(target);
+}
+
+function drawTarget(ctx,t){
+  if(!t.alive)return;
+  const headY=t.y-t.size*0.8;
+  const headR=t.size*0.35;
+  ctx.save();
+  ctx.globalAlpha=Math.max(0,1-t.age/t.maxAge*0.3);
+  ctx.fillStyle='rgba(255,30,66,0.15)';ctx.beginPath();ctx.ellipse(t.x,t.y,t.size*0.6,t.size*1.1,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#ff1e42';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#ff3a5c';ctx.beginPath();ctx.arc(t.x,headY,headR,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#ff1e42';ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font=`${headR*0.8}px Share Tech Mono`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('H',t.x,headY);
+  ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font=`${t.size*0.2}px Share Tech Mono`;
+  ctx.fillText('BODY',t.x,t.y);
+  ctx.restore();
+}function startAimGame(){
+  aimState={...aimState,running:true,targets:[],score:0,combo:0,swipes:[],lastSpawn:0};
+  playClick(1000,0.2);
+  if(aimState.raf)cancelAnimationFrame(aimState.raf);
+  aimLoop();
+}
+function resetAimGame(){
+  aimState.running=false;
+  if(aimState.raf)cancelAnimationFrame(aimState.raf);
+  aimState.targets=[];aimState.score=0;aimState.combo=0;aimState.swipes=[];
+  document.getElementById('hudScore').textContent='0';
+  document.getElementById('hudCombo').textContent='0';
+  document.getElementById('hudSpeed').textContent='0';
+  drawAimIdle();
+}
+let aimLastTime=0;
+function aimLoop(timestamp){
+  if(!aimState.running)return;
+  const c=document.getElementById('aimCanvas');if(!c)return;
+  const ctx=c.getContext('2d');
+  const dt=timestamp-aimLastTime;aimLastTime=timestamp;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle='#080810';ctx.fillRect(0,0,c.width,c.height);
+  const gridSz=c.width*0.08;
+  ctx.strokeStyle='rgba(255,30,66,0.04)';ctx.lineWidth=1;
+  for(let x=0;x<c.width;x+=gridSz){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,c.height);ctx.stroke()}
+  for(let y=0;y<c.height;y+=gridSz){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(c.width,y);ctx.stroke()}
+  if(timestamp-aimState.lastSpawn>1500+Math.random()*1000&&aimState.targets.length<5){
+    spawnTarget();aimState.lastSpawn=timestamp;
+  }
+  aimState.targets.forEach(t=>{t.age+=dt;drawTarget(ctx,t)});
+  aimState.targets=aimState.targets.filter(t=>t.age<t.maxAge);
+  aimState.swipes.forEach(sw=>{
+    ctx.strokeStyle='rgba(255,30,66,0.4)';ctx.lineWidth=3;ctx.setLineDash([5,5]);
+    ctx.beginPath();ctx.moveTo(sw.x1,sw.y1);ctx.lineTo(sw.x2,sw.y2);ctx.stroke();
+    ctx.setLineDash([]);
+    if(sw.result==='perfect'){ctx.fillStyle='rgba(255,30,66,0.8)'}
+    else if(sw.result==='head'){ctx.fillStyle='rgba(255,215,0,0.8)'}
+    else{ctx.fillStyle='rgba(136,136,136,0.5)'}
+    ctx.beginPath();ctx.arc(sw.x2,sw.y2,8,0,Math.PI*2);ctx.fill();
+  });
+  if(aimState.swipes.length>0)aimState.swipes=aimState.swipes.filter(s=>(timestamp-s.time)<1500);
+  document.getElementById('hudScore').textContent=aimState.score;
+  document.getElementById('hudCombo').textContent=aimState.combo;
+  aimState.raf=requestAnimationFrame(aimLoop);
+}
+
+function getAimEventPos(e){
+  const c=document.getElementById('aimCanvas');
+  const rect=c.getBoundingClientRect();
+  const touch=e.touches?e.touches[0]:e;
+  return{x:(touch.clientX-rect.left)/rect.width*c.width,y:(touch.clientY-rect.top)/rect.height*c.height};
+}
+function onAimDown(e){
+  if(!aimState.running)return;e.preventDefault();
+  const p=getAimEventPos(e);aimState.dragStartPos=p;aimState.dragStart=Date.now();
+}
+function onAimUp(e){
+  if(!aimState.running||!aimState.dragStartPos)return;e.preventDefault();
+  const c=document.getElementById('aimCanvas');
+  const end=e.changedTouches?e.changedTouches[0]:e;
+  const rect=c.getBoundingClientRect();
+  const p={x:(end.clientX-rect.left)/rect.width*c.width,y:(end.clientY-rect.top)/rect.height*c.height};
+  const dx=p.x-aimState.dragStartPos.x;const dy=p.y-aimState.dragStartPos.y;
+  const dist=Math.sqrt(dx*dx+dy*dy);const dt=Date.now()-aimState.dragStart;
+  const speed=dt>0?dist/(dt/1000):0;
+  document.getElementById('hudSpeed').textContent=Math.round(speed);
+  let hit=false;let result='miss';let hitTarget=null;
+  for(const t of aimState.targets){
+    if(!t.alive)continue;
+    const headY=t.y-t.size*0.8;const headR=t.size*0.35;
+    const dHead=Math.sqrt((p.x-t.x)**2+(p.y-headY)**2);
+    if(dHead<headR*2){hit=true;result='perfect';hitTarget=t;break}
+    const dBody=Math.sqrt((p.x-t.x)**2+(p.y-t.y)**2);
+    if(dBody<t.size*1.2){hit=true;result='body';hitTarget=t;break}
+  }
+  const maxDrag=c.height*0.7;
+  if(!hit&&dy<0&&dist>maxDrag){result='over'}
+  if(hitTarget){
+    hitTarget.alive=false;
+    if(result==='perfect'){aimState.score+=100*(1+aimState.combo*0.2);aimState.combo++;playHeadshotSound()}
+    else{aimState.score+=50;aimState.combo=0;playClick(400)}
+  }else if(result==='miss'||result==='over'){
+    aimState.combo=0;playMissSound();
+  }
+  aimState.swipes.push({x1:aimState.dragStartPos.x,y1:aimState.dragStartPos.y,x2:p.x,y2:p.y,result,time:Date.now()});
+  const fb=document.getElementById('gameFeedback');
+  const fbKey={perfect:'fb_perfect',head:'fb_head',body:'fb_body',over:'fb_over',miss:'fb_miss'}[result];
+  fb.textContent=t(fbKey);
+  fb.className='game-feedback show '+({perfect:'perfect',head:'good',miss:'miss',over:'miss',body:'good'}[result]);
+  setTimeout(()=>fb.classList.remove('show'),1200);
+}let crossType='dot';
+function setCrossType(type,btn){
+  crossType=type;
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');playClick(600);updateCrosshair();
+}
+function updateCrosshair(){
+  const c=document.getElementById('crosshairCanvas');if(!c)return;
+  const container=c.parentElement;
+  c.width=container.clientWidth*2;c.height=container.clientHeight*2;
+  const ctx=c.getContext('2d');const cx=c.width/2;const cy=c.height/2;
+  ctx.clearRect(0,0,c.width,c.height);
+  const size=parseInt(document.getElementById('chSize').value);
+  const opacity=parseInt(document.getElementById('chOpacity').value)/100;
+  const outline=parseInt(document.getElementById('chOutline').value);
+  const color=document.getElementById('chColor').value;
+  document.getElementById('chSizeVal').textContent=size;
+  document.getElementById('chOpacityVal').textContent=Math.round(opacity*100)+'%';
+  document.getElementById('chOutlineVal').textContent=outline;
+  document.getElementById('chColorLabel').textContent=color;
+  ctx.globalAlpha=opacity;
+  const s=size*3;
+  if(outline>0){ctx.strokeStyle='#000';ctx.lineWidth=outline*2}
+  ctx.fillStyle=color;
+  if(crossType==='dot'){
+    ctx.beginPath();ctx.arc(cx,cy,s,0,Math.PI*2);if(outline>0)ctx.stroke();ctx.fill();
+  }else if(crossType==='cross'){
+    const w=Math.max(1,s*0.2);
+    if(outline>0){ctx.fillStyle='#000';ctx.fillRect(cx-s-outline,cy-w-outline,s*2+outline*2,w*2+outline*2);ctx.fillRect(cx-w-outline,cy-s-outline,w*2+outline*2,s*2+outline*2)}
+    ctx.fillStyle=color;
+    ctx.fillRect(cx-s,cy-w,s*2,w*2);ctx.fillRect(cx-w,cy-s,w*2,s*2);
+  }else if(crossType==='circle'){
+    ctx.beginPath();ctx.arc(cx,cy,s,0,Math.PI*2);ctx.lineWidth=Math.max(2,s*0.15);ctx.strokeStyle=color;
+    if(outline>0){ctx.strokeStyle='#000';ctx.lineWidth=Math.max(2,s*0.15)+outline*2;ctx.stroke()}
+    ctx.strokeStyle=color;ctx.lineWidth=Math.max(2,s*0.15);ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,s*0.1,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
+  }else if(crossType==='sharingan'){
+    ctx.save();ctx.translate(cx,cy);
+    ctx.beginPath();ctx.arc(0,0,s,0,Math.PI*2);ctx.lineWidth=outline*2+2;ctx.strokeStyle='#000';ctx.stroke();
+    ctx.beginPath();ctx.arc(0,0,s,0,Math.PI*2);ctx.lineWidth=2;ctx.strokeStyle=color;ctx.stroke();
+    ctx.beginPath();ctx.arc(0,0,s*0.15,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
+    for(let i=0;i<3;i++){
+      const angle=i*Math.PI*2/3-Math.PI/2;
+      const sx=Math.cos(angle)*s*0.35;const sy=Math.sin(angle)*s*0.35;
+      ctx.beginPath();ctx.arc(sx,sy,s*0.18,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
+      ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(Math.cos(angle)*s*0.7,Math.sin(angle)*s*0.7);ctx.lineWidth=2;ctx.strokeStyle=color;ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+function exportCrosshair(fmt){
+  const c=document.getElementById('crosshairCanvas');
+  playClick(800);
+  if(fmt==='png'){
+    const link=document.createElement('a');link.download='uchihha-crosshair.png';link.href=c.toDataURL('image/png');link.click();
+  }else{
+    const svgNS='http://www.w3.org/2000/svg';
+    const size=parseInt(document.getElementById('chSize').value)*3;
+    const color=document.getElementById('chColor').value;
+    let svg=`<svg xmlns="${svgNS}" width="${size*2+20}" height="${size*2+20}" viewBox="0 0 ${size*2+20} ${size*2+20}">`;
+    const cx=size+10,cy=size+10;
+    if(crossType==='dot'){svg+=`<circle cx="${cx}" cy="${cy}" r="${size}" fill="${color}"/>`}
+    else if(crossType==='cross'){
+      const w=size*0.2;svg+=`<rect x="${cx-size}" y="${cy-w}" width="${size*2}" height="${w*2}" fill="${color}"/>`;
+      svg+=`<rect x="${cx-w}" y="${cy-size}" width="${w*2}" height="${size*2}" fill="${color}"/>`;
+    }else if(crossType==='circle'){
+      svg+=`<circle cx="${cx}" cy="${cy}" r="${size}" fill="none" stroke="${color}" stroke-width="3"/>`;
+      svg+=`<circle cx="${cx}" cy="${cy}" r="${size*0.1}" fill="${color}"/>`;
+    }else{
+      svg+=`<circle cx="${cx}" cy="${cy}" r="${size}" fill="none" stroke="${color}" stroke-width="2"/>`;
+      svg+=`<circle cx="${cx}" cy="${cy}" r="${size*0.15}" fill="${color}"/>`;
+      for(let i=0;i<3;i++){
+        const a=i*Math.PI*2/3-Math.PI/2;
+        svg+=`<circle cx="${cx+Math.cos(a)*size*0.35}" cy="${cy+Math.sin(a)*size*0.35}" r="${size*0.18}" fill="${color}"/>`;
+      }
+    }
+    svg+='</svg>';
+    const blob=new Blob([svg],{type:'image/svg+xml'});
+    const link=document.createElement('a');link.download='uchihha-crosshair.svg';link.href=URL.createObjectURL(blob);link.click();
+  }
+}function toggleAccordion(header){
+  const item=header.parentElement;
+  const body=item.querySelector('.accordion-body');
+  const isOpen=item.classList.contains('open');
+  item.parentElement.querySelectorAll('.accordion-item').forEach(ai=>{
+    ai.classList.remove('open');ai.querySelector('.accordion-body').style.maxHeight='0';
+  });
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';playClick(500)}
+}
+function setTipsTab(tab,btn){
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tipsTechniques').style.display=tab==='techniques'?'block':'none';
+  document.getElementById('tipsDevice').style.display=tab==='device'?'block':'none';
+  playClick(600);
+}
+
+const bgCanvas=document.getElementById('bg-canvas');
+const bgCtx=bgCanvas.getContext('2d');
+let particles=[];
+function resizeBg(){bgCanvas.width=window.innerWidth;bgCanvas.height=window.innerHeight}
+function createParticles(){
+  particles=[];const count=Math.min(80,Math.floor(window.innerWidth*window.innerHeight/15000));
+  for(let i=0;i<count;i++){
+    particles.push({
+      x:Math.random()*bgCanvas.width,y:Math.random()*bgCanvas.height,
+      vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,
+      r:Math.random()*2+0.5,
+      color:Math.random()>0.7?'rgba(255,30,66,':'rgba(139,0,255,',
+      alpha:Math.random()*0.4+0.1,
+      pulse:Math.random()*Math.PI*2,pulseSpeed:Math.random()*0.02+0.005
+    });
+  }
+}
+function drawBg(){
+  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.pulse+=p.pulseSpeed;
+    if(p.x<0)p.x=bgCanvas.width;if(p.x>bgCanvas.width)p.x=0;
+    if(p.y<0)p.y=bgCanvas.height;if(p.y>bgCanvas.height)p.y=0;
+    const a=p.alpha*(0.5+0.5*Math.sin(p.pulse));
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    bgCtx.fillStyle=p.color+a+')';bgCtx.fill();
+    bgCtx.beginPath();bgCtx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+    bgCtx.fillStyle=p.color+(a*0.15)+')';bgCtx.fill();
+  });
+  requestAnimationFrame(drawBg);
+}
+resizeBg();createParticles();drawBg();
+window.addEventListener('resize',()=>{resizeBg();createParticles()});
+
+const aimCanvas=document.getElementById('aimCanvas');
+if(aimCanvas){
+  aimCanvas.addEventListener('mousedown',onAimDown);
+  aimCanvas.addEventListener('mouseup',onAimUp);
+  aimCanvas.addEventListener('touchstart',onAimDown,{passive:false});
+  aimCanvas.addEventListener('touchend',onAimUp,{passive:false});
+}
+
+document.querySelectorAll('.ctrl-btn,.nav-tab,.btn,.option-card,.tab-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>playClick(400,0.03));
+});
+
+window.addEventListener('DOMContentLoaded',()=>{
+  lucide.createIcons();applyLang();
+  setTimeout(()=>updateCrosshair(),500);
+});
+</script>
+</body>
+</html>
