@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ôn tập giữa kì 1 – Anh, Hoá & Sinh 11</title>
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#e2e8f0;background:#0f172a linear-gradient(135deg,#0f172a,#1e1b4b 55%,#4c1d95) fixed}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:1.45rem;margin:10px 0 4px;text-align:center}
+.s{text-align:center;color:#a5b4fc;margin:0 0 20px;font-size:.92rem}
+.c{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:16px;margin-bottom:12px;backdrop-filter:blur(8px)}
+button{font:inherit;color:inherit;cursor:pointer}
+.sj{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font-size:1.1rem}
+.sj span{font-size:2rem}.sj small{margin-left:auto;color:#a5b4fc}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+.chip{border:1px solid #6366f1;background:transparent;border-radius:99px;padding:8px 14px}
+.chip.on{background:#6366f1}
+.go,.nx{background:linear-gradient(90deg,#6366f1,#a855f7);border:0;border-radius:14px;padding:14px;width:100%;font-weight:700;font-size:1rem}
+.bar{height:8px;background:rgba(255,255,255,.12);border-radius:9px;overflow:hidden;margin:8px 0 14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#34d399,#60a5fa);transition:width .3s}
+.top{display:flex;justify-content:space-between;font-size:.88rem;color:#a5b4fc;gap:8px}
+.q{font-size:1.08rem;line-height:1.5;margin:0 0 14px;white-space:pre-line}
+.o{display:block;width:100%;text-align:left;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:12px;padding:13px 14px;margin-bottom:9px;min-height:48px;line-height:1.4}
+.o:active{transform:scale(.99)}
+.o.ok{background:rgba(16,185,129,.28);border-color:#10b981}
+.o.no{background:rgba(239,68,68,.28);border-color:#ef4444}
+.fb{border-radius:12px;padding:12px;margin:6px 0 12px;background:rgba(239,68,68,.15);border:1px solid #ef4444}
+.back{background:none;border:0;color:#a5b4fc;padding:6px 0;margin-bottom:6px}
+.dn{text-align:center;border-color:rgba(250,204,21,.45)}.dn h2{margin:0 0 6px;font-size:1.1rem}.dn p{margin:4px 0;color:#cbd5e1;font-size:.92rem}.dn .stk{font-size:1.5rem;font-weight:800;letter-spacing:1px;color:#fde047;margin:8px 0}.dn button{border:1px solid #facc15;background:transparent;border-radius:99px;padding:8px 18px;margin-top:6px}
+@media(min-width:700px){h1{font-size:1.9rem}.q{font-size:1.2rem}}
+</style></head><body><div class="w" id="app"></div>
+<script>
+const P=s=>s.trim().split("\n").map(l=>{const a=l.split("|");return{q:a[0].replace(/\\n/g,"\n"),o:a.slice(1,-1),a:"ABCD".indexOf(a[a.length-1])}});
+const U1=P(`
+The doctor will ________ the patient thoroughly to determine the cause of the symptoms.|spread|examine|suffer|cure|B
+Advances in medical science have significantly increased the average life ________ in many countries.|expectancy|expectation|expect|expectant|A
+To achieve a long and healthy life, it's important to ________ attention to your diet and nutrition.|take|put|pay|make|C
+Electronic devices such as smartphones and computers ________ blue light, which can disrupt your sleep.|give off|take in|use up|get over|A
+In recent years, he ________ smoking to improve his lung health.|stopped|stops|has stopped|had stopped|C
+Many people find that they need to ________ sugary drinks and sodas to better manage their weight.|turn down|get over|work out|give up|D
+People who ________ from high levels of stress are more likely to experience mental health issues|prevent|suffer|expect|deny|B
+A balanced diet rich in essential ________ is key to maintaining a long and healthy life.|labels|tools|nutrients|organisms|C
+She ________ a variety of fruits and vegetables in her diet for five years.|includes|has included|will include|had included|B
+Consuming fresh and clean ingredients is essential to avoid food ________ and maintain good health.|poisonously|poisonous|poison|poisoning|D
+________ regularly can improve your sleep quality.|Giving up|Working out|Taking up|Standing out|B
+In 2018, the government ________ a national campaign to encourage citizens to adopt healthier lifestyles.|launched|has launched|had launched|launches|A
+Vaccination is a key strategy in preventing the ________ of infectious diseases.|treatment|spread|recipe|illness|B
+You should eat a ________ diet if you want to stay healthy and avoid illness.|balanced|balance|to balance|balancing|A
+I started eating more vegetables last week, but I ________ down on sugary drinks yet.|haven’t cut|cut|don’t cut|didn’t cut|A
+She ________ a healthy routine last year, but this year, she has been making healthier choices every day.|doesn’t follow|has followed|hasn’t followed|didn't follow|D
+To stay fit, Tuan ________ soft drinks and ate more vegetables.|turned down|cut down on|took over|gave back|B
+Ella felt full of ________ after eating a big breakfast and getting enough sleep.|food|life|strength|energy|D
+A healthy ________ helps you focus better at school and feel happier every day.|sleep|value|lesson|lifestyle|D
+They ________ out regularly since last January, which has helped them to improve their fitness.|has been working|had worked|have worked|worked|C
+Some bacteria in our bodies are helpful, but some can cause infectious diseases such as ________ or food poisoning.|cancer|tuberculosis|asthma|diabetes|B
+A: "Doctor, can you give me some suggestions on how to stay healthy?"  B: "________."|Well, first of all, you need to make sure that you eat the right foods.|It is very confusing to know what to eat.|As long as you don't overdo it, a glass of wine a day should be OK.|If you smoke, you need to stop.|A
+Nam: Do you want me to help with your homework? Lan: ________|Homework? I don't like homework.|Thank you. It's very kind of you!|Why do we need homework?|If you like, you can do it every day.|B
+Laura: "People should take better care of their health to avoid some fatal diseases." Mitchell: "________. Being in good health helps us enjoy life better."|You are wrong|It doesn’t matter|I can’t agree with you more|That can’t be true|C
+`);
+const U2=P(`
+Modern technology has influenced the cultural ________ of younger generations, creating a gap with older generations.|values|conditions|differences|characteristics|A
+Parents sometimes face ________ with their children about career choices.|agree|agreeable|agreements|disagreements|D
+Parents often ________ about how the younger generation spends too much time on social media.|complain|limit|wonder|support|A
+The need to limit ________ is a common topic in parenting blogs and forums.|digital native|traditional view|screen time|social change|C
+Many children of doctors and nurses are inspired to follow ______ the footsteps of their parents, entering the medical field.|of|with|on|in|D
+Many teenagers feel that ________ values are irrelevant in today's fast-paced, contributing to the generation gap.|modern|traditional|social|special|B
+Differences in attitudes towards technology can cause ________ between generations|conflict|expectation|agreement|opinion|A
+I think you ________ try to listen to your teenager's concerns to understand them better.|should|have to|must|can|A
+She ________ in her mother’s footsteps and became a teacher.|followed|looked|looks|likes|A
+My little brother always asks questions and is ________ to find out all the answers.|strange|curious|experienced|responsible|B
+It is impossible to avoid daily ________ when you live with your extended family.|arguments|views|attitudes|characteristics|A
+Teens should learn to be ________ thinkers, not just follow trends blindly.|different|critical|traditional|relaxed|B
+Parents should ________ with new ways to communicate with their teenage children.|value|experiment|avoid|argue|B
+Older generations often have very ________ about how people should live.|common characteristic|traditional views|generational conflicts|cultural values|B
+This warning sign indicates that you ________ step on the grass.|shouldn’t|mustn’t|don’t have to|ought not to|B
+My mother wanted to become a dancer, but she ________ follow in her parents’ footsteps and became a medical doctor.|had to|must|shouldn’t|has to|A
+You ________ wear shorts to school. Please put your school uniform on.|must|mustn’t|have to|don’t have to|B
+I think parents ________ limit their children’s screen time to protect their eyesight.|mustn’t|don’t have to|shouldn’t|should|D
+You should be yourself! You ________ worry too much about what other people think about you.|should|have to|don’t have to|didn’t have to|C
+Fifty years ago, my grandmother ________ stay at home and do all housework. She couldn't go to school like her brothers.|must|had to|didn't have to|should|B
+Son: May I use the tablet for my homework? Mum: ________|I have lived here for years.|It tastes delicious.|Yes, of course.|It looks modern.|C
+John: “Using social networks may have negative effects on students.” Mary: “________. It distracts them from their studies.”|I’m not sure about that|I don’t quite agree|You’re wrong|That’s quite true|D
+Nam: “I think it is a good idea to have three or four generations living under one roof.” Mai: “________. Family members can help each other a lot.”|I don’t agree|It’s not true|That’s wrong|I couldn't agree more|D
+`);
+const U3=P(`
+As cities become smarter, city ________ will enjoy improved public services and greater connectivity.|neighbours|individuals|suburbs|dwellers|D
+Now, the room ________ pleasant thanks to the fragrant bow.|is smelling|was smelling|has smelled|smells|D
+Automated systems will help businesses ________ more efficiently, saving time and resources.|provide|operate|predict|include|B
+Access to green spaces is essential for maintaining a high ________ of life in urban areas.|quality|traffic|variety|device|A
+A strong ________ of community is essential for creating a supportive environment in the city|attraction|sense|key|privacy|B
+The design of future cities will encourage people to ________ more with their environment through green spaces.|promote|explain|control|interact|D
+Innovations in technology and infrastructure are essential to creating more ________ cities for the growing population|definite|livable|interactive|affordable|B
+Urban planning decisions today will have a lasting impact ________ the sustainability of cities in the future.|for|of|on|with|C
+Right now, I ________ spending time at the park, enjoying the fresh air.|am loving|love|will love|loves|A
+The local garden brings a sense of ________ to the neighborhood.|privacy|article|community|sensor|C
+In a survey about urban experience, people report that they often ________ safer in a smart city.|feel|are feeling|are not feeling|don’t feel|A
+The modern skyscraper looks ________ with a beautiful lighting system, especially at night.|terribly|terrific|terrifically|terrible|B
+Smart traffic lights may help reduce ________ during rush hours in big cities.|public transport|traffic jams|electric buses|cycling paths|B
+The project offers fresh vegetables to ________ through rooftop urban farming.|city dwellers|architects|flatmates|workers|A
+Several blocks in the city were turned into ________ to promote walking and reduce traffic.|bike zones|pedestrian zones|public squares|street markets|B
+Government support is essential for improving ________ in low-income urban neighborhoods.|green spaces|living conditions|health programs|noise control|B
+We need to make room ________ more affordable housing projects.|by|for|of|with|B
+Urban designers ________ about how to improve green space for better living.|think|are thinking|are thought|thinks|B
+Lan: Are you certain that all future buses will be electric? Minh: ________|It tastes a little salty.|I'm not sure about that.|Let me carry your bag.|Yes, you may borrow it.|B
+Paul: “I believe space travel will become more affordable for many people in the future.” Daisy: “________ Thanks to Hi-Tech and AI”.|It doesn’t matter at all.|There’s no doubt about that.|It is very kind of you to say so.|I am sorry to hear that.|B
+`);
+const H=P(`
+Hằng số K của một phản ứng phụ thuộc vào yếu tố nào sau đây?|Nồng độ.|Nhiệt độ.|Áp suất.|Chất xúc tác.|B
+Biểu thức hằng số cân bằng (KC) của phản ứng C(s) + 2H2(g) ⇌ CH4(g) là|KC = [CH4]/[H2]|KC = [CH4]/([C].[H2]^2)|KC = [CH4]/([C].[H2])|KC = [CH4]/[H2]^2|D
+Các yếu tố có thể ảnh hưởng đến cân bằng hoá học là|nồng độ, nhiệt độ và chất xúc tác.|nồng độ, áp suất và diện tích bề mặt.|nồng độ, nhiệt độ và áp suất.|áp suất, nhiệt độ và chất xúc tác.|C
+Đối với phản ứng H2(g) + 1/2 O2(g) ⇌ H2O(l), ΔH = -286 kJ, cân bằng sẽ bị ảnh hưởng như thế nào khi tăng nhiệt độ (các điều kiện khác giữ không đổi)?|Cân bằng chuyển dịch sang phải.|Cân bằng chuyển dịch sang trái.|Không thay đổi.|Không dự đoán được sự chuyển dịch cân bằng.|B
+Cho các cân bằng: (1) 2SO2(g) + O2(g) ⇌ 2SO3(g); (2) N2(g) + 3H2(g) ⇌ 2NH3(g); (3) CO2(g) + H2(g) ⇌ CO(g) + H2O(g); (4) 2HI(g) ⇌ H2(g) + I2(g). Khi thay đổi áp suất, nhóm gồm các cân bằng hoá học đều không bị chuyển dịch là|(1) và (2).|(1) và (3).|(3) và (4).|(2) và (4).|C
+Chất nào sau đây là chất điện li?|Cl2.|HNO3.|MgO.|CH4.|B
+Chất nào sau đây thuộc loại chất điện li mạnh?|CH3COOH.|C2H5OH.|H2O.|NaCl.|D
+Cho phương trình: NH3 + H2O ⇌ NH4+ + OH-. Trong phản ứng thuận, theo thuyết Bronsted – Lowry chất nào là base?|NH3.|H2O.|NH4+.|OH-.|A
+Đối với dung dịch acid yếu CH3COOH 0,10 M, nếu bỏ qua sự điện li của nước thì đánh giá nào về nồng độ mol ion sau đây là đúng?|[H+] = 0,10 M.|[H+] < [CH3COO-].|[H+] > [CH3COO-].|[H+] < 0,10 M.|D
+Dung dịch nào sau đây có pH > 7?|NaCl.|NaOH.|HNO3.|H2SO4.|B
+Đo pH của một cốc nước chanh được giá trị pH bằng 2,4. Nhận định nào sau đây không đúng?|Nước chanh có môi trường acid.|Nồng độ ion [H+] của nước chanh là 10^-2,4 mol/L.|Nồng độ ion [H+] của nước chanh là 0,24 mol/L.|Nồng độ ion [OH-] của nước chanh nhỏ hơn 10^-7 mol/L.|C
+Trong không khí, chất nào sau đây chiếm phần trăm thể tích lớn nhất?|O2.|NO.|CO2.|N2.|D
+Công thức hóa học của diêm tiêu Chile (Sodium nitrate) là|Ca(NO3)2.|NH4NO3.|NH4Cl.|NaNO3.|D
+Ở nhiệt độ thường, nitrogen khá trơ về mặt hoạt động hóa học là do|nitrogen có bán kính nguyên tử nhỏ.|nitrogen có độ âm điện lớn.|phân tử nitrogen có liên kết ba bền vững.|phân tử nitrogen không phân cực.|C
+Trong hợp chất nitrogen có các mức oxi hóa nào sau đây?|-3, +3, +5.|-3, 0, +3, +5.|-3, +1, +2, +3, +4, +5.|-3, 0, +1, +2, +3, +4, +5.|C
+Tính chất nào sau đây không phải tính chất vật lí của N2?|Chất khí.|Không màu.|Nặng hơn không khí.|Tan ít trong nước.|C
+Trong phản ứng: N2(g) + 3H2(g) ⇌ 2NH3(g). N2 thể hiện|tính khử.|tính oxi hóa.|tính base.|tính acid.|B
+Trong tự nhiên, phản ứng giữa nitrogen và oxygen (trong cơn mưa dông kèm sấm sét) là khởi đầu cho quá trình tạo và cung cấp loại phân bón nào cho cây?|Phân kali.|Phân đạm ammonium.|Phân lân.|Phân đạm nitrate.|D
+Cho vài giọt quỳ tím vào dung dịch NH3 thì dung dịch chuyển thành|màu hồng.|màu vàng.|màu đỏ.|màu xanh.|D
+Nhúng 2 đũa thuỷ tinh vào 2 bình đựng dung dịch HCl đặc và NH3 đặc. Sau đó đưa 2 đũa lại gần nhau thì thấy xuất hiện|khói màu trắng.|khói màu tím.|khói màu nâu.|khói màu vàng.|A
+Tính chất hóa học của NH3 là|tính base, tính khử.|tính base, tính oxi hóa.|tính acid, tính base.|tính acid, tính khử.|A
+Dung dịch NH3 phản ứng được với dung dịch nào sau đây?|NaOH.|KCl.|HCl.|KOH|C
+Để tạo độ xốp cho một số loại bánh, có thể dùng chất nào sau đây?|(NH4)3PO4.|NH4HCO3.|CaCO3.|NaCl.|B
+Có thể nhận biết muối ammonium bằng cách cho muối tác dụng với dung dịch kiềm thấy thoát ra một chất khí. Chất khí đó là|NH3.|H2.|NO2|NO.|A
+Phương trình hóa học nào sau đây sai?|NH4NO3 → NH3 + HNO3 (t°)|NH4Cl → NH3 + HCl (t°)|(NH4)2CO3 → 2NH3 + CO2 + H2O (t°)|NH4HCO3 → NH3 + CO2 + H2O (t°)|A
+Tã lót trẻ em sau khi được giặt sạch vẫn còn mùi khai do vẫn lưu lại một lượng ammonia. Để khử hoàn toàn mùi của ammonia thì người ta cho vào nước xả cuối cùng một ít hoá chất có sẵn trong nhà. Hãy chọn hoá chất thích hợp:|Phèn chua.|Giấm ăn.|Muối ăn.|Nước gừng tươi.|B
+Mưa acid là hiện tượng nước mưa có pH như thế nào?|> 5,6.|< 7.|> 7.|< 5,6.|D
+Hiện tượng mưa acid là do không khí bị ô nhiễm bởi các khí nào sau đây?|SO2, NO, NO2.|NO, CO, CO2.|CH4, HCl, CO.|Cl2, CH4, SO2.|A
+Trong công nghiệp, quá trình sản xuất Ca(NO3)2 làm phân bón được thực hiện bằng phản ứng giữa dung dịch HNO3 với hợp chất phổ biến, giá rẻ nào sau đây?|CaO.|Ca(OH)2.|CaCO3.|CaSO4.|C
+Hiện tượng phú dưỡng là một biểu hiện của môi trường ao, hồ bị ô nhiễm do dư thừa các chất dinh dưỡng. Sự dư thừa dinh dưỡng chủ yếu do hàm lượng các ion nào sau đây vượt quá mức cho phép?|Sodium, potassium.|Calcium, magnesium.|Nitrate, phosphate.|Chloride, sulfate.|C
+Hoạt động nào sau đây góp phần gây nên hiện tượng phú dưỡng?|Sự quang hợp của cây xanh.|Nước thải sinh hoạt thải trực tiếp vào nguồn nước chưa qua xử lí.|Ao hồ thả quá nhiều tôm, cá.|Khử trùng ao hồ sau khi tát cạn bằng vôi sống (CaO).|B
+Các oxide của nitrogen không được tạo thành trong trường hợp nào sau đây?|Núi lửa phun trào.|Đốt cháy các nhiên liệu hóa thạch.|Mưa dông, sấm sét.|Xả thải nước thải công nghiệp chưa qua xử lí.|D
+Ở điều kiện thường, sulfur tồn tại ở dạng tinh thể, được tạo nên từ các phân tử sulfur. Số nguyên tử trong mỗi phân tử sulfur là|2.|4.|6.|8.|D
+Khí X làm đục nước vôi trong và được dùng làm chất tẩy trắng bột gỗ trong công nghiệp giấy. Chất X là|NH3.|CO2.|SO2.|O3.|C
+Sulfur dioxide có tính chất hóa học gì?|có tính khử mạnh.|có tính oxi hoá yếu.|có tính oxi hoá mạnh.|vừa có tính khử và vừa có tính oxi hoá.|D
+SO2 là một khí độc được thải ra từ các vùng công nghiệp, là một trong những nguyên nhân chính gây ra hiện tượng nào dưới đây?|Mưa acid.|Hiệu ứng nhà kính.|Hiệu ứng đomino.|Sương mù.|A
+Trong công nghiệp, phần lớn sulfur đơn chất sau khi khai thác ở các mỏ được dùng làm nguyên liệu để|lưu hóa cao su tự nhiên.|sản xuất sulfuric acid.|điều chế thuốc bảo vệ thực vật.|bào chế thuốc đông y.|B
+Một bạn học sinh thu khí SO2 vào bình tam giác và đậy miệng bình bằng bông tẩm dung dịch E (để giữ không cho khí SO2 bay ra). Theo em, để hiệu quả nhất, bạn học sinh cần sử dụng dung dịch E là dung dịch nào sau đây?|Giấm ăn.|Muối ăn.|Nước vôi.|Nước máy.|C
+Khi nhiệt kế thủy ngân vỡ, rắc chất bột nào sau đây lên thủy ngân rơi vãi sẽ chuyển hóa chúng thành hợp chất bền, ít độc hại?|Than đá.|Đá vôi.|Muối ăn.|Sulfur.|D
+`);
+const SB1=P(`
+Hoạt động nào sau đây là một dấu hiệu đặc trưng của quá trình trao đổi chất và chuyển hóa năng lượng ở sinh vật?|Chỉ tổng hợp chất hữu cơ và loại bỏ các chất không cần thiết.|Thu nhận chất, biến đổi chất và đào thải chất ra môi trường.|Chỉ phân giải chất hữu cơ và giải phóng năng lượng cho tế bào.|Chỉ thu nhận chất dinh dưỡng và tích lũy chúng trong cơ thể.|B
+Quá trình tổng hợp các chất và tích lũy năng lượng trong cơ thể được gọi là|bài tiết.|dị hóa.|vận chuyển.|đồng hóa.|D
+Sinh vật tự dưỡng là những sinh vật|Tự tổng hợp chất hữu cơ từ các chất vô cơ.|Chỉ sử dụng chất hữu cơ có sẵn trong môi trường.|phân giải chất hữu cơ để tạo ra chất vô cơ.|Lấy trực tiếp chất hữu cơ từ các sinh vật khác.|A
+Ví dụ nào sau đây thể hiện phương thức dinh dưỡng dị dưỡng?|Cây ngô sử dụng năng lượng ánh sáng để quang hợp.|Tảo lục tổng hợp chất hữu cơ nhờ quang hợp.|Nấm lấy chất hữu cơ từ nguồn thức ăn có sẵn.|Cây lúa tổng hợp chất hữu cơ nhờ quang hợp.|C
+Vai trò cơ bản của trao đổi chất và chuyển hóa năng lượng đối với sinh vật là gì?|Giúp sinh vật loại bỏ hoàn toàn mọi biến đổi của môi trường.|Giúp sinh vật ngừng tiêu hao năng lượng khi trưởng thành.|Cung cấp vật chất và năng lượng cho các hoạt động sống.|Giúp sinh vật chỉ tăng kích thước mà không cần phân chia tế bào.|C
+Ba giai đoạn cơ bản của chuyển hóa năng lượng trong sinh giới là|Đồng hóa, bài tiết và điều hòa thân nhiệt.|Tổng hợp, phân giải và huy động năng lượng.|Sinh trưởng, phát triển và sinh sản.|Hấp thụ, vận chuyển và đào thải vật chất.|B
+Vai trò quan trọng của sinh vật tự dưỡng trong sinh giới là gì?|Tổng hợp chất hữu cơ, tích lũy năng lượng và cung cấp nguồn thức ăn.|Chỉ hấp thụ chất hữu cơ từ sinh vật khác để duy trì sự sống.|Phân giải toàn bộ chất hữu cơ và ngăn cản dòng năng lượng truyền đi.|Chỉ đào thải chất vô cơ và không tham gia vào chuỗi thức ăn.|A
+Sinh vật có thể tồn tại, sinh trưởng, phát triển và thích nghi với môi trường sống nhờ có:|Trao đổi chất và sinh sản|Chuyển hóa năng lượng|Trao đổi chất và chuyển hóa năng lượng|Trao đổi chất và cảm ứng|C
+Mọi cơ thể sống đều không ngừng trao đổi chất và chuyển hóa năng lượng với môi trường, khi quá trình này dừng lại thì:|Sinh vật sẽ sinh trưởng|Sinh vật sẽ phát triển|Sinh vật sẽ chết|Sinh vật sẽ vận động và sinh sản|C
+Trong tế bào, mối quan hệ giữa trao đổi chất và chuyển hóa năng lượng được thể hiện như thế nào?|Chuyển hóa năng lượng chỉ diễn ra khi tế bào ngừng tổng hợp chất.|Hai quá trình diễn ra độc lập và không ảnh hưởng đến nhau.|Trao đổi chất chỉ diễn ra khi tế bào không cần năng lượng.|Hai quá trình liên hệ chặt chẽ, hỗ trợ lẫn nhau trong hoạt động sống.|D
+Đâu là vai trò của trao đổi chất và chuyển hóa năng lượng đối với sinh vật?|Giúp sinh vật lấy được các chất từ môi trường.|Giúp sinh vật chuyển hóa các chất phức tạp thành các chất đơn giản.|Giúp sinh vật tồn tại và phát triển.|Giúp sinh vật phân giải các chất độc hại sinh ra từ quá trình chuyển hóa.|C
+Quá trình nào dưới đây không phải là dấu hiệu đặc trưng của trao đổi chất và chuyển hóa năng lượng ở sinh vật?|Phân giải các chất được tiếp nhận từ môi trường và hấp thụ các chất.|Tiếp nhận các chất từ môi trường và vận chuyển các chất.|Biến đổi các chất kèm theo chuyển hóa năng lượng ở tế bào.|Thải các chất vào môi trường.|A
+Có bao nhiêu dấu hiệu dưới đây đặc trưng của quá trình trao đổi chất và chuyển hóa năng lượng ở sinh vật:\\n(1) Thu nhận các chất từ môi trường\\n(2) Đào thải các chất\\n(3) Biến đổi các chất thành chất vô cơ\\n(4) Tổng hợp và tích lũy năng lượng\\n(5) Điều hòa|2|3|4|5|C
+Ghép nội dung ở cột bên phải với nội dung ở cột bên trái để trở thành một câu có nội dung đúng về ví dụ của dấu hiệu đặc trưng cho quá trình trao đổi chất và chuyển hóa năng lượng:\\n1. Bài tiết các chất\\n2. Biến đổi các chất\\n3. Thu nhận các chất\\n4. Vận chuyển các chất\\n---\\na. Dạ dày co bóp và tiết enzyme pepsin để tiêu hóa protein trong thức ăn.\\nb. Máu đưa O2 từ hệ hô hấp và các chất dinh dưỡng được hấp thụ ở hệ tiêu hóa đến từng tế bào.\\nc. Thận thải ure và các chất không cần thiết thông qua nước tiểu.\\nd. Cây bàng hấp thụ nước và các ion khoáng thông qua các tế bào lông hút ở rễ.|1-a, 2-b, 3-c, 4-d.|1-c, 2-a, 3-d, 4-b.|1-c, 2-a, 3-b, 4-d.|1-a, 2-c, 3-d, 4-b.|B
+Phát biểu nào sai khi nói về các dấu hiệu đặc trưng của quá trình trao đổi chất và chuyển hóa năng lượng ở sinh vật?|Ở thực vật, hệ thống mạch dẫn vận chuyển các chất dinh dưỡng đã thu nhận đến từng tế bào.|Sinh vật thu nhận các chất từ môi trường nhờ các cơ quan chuyên biệt.|Quá trình trao đổi chất và chuyển hóa năng lượng ở động vật và thực vật được điều hòa thông qua hệ thần kinh.|Trao đổi chất và chuyển hóa năng lượng không chỉ diễn ra khi sinh vật sinh trưởng và phát triển.|C
+`);
+const SB23=P(`
+Trong cây, dòng mạch gỗ chủ yếu vận chuyển|chất hữu cơ từ lá đến rễ và các cơ quan dự trữ.|hormone từ lá đến các cơ quan sinh sản của cây.|nước và ion khoáng từ rễ lên các cơ quan phía trên.|đường từ cơ quan dự trữ đến các cơ quan đang sinh trưởng.|C
+Chức năng chính của dòng mạch rây là vận chuyển|oxygen từ lá đến rễ để cung cấp cho mọi tế bào của cây.|chất hữu cơ từ cơ quan nguồn đến cơ quan sử dụng hoặc dự trữ.|ion khoáng từ rễ đến lá mà không vận chuyển chất hữu cơ.|nước từ đất vào rễ rồi vận chuyển lên các cơ quan phía trên.|B
+Dinh dưỡng ở thực vật là quá trình cây|phân giải toàn bộ chất hữu cơ để thải ra môi trường.|chỉ hấp thụ chất hữu cơ có sẵn từ đất và phân bón.|chỉ hấp thụ nước để duy trì sức trương của tế bào.|hấp thụ và sử dụng các chất cần thiết cho hoạt động sống.|D
+Nguyên tố khoáng nào sau đây là nguyên tố đa lượng cần thiết cho cây trồng?|Iron (Fe).|Zinc (Zn).|Nitrogen (N).|Copper (Cu).|C
+Nguồn cung cấp nitrogen cho cây bao gồm|chỉ nitrogen có trong nước mưa và chất hữu cơ chưa phân giải.|chủ yếu nitrogen khí quyển được lá hấp thụ trực tiếp để tổng hợp protein.|chủ yếu nitrogen tự do trong không khí được rễ hấp thụ trực tiếp.|nitrogen trong đất ở dạng cây hấp thụ được và nitrogen từ quá trình cố định sinh học.|D
+Nước được hấp thụ chủ yếu qua tế bào lông hút của rễ theo cơ chế|vận chuyển chủ động, nhờ protein màng bơm phân tử nước vào tế bào.|thực bào, nhờ tế bào lông hút bao lấy các phân tử nước từ đất.|khuếch tán chủ động, nhờ tế bào sử dụng trực tiếp năng lượng ATP.|thẩm thấu, do sự chênh lệch thế nước giữa đất và tế bào lông hút.|D
+Động lực hút nước từ rễ lên lá chủ yếu được tạo ra bởi|sự thoát hơi nước ở lá.|sự tổng hợp protein ở lá.|sự hấp thụ chất hữu cơ ở rễ.|sự phân giải tinh bột ở thân.|A
+Rễ cây hấp thu khoáng từ đất theo cơ chế|thẩm thấu.|hấp thụ chủ động.|hấp thụ thụ động.|hấp thụ chủ động và hấp thụ thụ động.|D
+Sự hấp thụ khoáng theo cơ chế thụ động diễn ra theo nguyên lí|nhập bào|chủ động|thẩm thấu.|khuếch tán|D
+Ion khoáng từ môi trường đất có thể được hấp thụ vào rễ cây theo cơ chế nào sau đây?|Thụ động, không cần năng lượng.|Thụ động, cần năng lượng.|Chủ động, không cần năng lượng.|Biến dạng màng.|A
+Phần lớn các ion khoáng xâm nhập vào rễ theo cơ chế chủ động, diễn ra theo phương thức vận chuyển từ nơi có|nồng độ cao đến nơi có nồng độ thấp, cần tiêu tốn ít năng lượng.|nồng độ cao đến nơi có nồng độ thấp.|nồng độ thấp đến nơi có nồng độ cao, không đòi hỏi tiêu tốn năng lượng.|nồng độ thấp đến nơi có nồng độ cao, đòi hỏi phải tiêu tốn năng lượng.|D
+Sự hấp thụ & trao đổi khoáng thường gắn liền với sự trao đổi nước vì|các nguyên tố khoáng không tan trong nước.|các nguyên tố khoáng liên kết với nước.|các nguyên tố khoáng hòa tan trong nước.|các nguyên tố khoáng có chứa nước.|C
+Vai trò nào sau đây của nước đối với thực vật là chính xác?|Chỉ là dung môi hòa tan chất khoáng, không tham gia cấu tạo tế bào.|Là thành phần cấu tạo tế bào, dung môi và môi trường phản ứng sinh hóa.|Chỉ tham gia quang hợp, không liên quan đến các hoạt động sống khác.|Chỉ vận chuyển chất trong cây, không ảnh hưởng đến nhiệt độ cơ thể.|B
+Trình tự cơ bản của quá trình trao đổi nước ở thực vật là|vận chuyển nước ở lá → hấp thụ nước ở thân → thoát hơi nước ở rễ.|hấp thụ nước ở thân → thoát hơi nước ở rễ → vận chuyển nước ở lá.|hấp thụ nước ở rễ → vận chuyển nước ở thân → thoát hơi nước ở lá.|thoát hơi nước ở rễ → hấp thụ nước ở lá → vận chuyển nước ở thân.|C
+Khi tế bào khí khổng hút nước, tế bào thường|giảm sức trương, làm khí khổng mở.|mất hoàn toàn sức trương, làm khí khổng mở.|tăng sức trương, làm khí khổng mở.|tăng sức trương, làm khí khổng đóng.|C
+Lực liên kết giữa các phân tử nước và lực bám giữa nước với thành mạch dẫn có vai trò|ngăn cản nước di chuyển từ rễ lên các cơ quan phía trên.|góp phần duy trì cột nước liên tục trong mạch gỗ.|làm nước chuyển từ mạch rây sang mạch gỗ theo mọi hướng.|làm các phân tử nước tách rời và ngừng di chuyển trong mạch gỗ.|B
+Đâu không phải là vai trò của nước đối với cơ thể thực vật?|Là thành phần cấu tạo của tế bào.|Là nguyên liệu, môi trường của các phản ứng sinh hóa.|Nước chiếm tỉ lệ nhỏ trong thành phần cấu tạo của cây|Điều hòa nhiệt độ của cơ thể thực vật.|C
+Thoát hơi nước có vai trò quan trọng nào sau đây đối với cây?|Làm giảm sự hấp thụ nước ở rễ và ngăn cản quá trình quang hợp.|Ngăn hoàn toàn sự mất nước và làm ngừng vận chuyển khoáng trong cây.|Thay thế hoàn toàn vai trò của hệ mạch gỗ trong vận chuyển nước.|Tạo lực hút vận chuyển nước và khoáng, đồng thời giúp điều hòa nhiệt độ.|D
+Trong cây, nitrate được sử dụng để tổng hợp các hợp chất hữu cơ chứa nitrogen sau khi|được khử thành ammonium.|được chuyển trực tiếp thành cellulose.|bị phân giải hoàn toàn thành oxygen.|được chuyển trực tiếp thành tinh bột.|A
+Trong điều kiện đất bị ngập úng kéo dài, cây trồng có thể chết chủ yếu vì|mạch rây vận chuyển quá nhiều chất hữu cơ lên lá, làm rễ thiếu dinh dưỡng.|rễ thiếu oxygen, hô hấp giảm và khả năng hấp thụ nước, khoáng bị ảnh hưởng.|lá ngừng thoát hơi nước hoàn toàn, khiến mọi tế bào mất khả năng quang hợp.|rễ nhận quá nhiều oxygen, làm hô hấp tăng đến mức tế bào bị phá hủy.|B
+Vì sao sau khi bón phân, cây sẽ khó hấp thụ nước?|Vì áp suất thẩm thấu của đất giảm.|Vì áp suất thẩm thấu của rễ tăng.|Vì áp suất thẩm thấu của đất tăng.|Vì áp suất thẩm thấu của rễ giảm.|C
+Quá trình hấp thụ nước từ môi trường đất vào mạch gỗ diễn ra theo trình tự nào?|Nước từ đất → mạch gỗ của rễ → mạch rây của thân.|Nước từ đất → tế bào lông hút → mạch rây của thân.|Nước từ đất → tế bào lông hút → mạch gỗ của rễ → mạch gỗ của thân.|Nước từ đất → mạch gỗ của rễ → tế bào lông hút → mạch gỗ của thân.|C
+Trong con đường di chuyển của nước và khoáng qua gian bào, nhờ có đai Caspary mà|các ion khoáng được hấp thụ vào rễ một cách tối đa, hấp thụ tất cả các ion khoáng.|các ion khoáng được hấp thụ vào rễ một cách có chọn lọc cả về thành phần và số lượng.|nước và ion khoáng được giữ lại bên ngoài tế bào.|nước và ion khoáng được hòa tan, giúp rễ cây dễ dàng hấp thụ.|B
+Vì sao nếu bón quá nhiều phân cho cây sẽ làm cây héo và chết?|Vì cây sẽ phát triển quá mạnh, dễ bị nhiễm bệnh, dẫn đến héo và chết.|Vì bộ lá của cây phát triển mạnh, không đủ nguồn sáng cung cấp cho cây nên cây héo và chết.|Vì nồng độ chất tan của dung dịch đất tăng cao so với trong rễ cây, rễ không hút được nước từ môi trường; đồng thời cây bị mất nước do thoát hơi nước, dẫn đến cây bị héo và chết.|Vì rễ cây hấp thụ quá nhiều nước làm tế bào rễ bị trương vỡ và chết.|C
+Nếu nguyên tố khoáng (A) từ môi trường đất có nồng độ cao được hấp thụ vào trong rễ nơi có nồng độ thấp hơn ngoài môi trường đất. Nguyên tố khoáng A được hấp thụ theo cơ chế nào?|Thụ động.|Chủ động, cần năng lượng.|Chủ động, không cần năng lượng.|Biến dạng màng.|A
+Nếu một nguyên tố khoáng (A) từ môi trường đất có nồng độ thấp được hấp thụ vào trong rễ nơi có nồng độ cao hơn ngoài môi trường đất. Nguyên tố khoáng A được hấp thụ theo cơ chế nào?|Thụ động.|Chủ động, cần năng lượng.|Chủ động, không cần năng lượng.|Biến dạng màng.|B
+Các nguyên tố khoáng trong môi trường đất và rễ sau đây:\\n• Ion A: Đất 0,01M — Trong rễ 0,02M\\n• Ion B: Đất 0,03M — Trong rễ 0,05M\\n• Ion C: Đất 0,04M — Trong rễ 0,004M\\nCây không cần A, cần B và C. Phát biểu nào sau đây đúng?|A được hấp thụ chủ động.|A được hấp thụ bị động.|B được hấp thụ chủ động.|C được hấp thụ chủ động.|C
+Các nguyên tố khoáng trong môi trường đất và rễ sau đây:\\n• Ion K: Đất 0,1M — Trong rễ 0,2M\\n• Ion L: Đất 0,3M — Trong rễ 0,5M\\n• Ion M: Đất 0,4M — Trong rễ 0,45M\\nCây cần K, không cần L và M. Phát biểu nào sau đây đúng?|K được hấp thụ chủ động.|L được hấp thụ bị động.|M được hấp thụ bị động.|M được hấp thụ chủ động.|A
+Khi nói về trạng thái mất cân bằng nước, có bao nhiêu phát biểu đúng?\\n(1) Khi cây sống trong điều kiện bị hạn.\\n(2) Khi cây sống trong điều kiện ngập úng.\\n(3) Khi cây sống trong điều kiện có độ mặn cao.\\n(4) Khi lượng nước thoát ra ít hơn lượng nước hút vào.|1.|2.|3.|4.|C
+Có bao nhiêu phát biểu sau đây đúng để đảm bảo trạng thái cân bằng nước cho cây?\\nI. Tưới tiêu hợp lí, cung cấp vừa đủ lượng nước cần thiết.\\nII. Lượng nước cần thay đổi theo loài, theo từng giai đoạn phát triển và đúng phương pháp.\\nIII. Chọn lọc, tạo lai các giống cây trồng có khả năng chống chịu hạn, mặn, ngập úng khi trồng ở vùng có điều kiện bất lợi.\\nIV. Mùa nắng tưới ngày 3-4 lần, mùa mưa tưới 1-2 lần.|1.|2.|3.|4.|C
+Có bao nhiêu phát biểu sau đây đúng về việc bón quá ít hoặc quá nhiều phân bón với cây trồng?\\nI. Nếu bón phân với lượng quá ít, không đáp ứng được nhu cầu dinh dưỡng của cây, cây sẽ bị thiếu chất khoáng, còi cọc và chậm lớn.\\nII. Nếu bón phân quá nhiều, cây sẽ bị thừa chất và bị ngộ độc.\\nIII. Nếu bón phân quá nhiều, các vi khuẩn có lợi trong đất sẽ bị tiêu diệt, ô nhiễm đất và nước.\\nIV. Nếu bón phân với lượng quá ít, cây sẽ còi cọc và chậm lớn dần dẫn đến việc giảm năng suất cây trồng.|1.|2.|3.|4.|D
+`);
+const SHH=P(`
+Hô hấp ở thực vật là quá trình|sử dụng ánh sáng để tạo ATP và NADPH trong lục lạp.|phân giải chất hữu cơ, giải phóng năng lượng cung cấp cho hoạt động sống.|hấp thụ nước và ion khoáng từ đất để vận chuyển lên lá.|tổng hợp chất hữu cơ từ CO₂ và nước nhờ năng lượng ánh sáng.|B
+Vai trò chủ yếu của hô hấp đối với thực vật là|trực tiếp hấp thụ năng lượng ánh sáng và tổng hợp glucose.|thay thế hoàn toàn chức năng vận chuyển nước của mạch gỗ.|giải phóng năng lượng từ chất hữu cơ và cung cấp các hợp chất trung gian.|tạo ra toàn bộ chất hữu cơ mà cây sử dụng trong suốt vòng đời.|C
+Các giai đoạn chính của hô hấp hiếu khí ở tế bào thực vật gồm|đường phân, oxy hóa pyruvate và chu trình Krebs, chuỗi truyền electron hô hấp.|hấp thụ nước, vận chuyển nước và thoát hơi nước.|cố định CO₂, khử CO₂ và tái sinh chất nhận CO₂.|pha sáng, chu trình Calvin và tổng hợp tinh bột.|A
+Xét về bản chất hóa học, hô hấp là quá trình:|Oxygen hóa nguyên liệu hô hấp thành CO2, H2O và giải phóng năng lượng.|chuyển hóa, thu nhận O2 và thải CO2 xảy ra trong tế bào.|chuyển các nguyên tử hidro từ chất cho hidro sang chất nhận hidro.|thu nhận năng lượng của tế bào.|A
+Quá trình hô hấp ở thực vật có ý nghĩa gì?|Tạo năng lượng cung cấp cho các hoạt động sống của tế bào và cơ thể.|Đảm bảo cân bằng O2 và CO2 trong khí quyển.|Làm sạch không khí.|Chuyển hóa carbohydrate thành CO2 và H2O.|A
+Bào quan thực hiện quá trình hô hấp hiếu khí là gì?|Ti thể.|Lục lạp.|Không bào.|Bộ máy Golgi.|A
+Ở thực vật, bộ phận nào làm nhiệm vụ hô hấp?|Tất cả các bộ phận đều xảy ra hô hấp.|Rễ.|Thân.|Lá.|A
+Điều nào sau đây không phải là vai trò của hô hấp đối với cơ thể thực vật?|Sản phẩm là nguồn chất hữu cơ làm thức ăn cho mọi sinh vật.|Năng lượng ATP được sử dụng cho nhiều hoạt động sống của cây: vận chuyển, sinh trưởng, tổng hợp,...|Năng lượng nhiệt cần để duy trì hoạt động của cơ thể.|Tạo ra các sản phẩm trung gian cho các quá trình tổng hợp các chất hữu cơ khác.|A
+Bộ phận nào sau đây là nơi diễn ra hô hấp mạnh nhất ở thực vật?|Rễ.|Thân.|Lá.|Hoa.|A
+Khi nhiệt độ tăng từ mức thấp đến mức thích hợp, cường độ hô hấp của thực vật thường|dừng hoàn toàn vì tế bào không thể phân giải chất hữu cơ.|không thay đổi vì hô hấp không chịu ảnh hưởng của nhiệt độ.|giảm liên tục vì mọi enzyme hô hấp đều bị bất hoạt.|tăng do hoạt tính của các enzyme hô hấp tăng.|D
+Vì sao cần làm khô hạt giống trước khi bảo quản lâu dài?|Tăng hàm lượng nước để kích thích hạt hô hấp mạnh và nhanh nảy mầm.|Giảm hàm lượng nước, làm giảm cường độ hô hấp và hạn chế tiêu hao chất dự trữ.|Ngăn hoàn toàn mọi hoạt động trao đổi chất của hạt trong mọi điều kiện.|Làm tăng cường độ hô hấp để hạt sử dụng hết chất hữu cơ dự trữ.|B
+Khi bảo quản nông sản, người ta thường sử dụng nhiệt độ thấp phù hợp nhằm|tăng tốc độ phân giải chất hữu cơ để kéo dài thời gian bảo quản.|làm nông sản tiếp tục sinh trưởng nhanh trong suốt thời gian bảo quản.|giảm cường độ hô hấp, hạn chế tiêu hao chất hữu cơ trong nông sản.|tăng cường độ hô hấp để nông sản nhanh chóng loại bỏ chất dự trữ.|C
+Mối quan hệ giữa quang hợp và hô hấp ở thực vật được thể hiện như thế nào?|Sản phẩm quang hợp có thể là nguyên liệu cho hô hấp, còn sản phẩm hô hấp có thể được dùng trong quang hợp.|Hô hấp chỉ diễn ra ban đêm, còn quang hợp chỉ diễn ra ban ngày trong mọi trường hợp.|Quang hợp phân giải chất hữu cơ, còn hô hấp tổng hợp chất hữu cơ từ CO₂ và nước.|Quang hợp và hô hấp hoàn toàn độc lập, không có chất nào tham gia cả hai quá trình.|A
+Biện pháp nào sau đây giúp hạn chế tình trạng cây trồng bị thiếu nước?|Ngừng tưới nước khi nhiệt độ môi trường tăng cao.|Bón nhiều phân khoáng để thay thế lượng nước cây bị mất.|Tưới nước phù hợp với nhu cầu của cây và điều kiện đất đai.|Tưới thật nhiều nước cho mọi loại cây trong mọi điều kiện.|C
+Khi cây sống trong môi trường đất bị nhiễm mặn, việc hấp thụ nước của rễ thường gặp khó khăn vì|thế nước của dung dịch đất giảm, làm giảm khả năng nước đi vào rễ.|muối trong đất làm cây không cần nước cho các hoạt động sống.|nồng độ chất tan trong tế bào rễ luôn thấp hơn trong dung dịch đất.|thế nước của dung dịch đất tăng mạnh, làm nước luôn đi vào rễ.|A
+Vì sao cây trồng thường sinh trưởng kém khi đất bị ngập úng kéo dài?|Nước ngập làm mạch rây ngừng vận chuyển mọi chất hữu cơ trong cây.|Nước ngập làm lá tăng quang hợp liên tục, khiến rễ mất hoàn toàn chất hữu cơ.|Đất thừa oxygen làm rễ ngừng hô hấp và tăng hấp thụ chất khoáng.|Đất thiếu oxygen làm hô hấp của rễ bị ảnh hưởng, giảm khả năng hấp thụ nước và khoáng.|D
+Để lựa chọn giống cây trồng phù hợp với vùng thường xuyên khô hạn hoặc nhiễm mặn, cần ưu tiên giống có đặc điểm nào?|Có nhu cầu nước và chất khoáng cao hơn tất cả giống khác.|Có khả năng chống chịu tốt với điều kiện hạn hoặc mặn tương ứng.|Có khả năng sinh trưởng tốt mà không cần hấp thụ nước từ đất.|Có tốc độ thoát hơi nước luôn cao trong mọi điều kiện môi trường.|B
+Khi nói đến phân giải các chất theo con đường hô hấp tế bào (hô hấp hiếu khí), có bao nhiêu phát biểu sau đây đúng về chuỗi truyền electron?\\nI. Chuỗi truyền electron diễn ra ở màng trong ti thể.\\nII. Giai đoạn này, các phân tử NADH và FADH2 được sinh ra trong giai đoạn đường phân và chu trình Krebs sẽ bị oxy hoá sinh ra ATP và nước.\\nIII. Giai đoạn này không cần sử dụng oxygen.\\nIV. Giai đoạn này sinh ra năng lượng ít nhất.|1.|2.|3.|4.|B
+Cho 60 hạt đậu xanh vào một bình thủy tinh, đổ nước ngập hạt. Sau đó ngâm hạt trong nước khoảng 2 đến 3 giờ, gạn hết nước ra khỏi bình. Cắm một nhiệt kế vào khối hạt sau đó nút kín bình và đặt bình vào một hộp xốp. Nhiệt độ trong bình thay đổi như thế nào trong 24 giờ?|Nhiệt độ trong bình tăng dần lên.|Nhiệt độ trong bình giảm dần đi.|Nhiệt độ trong bình giữ nguyên.|Nhiệt độ trong bình lúc đầu giảm, sau đó tăng lên.|A
+Khi làm thí nghiệm chứng minh sự hô hấp ở hạt, người ta thiết kế thí nghiệm gồm ống nghiệm chứa vôi xút, ngăn lưới kim loại, hạt nảy mầm và nút có gắn ống mao dẫn chứa giọt nước màu (như hình vẽ).\\n{{IMG_HH20}}\\nTheo em giọt nước màu trong thí nghiệm di chuyển về hướng nào? Vì sao?|Di chuyển về phía bên phải vì quá trình hô hấp thải ra O2.|Di chuyển về bên phải vì quá trình hô hấp thải ra CO2.|Không di chuyển vì lượng CO2 thải ra tương đương lượng O2 hút vào.|Di chuyển về bên trái vì quá trình hô hấp hút O2.|D
+Nhiệt độ có ảnh hưởng như thế nào đến hô hấp ở thực vật. Có bao nhiêu giải thích sau đây đúng?\\nI. Nhiệt độ tạo năng lượng cung cấp cho các hoạt động của cây non.\\nII. Nhiệt độ tăng, cường độ hô hấp cũng tăng, thúc đẩy sự nảy mầm của hạt.\\nIII. Trong giới hạn nhất định phù hợp, khi nhiệt độ tăng, cường độ hô hấp cũng tăng.\\nIV. Nhiệt độ ảnh hưởng đến hoạt động của các enzyme hô hấp.|1.|2.|4.|3.|D
+Hàm lượng CO2, O2 có ảnh hưởng như thế nào đến hô hấp ở thực vật. Có bao nhiêu giải thích sau đây đúng?\\nI. Khí O2 là nguyên liệu của hô hấp nên ảnh hưởng trực tiếp đến cường độ hô hấp.\\nII. Hàm lượng CO2 trong không khí cao sẽ ức chế hô hấp hiếu khí.\\nIII. Khí O2 và CO2 là nguyên liệu của hô hấp nên ảnh hưởng trực tiếp đến cường độ hô hấp.\\nIV. Khí O2 và CO2 là sản phẩm của hô hấp nên ảnh hưởng trực tiếp đến cường độ hô hấp.|1.|2.|3.|4.|B
+Một học sinh đã đưa ra một số giải thích “Trong quá trình bảo quản nông sản, cần đưa cường độ hô hấp của nông sản về mức tối thiểu”. Có bao nhiêu giải thích sau đây đúng?\\nI. Để giữ được chất lượng nông sản cần duy trì cường độ hô hấp của nông sản ở mức tối thiểu để sự hao hụt xảy ra ở mức thấp nhất.\\nII. Hô hấp làm tiêu hao năng lượng nên làm mất năng lượng nông sản, nên cần bảo quản không cho hô hấp.\\nIII. Hô hấp sinh ra quá nhiều năng lượng mà nông sản không sử dụng được, nên cần bảo quản không cho hô hấp.\\nIV. Hô hấp làm phân giải chất hữu cơ làm nông sản gây hao hụt, nên muốn bảo quản cần đưa hô hấp ở mức thấp nhất.|1.|2.|3.|4.|B
+`);
+
+const IMG_HH20=`<svg viewBox="0 0 540 135" style="width:100%;max-width:480px;display:block;margin:10px auto;background:#f8fafc;border-radius:12px;padding:6px">
+  <rect x="255" y="26" width="265" height="62" fill="#fff" stroke="#334155" stroke-width="1.5" rx="4"/>
+  <path d="M20,42 A22,22 0 0,0 20,98 L195,98 C215,98 220,76 240,76 L515,76 L515,64 L240,64 C220,64 215,42 195,42 Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+  <line x1="92" y1="42" x2="92" y2="98" stroke="#475569" stroke-width="4"/>
+  <g fill="#cbd5e1" stroke="#475569" stroke-width="1">
+    <circle cx="35" cy="60" r="6"/><circle cx="48" cy="55" r="7"/><circle cx="65" cy="58" r="6"/><circle cx="78" cy="54" r="6"/>
+    <circle cx="32" cy="75" r="7"/><circle cx="46" cy="72" r="6"/><circle cx="60" cy="74" r="7"/><circle cx="75" cy="70" r="6"/>
+    <circle cx="38" cy="88" r="6"/><circle cx="54" cy="87" r="6"/><circle cx="70" cy="86" r="6"/><circle cx="82" cy="84" r="5"/>
+  </g>
+  <g fill="#eab308" stroke="#854d0e" stroke-width="1">
+    <ellipse cx="110" cy="56" rx="8" ry="5"/><ellipse cx="128" cy="54" rx="8" ry="5"/><ellipse cx="146" cy="57" rx="8" ry="5"/><ellipse cx="164" cy="55" rx="8" ry="5"/><ellipse cx="182" cy="58" rx="7" ry="5"/>
+    <ellipse cx="115" cy="70" rx="8" ry="5"/><ellipse cx="134" cy="69" rx="8" ry="5"/><ellipse cx="152" cy="71" rx="8" ry="5"/><ellipse cx="170" cy="69" rx="8" ry="5"/><ellipse cx="188" cy="72" rx="7" ry="5"/>
+    <ellipse cx="108" cy="85" rx="8" ry="5"/><ellipse cx="126" cy="84" rx="8" ry="5"/><ellipse cx="144" cy="86" rx="8" ry="5"/><ellipse cx="162" cy="84" rx="8" ry="5"/><ellipse cx="180" cy="85" rx="8" ry="5"/>
+  </g>
+  <g stroke="#0f172a" stroke-width="1.2" font-size="11" fill="#0f172a" font-family="sans-serif" text-anchor="middle">
+    <line x1="275" y1="64" x2="275" y2="56"/><text x="275" y="50" stroke="none">1</text>
+    <line x1="302" y1="64" x2="302" y2="56"/><text x="302" y="50" stroke="none">2</text>
+    <line x1="329" y1="64" x2="329" y2="56"/><text x="329" y="50" stroke="none">3</text>
+    <line x1="356" y1="64" x2="356" y2="56"/><text x="356" y="50" stroke="none">4</text>
+    <line x1="383" y1="64" x2="383" y2="56"/><text x="383" y="50" stroke="none">5</text>
+    <line x1="410" y1="64" x2="410" y2="56"/><text x="410" y="50" stroke="none">6</text>
+    <line x1="437" y1="64" x2="437" y2="56"/><text x="437" y="50" stroke="none">7</text>
+    <line x1="464" y1="64" x2="464" y2="56"/><text x="464" y="50" stroke="none">8 cm</text>
+  </g>
+  <ellipse cx="445" cy="70" rx="16" ry="5" fill="#dc2626"/>
+  <g font-size="12" font-weight="600" fill="#0f172a" font-family="sans-serif">
+    <text x="40" y="22">Vôi xút</text><line x1="60" y1="26" x2="55" y2="50" stroke="#0f172a"/>
+    <text x="18" y="122">Lưới kim loại</text><line x1="75" y1="110" x2="90" y2="96" stroke="#0f172a"/>
+    <text x="125" y="122">Hạt nảy mầm</text><line x1="155" y1="110" x2="150" y2="92" stroke="#0f172a"/>
+    <text x="200" y="22">Ống mao dẫn</text><line x1="235" y1="26" x2="245" y2="63" stroke="#0f172a"/>
+    <text x="395" y="122">Giọt nước màu</text><line x1="440" y1="110" x2="445" y2="77" stroke="#0f172a"/>
+  </g>
+</svg>`;
+
+const S={
+  en:{n:"Tiếng Anh 11",ic:"🇬🇧",g:{"Unit 1":U1,"Unit 2":U2,"Unit 3":U3}},
+  hoa:{n:"Hoá học 11",ic:"⚗️",g:{"Phần I":H}},
+  sinh:{n:"Sinh học 11",ic:"🧬",g:{"Bài 1: Khái quát TĐC & CHNL":SB1,"Bài 2, 3: Trao đổi nước & khoáng":SB23,"Hô hấp thực vật":SHH}}
+};
+const app=document.getElementById("app"),sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const fmtQ=t=>esc(t).replace("{{IMG_HH20}}",IMG_HH20);
+const cnt=k=>Object.values(S[k].g).reduce((n,g)=>n+g.length,0);
+const DN=`<div class="c dn"><h2>☕ Quỹ donate cho admin</h2><p>Nếu web giúp ích cho bạn, ủng hộ admin một ly cà phê nhé!</p><p>Ngân hàng: <b>MB Bank</b></p><div class="stk" id="stk">0395814635</div><p>Chủ tài khoản: <b>TRAN NGUYEN HOANG</b></p><button id="cpb" onclick="cp()">📋 Sao chép số tài khoản</button></div>`;
+function cp(){const t="0395814635",b=document.getElementById("cpb"),ok=()=>{b.textContent="✅ Đã sao chép";setTimeout(()=>b.textContent="📋 Sao chép số tài khoản",1800)};try{navigator.clipboard.writeText(t).then(ok,f)}catch(e){f()}function f(){const r=document.createRange();r.selectNodeContents(document.getElementById("stk"));const s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand("copy");ok()}catch(e){}}}
+let sub,sel,Q,i,lock,tries=0;
+const bk=()=>"best_"+sub,gb=()=>{try{return +localStorage.getItem(bk())||0}catch(e){return 0}},sb=n=>{try{if(n>gb())localStorage.setItem(bk(),n)}catch(e){}};
+function home(){app.innerHTML=`<h1>📚 Ôn tập giữa kì 1</h1><p class="s">Làm đúng mới được qua câu tiếp – sai là làm lại từ đầu</p>`+Object.keys(S).map(k=>`<button class="c sj" onclick="setup('${k}')"><span>${S[k].ic}</span><b>${S[k].n}</b><small>${cnt(k)} câu</small></button>`).join("")+DN}
+function setup(k){if(k){sub=k;sel=new Set(Object.keys(S[k].g))}const ks=Object.keys(S[sub].g);app.innerHTML=`<button class="back" onclick="home()">← Chọn môn</button><h1>${S[sub].ic} ${S[sub].n}</h1><div class="c"><b>Chọn phần muốn làm</b><div class="chips">${ks.map(g=>`<button class="chip ${sel.has(g)?"on":""}" onclick="tog('${g}')">${g} (${S[sub].g[g].length})</button>`).join("")}</div><div class="s" style="margin:0 0 12px">Kỷ lục: ${gb()} câu liên tiếp</div><button class="go" onclick="start()">Bắt đầu</button></div>`}
+function tog(g){sel.has(g)?sel.size>1&&sel.delete(g):sel.add(g);setup()}
+function start(){Q=sh(Object.keys(S[sub].g).filter(g=>sel.has(g)).flatMap(g=>S[sub].g[g]));i=0;lock=0;tries++;show()}
+function show(){const q=Q[i];app.innerHTML=`<div class="top"><span>Câu ${i+1}/${Q.length}</span><span>Lần làm: ${tries} · Kỷ lục: ${gb()}</span></div><div class="bar"><i style="width:${i/Q.length*100}%"></i></div><div class="c"><p class="q">${fmtQ(q.q)}</p>${q.o.map((o,j)=>`<button class="o" onclick="pick(${j})"><b>${"ABCD"[j]}.</b> ${esc(o)}</button>`).join("")}<div id="fb"></div></div>`}
+function pick(j){if(lock)return;lock=1;const q=Q[i],b=document.querySelectorAll(".o");b[q.a].classList.add("ok");if(j==q.a){sb(i+1);setTimeout(()=>{if(i==Q.length-1)end();else{i++;lock=0;show()}},650)}else{b[j].classList.add("no");sb(i);document.getElementById("fb").innerHTML=`<div class="fb">❌ Sai rồi! Đáp án đúng: <b>${"ABCD"[q.a]}</b>. Bạn đã đúng ${i} câu liên tiếp.</div><button class="nx" onclick="start()">Làm lại từ đầu 🔁</button>`}}
+function end(){app.innerHTML=`<div class="c" style="text-align:center"><h1>🎉 Hoàn thành!</h1><p>Đúng liên tiếp cả ${Q.length} câu sau ${tries} lần làm.</p><button class="nx" onclick="tries=0;start()">Làm lại (xáo trộn mới)</button><br><br><button class="chip" onclick="setup()">Chọn phần khác</button> <button class="chip" onclick="home()">Về trang chủ</button></div>`}
+home();
+</script></body></html>
